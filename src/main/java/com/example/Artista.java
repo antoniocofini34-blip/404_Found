@@ -46,9 +46,6 @@ public abstract class Artista {
   public void modificaGenere(Genere genere) {
     this.genere_principale=genere; 
   }
-
-
-  
 }
   
 
