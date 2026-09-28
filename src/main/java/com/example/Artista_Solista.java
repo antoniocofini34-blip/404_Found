@@ -9,3 +9,4 @@ public class Artista_Solista extends Artista {
   public void setNomeArte(String nome_arte) {
     this.nome_arte=nome_arte;
 }
+}
