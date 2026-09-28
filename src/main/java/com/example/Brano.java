@@ -41,8 +41,8 @@ public class Brano implements Ricercabile, Riproducibile {
   public void setTesto(String testo) {
     this.testo=testo; 
   }
-  public void setGenereBrano(Set<Genere> genere_Brano) {
-    this.genere_Brano=genere_Brano; 
+  public void inserisciGenereBrano(Genere genere_Brano) {
+    this.genere_Brano.add(genere_Brano);  
   }
   public void setAlbumBrano(Album album_Brano) {
     this.album_Brano=album_Brano; 
