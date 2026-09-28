@@ -44,14 +44,11 @@ public class Brano implements Ricercabile, Riproducibile {
   public void inserisciGenereBrano(Genere genere_Brano) {
     this.genere_Brano.add(genere_Brano);  
   }
-  public void setAlbumBrano(Album album_Brano) {
-    this.album_Brano=album_Brano; 
-  }
-  public void setNumeroAscolti(int numero_Ascolti) {
-    return numero_Ascolti=numero_Ascolti;
+  public void inserisciAlbumBrano(Album album_Brano) {
+    this.album_Brano.add(album_Brano);  
   }
   public void incrementaAscolti() {
-    numero_Ascolti ++;
+    this.numero_Ascolti ++;
   }
   
   @Override
