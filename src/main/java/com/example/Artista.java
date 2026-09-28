@@ -10,18 +10,6 @@ public abstract class Artista {
     this.generi_secondari=new HashSet<>(generi_secondari); 
     this.discografia=new ArrayList<>(); 
   }
-  public void aggiungiAlbum(Album album) {
-    this.album.add(album); 
-  }
-  public void rimuoviAlbum(Album album) {
-    this.album.remove(album); 
-  }
-  public void modificaBiografia(String biografia) {
-    this.biografia=biografia;
-  }
-  public void modificaGenere(Genere genere) {
-    this.genere_principale=genere; 
-  }
   public String getBiografia() {
     return biografia; 
   }
@@ -34,6 +22,33 @@ public abstract class Artista {
   public List<Album> getDiscografia() {
     return discografia; 
   }
+  public void setBiografia(String biografia) {
+    this.biografia=biografia;
+  }
+  public void setGenerePrincipale() {
+    return genere_principale;
+  }
+  public void setGeneriSecondari() {
+    return generi_secondari; 
+  }
+  public void setDiscografia() {
+    return discografia=discografia;
+  }  
+  public void aggiungiAlbum(Album album) {
+    this.album.add(album); 
+  }
+  public void rimuoviAlbum(Album album) {
+    this.album.remove(album); 
+  }
+  public void modificaBiografia(String biografia) {
+    this.biografia=biografia;
+  }
+  public void modificaGenere(Genere genere) {
+    this.genere_principale=genere; 
+  }
+
+
+  
 }
   
 
