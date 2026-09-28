@@ -47,5 +47,23 @@ public class Album implements Ricercabile{
   public void modificaCopertina(String copertina){
     this.copertina=copertina;
   }
-  
+  @Override
+  public String getNome(){
+    return titolo;
+  }
+  public String getTitolo(){
+    return titolo;
+  }
+  public int getAnnoPubblicazione(){
+    return annoPubblicazione;
+  }
+  public Genere getGenereMusicale(){
+    return GenereMusicale;
+  }
+  public String getCopertina(){
+    return copertina;
+  }
+  public List<Brano> getBrano(){
+    return brano;
+  }
 }
