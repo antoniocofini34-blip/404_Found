@@ -35,3 +35,4 @@ public class Artista_Gruppo extends Artista implements Ricercabile {
   public String getNome() {
     return nome_gruppo;
   }
+}
