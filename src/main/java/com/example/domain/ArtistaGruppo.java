@@ -1,8 +1,8 @@
 import java.util.*;
-public class Artista_Gruppo extends Artista implements Ricercabile {
+public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
   private List<Artista> lista_Membri;
-  public Artista_Gruppo(String nome_gruppo, List<Artista> lista_Membri) {
+  public ArtistaGruppo(String nome_gruppo, List<Artista> lista_Membri) {
     this.nome_gruppo=nome_gruppo;
     this.lista_Membri=new ArrayList<>();
   }
