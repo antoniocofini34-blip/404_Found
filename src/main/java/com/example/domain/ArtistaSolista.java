@@ -1,4 +1,4 @@
-public class Artista_Solista extends Artista {
+public class ArtistaSolista extends Artista {
   private String nome_arte;
   public Artista_Solista (String biografia, Genere genere_principale, Set<Genere> generi_secondari, List<Album> discografia) {
     super(biografia, genere_principale, generi_secondari, discografia);
