@@ -101,7 +101,7 @@ public class Playlist{
   public void modificaNome(String nuovoNome){
     this.nome=(nuovoNome==null||nuovoNome.trim().isEmpty()?"":nuovoNome);
     //trim(). lo si usa per eliminare gli spazi
-    //isEmpty() verifica se la stringa è vuota e in que laco restituisce ""
+    //isEmpty() verifica se la stringa è vuota e in quel caso restituisce ""
     //? ha valore vero o falso, nel caso in cui è vera restituisce "", altrimenti restituisce il valore originale nuovoNome (vale la stessa cosa in nuovaDescrizione)
   }
 }
