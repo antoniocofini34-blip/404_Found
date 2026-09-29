@@ -1,10 +1,10 @@
 import java.util.*;
-public class Coda_Riproduzione implements Riproducibile {
+public class CodaRiproduzione implements Riproducibile {
   private List<Brano> lista_coda_brani;
   private boolean riproduzione_casuale;
   private Modalita_Repeat modalita_repeat;
   private Stato_Riproduzione stato;
-  public Coda_Riproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, Modalita_Repeat modalita_repeat, Stato_Riproduzione stato) {
+  public CodaRiproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, Modalita_Repeat modalita_repeat, Stato_Riproduzione stato) {
     this.lista_coda_brani=new ArrayList<>();
     this.riproduzione_casuale=riproduzione_casuale;
     this.modalita_repeat=modalita_repeat;
