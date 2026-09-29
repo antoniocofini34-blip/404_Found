@@ -13,17 +13,14 @@ public class Ascolto{
   public LocalDateTime getIstanteAscolto(){
     return istanteAscolto;
   }
-  public int getDurataEffettiva(){
+  public int getTempoBranoAscoltato(){
     return tempo_brano_ascoltato;
   }
   public void setBrano(Brano brano){
     this.brano_Ascoltato=brano;
   }
-  public void setIstanteAscolto(LocalDateTime istanteAscolto){
+  public void aggiornaIstanteAscolto(LocalDateTime istanteAscolto){
     this.istanteAscolto=istanteAscolto;
-  }
-  public void setTempoBranoAscoltato(int tempo_brano_ascoltato){
-    this.tempo_brano_ascoltato=tempo_brano_ascoltato;
   }
   public void aggiornaDurata(int durata){
     this.tempo_brano_ascoltato=durata;
