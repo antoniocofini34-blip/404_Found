@@ -1,37 +1,31 @@
 public class Ascolto{
-  private Brano brano;
+  private Brano brano_Ascoltato;
   private LocalDateTime istanteAscolto;
-  private int durataEffettiva;
+  private int tempo_brano_ascoltato;
+    public Ascolto(Brano brano, LocalDateTime istanteAscolto, int tempo_brano_ascoltato){
+    this.brano=brano;
+    this.istanteAscolto=istanteAscolto;
+    this.tempo_brano_ascoltato=tempo_brano_ascoltato;
+  }
   public String getBrano(){
-    return brano;
+    return brano_Ascoltato;
   }
   public LocalDateTime getIstanteAscolto(){
     return istanteAscolto;
   }
   public int getDurataEffettiva(){
-    return durataEffettiva;
+    return tempo_brano_ascoltato;
   }
   public void setBrano(Brano brano){
-    this brano=brano;
+    this.brano_Ascoltato=brano;
   }
   public void setIstanteAscolto(LocalDateTime istanteAscolto){
-    this.durataAscolto=durataAscolto;
-  }
-  public void setDurataEffettiva(int durataEffettiva){
-    this.durataEffettiva=durataEffettiva;
-  }
-  public Ascolto(Brano brano, LocalDateTime istanteAscolto, int durataEffettiva){
-    this.brano=brano;
     this.istanteAscolto=istanteAscolto;
-    this.durataEffettiva=durataEffettiva;
+  }
+  public void setTempoBranoAscoltato(int tempo_brano_ascoltato){
+    this.tempo_brano_ascoltato=tempo_brano_ascoltato;
   }
   public void aggiornaDurata(int durata){
-    this.durataEffettiva=durata;
-  }
-  public int getSecondiAscoltati(){
-    return this.durataEffettiva;
-    Ascolto ascolto= new Ascolto();
-    int secondi=ascolto.registraAscolto(brano, LocalDateTime.now, 120);
-    System.out.println("Numero di secondi ascoltati:" + getSecondiAscoltati);
+    this.tempo_brano_ascoltato=durata;
   }
 }
