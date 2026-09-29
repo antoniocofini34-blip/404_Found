@@ -4,6 +4,13 @@ public class Album implements Ricercabile{
   private Genere GenereMusicale; 
   private String copertina;
   private List<Brano> brano;
+  public Album(String titolo, int annoPubblicazione, genere GenereMusicale, String copertina){
+    this.titolo=titolo;
+    this.annoPubblicazione=annoPubblicazione;
+    this.Genere=Genere;
+    this.copertina=copertina;
+    this.brano=new ArrayList<>();
+  } 
   public String getTitolo(){
     return titolo;
   }
@@ -13,10 +20,10 @@ public class Album implements Ricercabile{
   public Genere getGenereMusicale(){
     return GenereMusicale;
   } 
-  public String copertina(){
+  public String getCopertina(){
     return copertina;
   }
-  public List<Brano> brano(){
+  public List<Brano> getBrano(){
     return brano;
   }
   public void setTitolo(String titolo){
@@ -34,13 +41,6 @@ public class Album implements Ricercabile{
   public void setList<Brano>(List<Branoo> brano){
     this.brano=brano;
   }
-  public Album(String titolo, int annoPubblicazione, genere GenereMusicale, String copertina){
-    this.titolo=titolo;
-    this.annoPubblicazione=annoPubblicazione;
-    this.Genere=Genere;
-    this.copertina=copertina;
-    this.brano=new ArrayList<>();
-  } 
   public int getDurataTotale(){
     return brani.stream().mapToInt(Brano::getDurata).sum();
   }
