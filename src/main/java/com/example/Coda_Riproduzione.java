@@ -22,6 +22,18 @@ public class Coda_Riproduzione implements Riproducibile {
   public Stato_Riproduzione getStato() {
     return stato;
   }
+  public void setListaCodaBrani(List<Brano> lista_coda_brani) {
+    this.lista_coda_brani=lista_coda_brani;
+  }
+  public void setShuffle(boolean shuffle) {
+    this.riproduzione_casuale=shuffle;
+  }
+  public void setModalitaRepeat(Modalita_Repeat modalitaRepeat) {
+    this.modalita_repeat=modalitaRepeat;
+  }
+  public void setStato(Stato_Riproduzione stato) {
+    this.stato=stato;
+  }
   public void aggiungiBranoCoda(Brano brano) {
     this.lista_coda_brani.add(brano);
   }
@@ -31,7 +43,17 @@ public class Coda_Riproduzione implements Riproducibile {
   public boolean svuotaCoda() {
     this.lista_coda_brani.clear();
   }
-  public Brano getBranoCorrente() {
+  public void impostaRepeatCoda(Modalita_Repeat modalita_repeat) {
+    this.modalita_repeat = modalita_repeat;
+  }
+  public void branoTerminato() {
+    if (modalita_repeat == Modalita_Repeat.RIPETI_BRANO) {
+        play();
+    } else {
+        avanti();
+    }
+}
+}
     
 
 
