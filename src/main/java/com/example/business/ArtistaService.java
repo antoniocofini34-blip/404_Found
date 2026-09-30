@@ -1,6 +1,10 @@
 package com.example.business;
 import java.util.*;
 import com.example.domain.Artista;
+import com.example.domain.ArtistaGruppo;
+import com.example.domain.Album;
+public interface ArtistaService {
+    List<Artista> findAllArtisti() throws 
 public void modificaBiografia(String biografia) {
     this.biografia=biografia;
   }
