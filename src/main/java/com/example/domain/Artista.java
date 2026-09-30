@@ -3,10 +3,10 @@ package com.example.domain;
 
 public abstract class Artista {
   private String biografia; 
-  private Genere genere_principale; 
-  private Set<Genere> generi_secondari; 
+  private GenereMusicale genere_principale; 
+  private Set<GenereMusicale> generi_secondari; 
   private List<Album> discografia; 
-  public Artista (String biografia, Genere genere_pricipale, Set<Genere> generi_secondari, List<Album> discografia) {
+  public Artista (String biografia, GenereMusicale genere_pricipale, Set<GenereMusicale> generi_secondari, List<Album> discografia) {
     this.biografia=biografia; 
     this.genere_principale=genere_principale;  
     this.generi_secondari=new HashSet<>(generi_secondari); 
@@ -15,10 +15,10 @@ public abstract class Artista {
   public String getBiografia() {
     return biografia; 
   }
-  public Genere getGenerePrincipale() {
+  public GenereMusicale getGenerePrincipale() {
     return genere_principale; 
   }
-  public Set<Genere> getGeneriSecondari() {
+  public Set<GenereMusicale> getGeneriSecondari() {
     return new HashSet<>(this.generi_secondari);  
   }
   public List<Album> getDiscografia() {
@@ -27,10 +27,10 @@ public abstract class Artista {
   public void setBiografia(String biografia) {
     this.biografia=biografia; 
   }
-  public void setGenerePrincipale(Genere genere_principale) {
+  public void setGenerePrincipale(GenereMusicale genere_principale) {
     this.genere_principale=genere_principale; 
   }
-  public void setGeneriSecondari(Set<Genere> generi_secondari) {
+  public void setGeneriSecondari(Set<GenereMusicale> generi_secondari) {
     if (generi_secondari!=null) this.generi_secondari=new HashSet<>(generi_secondari);
     else this.generi_secondari=new HashSet<>(); 
   }
