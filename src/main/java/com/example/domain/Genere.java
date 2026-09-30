@@ -1,3 +1,5 @@
+package com.example.domain;
+
 public enum Genere{
   ROCK,
   POP,
