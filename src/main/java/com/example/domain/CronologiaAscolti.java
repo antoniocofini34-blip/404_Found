@@ -1,5 +1,5 @@
 import java.util.*; 
-public class Cronologia_Ascolti {
+public class CronologiaAscolti {
   private List<Ascolto> registro_Ascolti; 
   public Cronologia_Ascolti (List<Ascolto> registro_Ascolti) {
     this.registro_Ascolti=new ArrayList<>(); 
