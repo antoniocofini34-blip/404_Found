@@ -4,7 +4,8 @@ package com.example.domain;
 public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
   private List<Artista> lista_Membri;
-  public ArtistaGruppo(String nome_gruppo, List<Artista> lista_Membri) {
+  public ArtistaGruppo(String biografia, Genere genere_pricipale, Set<Genere> generi_secondari, List<Album> discografia, String nome_gruppo, List<Artista> lista_Membri) {
+    super (biografia, genere_principale, generi_secondari, discografia);
     this.nome_gruppo=nome_gruppo;
     this.lista_Membri=new ArrayList<>();
   }
