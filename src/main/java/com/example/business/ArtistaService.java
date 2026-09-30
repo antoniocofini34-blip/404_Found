@@ -11,7 +11,7 @@ public interface ArtistaService {
     void modificaArtista(Artista artista) throws BusinessException;
     void eliminaArtista(Artista artista) throws BusinessException;
     List<Album> findAlbumArtista(Artista artista) throws BusinessException;
-    void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessExceptions;
+    void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException;
     void rimuoviComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException;
     List<Artista> findComponenti(ArtistaGruppo gruppo) throws BusinessException;
     }
