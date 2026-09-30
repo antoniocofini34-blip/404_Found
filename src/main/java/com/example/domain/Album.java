@@ -10,7 +10,7 @@ public class Album implements Ricercabile{
   private String copertina;
   public Album(List<Brano> lista_brani, Artista artista, String titolo, int annoPubblicazione, Set<Genere> genere, String copertina){
     this.lista_brani=new ArrayList<>();
-    this.artista=new Artista(); 
+    this.artista=artista;  
     this.titolo=titolo;
     this.annoPubblicazione=annoPubblicazione;
     this.genere=new HashSet<>(genere); 
