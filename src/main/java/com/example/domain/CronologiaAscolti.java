@@ -3,7 +3,7 @@ package com.example.domain;
 
 public class CronologiaAscolti {
   private List<Ascolto> registro_Ascolti; 
-  public Cronologia_Ascolti (List<Ascolto> registro_Ascolti) {
+  public CronologiaAscolti (List<Ascolto> registro_Ascolti) {
     this.registro_Ascolti=new ArrayList<>(); 
   }
   public List<Ascolto> getRegistroAscolti() {
