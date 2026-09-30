@@ -1,4 +1,7 @@
 import java.util.*;
+import java.time.*;
+package com.example.domain;
+
 public class Ascolto{
   private Brano brano_Ascoltato;
   private LocalDateTime istanteAscolto;
@@ -19,5 +22,11 @@ public class Ascolto{
   }
   public void setBrano(Brano brano){
     this.brano_Ascoltato=brano;
+  }
+  public void setIstanteAscolto(LocalDateTime istanteAscolto) {
+    this.istanteAscolto=istanteAscolto; 
+  }
+  public void setTempoBranoAscoltato(int tempo_brano_ascoltato) {
+    this.tempo_brano_ascoltato=tempo_brano_ascoltato;
   }
 }
