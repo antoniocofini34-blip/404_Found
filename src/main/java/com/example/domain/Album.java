@@ -1,4 +1,6 @@
 import java.util.*;
+package com.example.domain; 
+
 public class Album implements Ricercabile{
   private List<Brano> lista_brani;
   private Artista artista;
