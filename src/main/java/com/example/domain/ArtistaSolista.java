@@ -1,4 +1,6 @@
 import java.util.*;
+package com.example.domain;
+
 public class ArtistaSolista extends Artista {
   private String nome_arte;
   public Artista_Solista (String biografia, Genere genere_principale, Set<Genere> generi_secondari, List<Album> discografia) {
