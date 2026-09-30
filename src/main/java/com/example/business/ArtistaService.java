@@ -19,3 +19,18 @@ public void modificaBiografia(String biografia) {
   public void rimuoviAlbum(Album album) {
     this.album.remove(album); 
   }
+
+public void aggiungiComponente(Artista artista) {
+    lista.Membri.add(artista);
+  }
+  public void rimuoviComponente(Artista artista) {
+    lista_Membri.remove(artista);
+  }
+  public List<Artista> getComponenti() {
+    return lista_Membri;
+  }
+  @Override
+  public boolean corrispondeA(String testo) {
+    return nome_gruppo.toLowerCase().contains(testo.ToLowerCase());
+  }
+
