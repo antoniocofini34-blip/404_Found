@@ -13,7 +13,7 @@ public class Brano implements Ricercabile, Riproducibile {
     this.durata=durata; 
     this.testo=testo; 
     this.genere_Brano=new HashSet<>(genere_Brano); 
-    this.album_Brano=album_Brano; 
+    this.album_Brano=new Album(); 
     this.numero_Ascolti=numero_Ascolti; 
   }
   public String getTitolo() {
