@@ -2,7 +2,7 @@ package com.example.domain;
 import java.util.*;
 import java.time.*;
 
-public class Playlist{
+public class Playlist implements Riproducibile{
   private List<Brano> lista_brani;
   private String nome;
   private String descrizione;
@@ -10,7 +10,7 @@ public class Playlist{
   private int indiceCorrente; 
   private int indiceNuovo; 
   private int indiceVecchio; 
-  public Playlist(String nome, String descrizione, localDate data_creazione, int indiceCorrente, int indiceNuovo, int indiceVecchio){
+  public Playlist(String nome, String descrizione, LocalDate data_creazione, int indiceCorrente, int indiceNuovo, int indiceVecchio){
     this.lista_brani=new ArrayList<>();
     this.nome=nome;
     this.descrizione=descrizione;
@@ -50,15 +50,16 @@ public class Playlist{
     this.data_creazione=data_creazione;
   }
   public void setLista_brani(List<Brano> nuovaLista_brani){
-    if(nuovaLista_brani==null) this.lista_brani=new ArrayList<>(nuovaLista_brani); 
+    if(nuovaLista_brani!=null) this.lista_brani=new ArrayList<>(nuovaLista_brani); 
     else this.lista_brani=new ArrayList<>()
     }
   public void setIndiceCorrente(int indiceCorrente){
     if(indiceCorrente<-1||indiceCorrente>=lista_brani.size()){
-      trow new indiceVecchio("Indice corrente." + indiceCorrente);
+      throw new IllegalArgumentException("Indice corrente non valido:" + indiceCorrente);
     }
+    this.indiceCorrente=indiceCorrente; 
   }
-  public vloid setIndiceNuovo(int indiceNuovo){
+  public void setIndiceNuovo(int indiceNuovo){
     this.indiceNuovo=indiceNuovo;
   }
   public void setIndiceVecchio(int indiceVecchio){
