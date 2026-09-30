@@ -1,10 +1,13 @@
+package com.example.domain;
 import java.util.*;
 import java.time.*;
+
 public class Playlist{
   private List<Brano> lista_brani;
   private String nome;
   private String descrizione;
   private LocalDate data_creazione;
+  private int indiceCorrente; 
   public Playlist(String nome, String descrizione, localDate data_creazione){
     this.lista_brani=new ArrayList<>();
     this.nome=nome;
@@ -13,7 +16,7 @@ public class Playlist{
     this.indiceCorrente=-1
   }
   public List<Brano> getLista_brani(){
-    return lista_brani;
+    return new ArrayList<>(lista_brani);
   }
   public String getNome(){
     return nome;
@@ -34,13 +37,9 @@ public class Playlist{
     this.data_creazione=data_creazione;
   }
   public void setLista_brani(List<Brano> nuovaLista_brani){
-    if(nuovaLista_brani==null){
-      this.lista_brani=new ArrayList<>()
-    } else{
-      this.lista_brani=new ArrayList<>(nuovaLista_brani)
+    if(nuovaLista_brani==null) this.lista_brani=new ArrayList<>(nuovaLista_brani); 
+    else this.lista_brani=new ArrayList<>()
     }
-    this.indiceCorrente=-1
-  }
   public int getIndiceCorrente(){
     return indiceCorrente;
   }
