@@ -6,9 +6,9 @@ public class Album implements Ricercabile{
   private Artista artista;
   private String titolo; 
   private int annoPubblicazione; 
-  private Set<Genere> genere; 
+  private Set<GenereMusicale> genere; 
   private String copertina;
-  public Album(List<Brano> lista_brani, Artista artista, String titolo, int annoPubblicazione, Set<Genere> genere, String copertina){
+  public Album(List<Brano> lista_brani, Artista artista, String titolo, int annoPubblicazione, Set<GenereMusicale> genere, String copertina){
     this.lista_brani=new ArrayList<>();
     this.artista=artista;  
     this.titolo=titolo;
@@ -29,7 +29,7 @@ public class Album implements Ricercabile{
   public int getAnnoPubblicazione() {
     return annoPubblicazione;
   }
-  public Set<Genere> getGenere() {
+  public Set<GenereMusicale> getGenere() {
    return new HashSet<>(this.genere); 
   }
   public String getCopertina() {
@@ -48,7 +48,7 @@ public class Album implements Ricercabile{
   public void setAnnoPubblicazione(int annoPubblicazione) {
     this.annoPubblicazione=annoPubblicazione;
   }
-  public void setGenereMusicale(Set<Genere> genere) {
+  public void setGenereMusicale(Set<GenereMusicale> genere) {
     if (genere!=null) this.genere=new HashSet<>(genere); 
     else this.genere=new HashSet<>();  
   }
