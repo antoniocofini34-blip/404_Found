@@ -26,7 +26,7 @@ public class Brano implements Ricercabile, Riproducibile {
     return testo; 
   }
   public Set<Genere> getGenereBrano() {
-    return genere_Brano;
+    return new HashSet<>(this.genere_Brano); 
   }
   public Album getAlbumBrano() {
     return album_Brano; 
@@ -51,7 +51,7 @@ public class Brano implements Ricercabile, Riproducibile {
     this.album_Brano=album_Brano; 
   }
   public void setNumeroAscolti(int numero_Ascolti) {
-    this.numero_Ascolti=numeroAscolti; 
+    this.numero_Ascolti=numero_Ascolti; 
   }
 }
   
