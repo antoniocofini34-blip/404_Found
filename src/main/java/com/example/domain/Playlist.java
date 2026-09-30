@@ -8,12 +8,16 @@ public class Playlist{
   private String descrizione;
   private LocalDate data_creazione;
   private int indiceCorrente; 
-  public Playlist(String nome, String descrizione, localDate data_creazione){
+  private int indiceNuovo; 
+  private int indiceVecchio; 
+  public Playlist(String nome, String descrizione, localDate data_creazione, int indiceCorrente, int indiceNuovo, int indiceVecchio){
     this.lista_brani=new ArrayList<>();
     this.nome=nome;
     this.descrizione=descrizione;
     this.data_creazione=data_creazione;
-    this.indiceCorrente=-1
+    this.indiceCorrente=-1;
+    this.indiceNuovo=indiceNuovo; 
+    this.indiceVecchio=indiceVecchio; 
   }
   public List<Brano> getLista_brani(){
     return new ArrayList<>(lista_brani);
@@ -26,6 +30,15 @@ public class Playlist{
   }
   public localDate getData_creazione(){
     return data_creazione;
+  }
+  public int getIndiceCorrente(){
+    return indiceCorrente;
+  }
+  public int getIndiceNuovo(){
+    return indiceNuovo; 
+  }
+  public int getIndiceVecchio(){
+    return indiceVecchio; 
   }
   public void setNome(String nome){
     this.nome=nome;
@@ -40,12 +53,15 @@ public class Playlist{
     if(nuovaLista_brani==null) this.lista_brani=new ArrayList<>(nuovaLista_brani); 
     else this.lista_brani=new ArrayList<>()
     }
-  public int getIndiceCorrente(){
-    return indiceCorrente;
-  }
   public void setIndiceCorrente(int indiceCorrente){
     if(indiceCorrente<-1||indiceCorrente>=lista_brani.size()){
       trow new indiceVecchio("Indice corrente." + indiceCorrente);
     }
+  }
+  public vloid setIndiceNuovo(int indiceNuovo){
+    this.indiceNuovo=indiceNuovo;
+  }
+  public void setIndiceVecchio(int indiceVecchio){
+    this.indiceVecchio=indiceVecchio; 
   }
 }
