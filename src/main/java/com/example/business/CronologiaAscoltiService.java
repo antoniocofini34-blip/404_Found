@@ -54,3 +54,8 @@ import com.example.domain.CronologiaAscolti;
     }
     List<Artista> artistiPiuAscoltati=new ArrayList<>(mappaConteggio.keySet());
     return artistiPiuAscoltati; 
+
+    public void aggiornaIstanteAscolto(LocalDateTime istanteAscolto){
+    this.istanteAscolto=istanteAscolto;
+  }
+
