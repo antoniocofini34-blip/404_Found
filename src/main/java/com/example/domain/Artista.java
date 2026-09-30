@@ -1,4 +1,6 @@
 import java.util.*;
+package com.example.domain;
+
 public abstract class Artista {
   private String biografia; 
   private Genere genere_principale; 
