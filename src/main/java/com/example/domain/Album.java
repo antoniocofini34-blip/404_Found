@@ -50,23 +50,9 @@ public class Album implements Ricercabile{
     if (genere!=null) this.genere=new HashSet<>(genere); 
     else this.genere=new HashSet<>();  
   }
-  public void aggiungiCopertina(String copertina) {
+  public void setCopertina(String copertina) {
     this.copertina=copertina;
   }
-  public int getDurataTotale() {
-    int durataTotale=0; 
-    for (Brano brano : lista_brani) {
-      durataTotale += brano.getDurata(); 
-    }
-    return durataTotale; 
-  }
-  public boolean equals (Object obj) {
-    if (this==obj) return true; 
-    if (!(obj instanceof Album)) return false; 
-    Album a=(Album) obj; 
-    return 
-
-  
   @Override
   public String getNome() {
     return titolo;
