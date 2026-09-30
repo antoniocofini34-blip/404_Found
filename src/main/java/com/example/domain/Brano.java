@@ -5,10 +5,10 @@ public class Brano implements Ricercabile, Riproducibile {
   private String titolo;
   private int durata; 
   private String testo;
-  private Set<Genere> genere_Brano; 
+  private Set<GenereMusicale> genere_Brano; 
   private Album album_Brano; 
   private int numero_Ascolti; 
-  public Brano (String titolo, int durata, String testo, Set<Genere> genere_Brano, Album album_Brano, int numero_Ascolti) {
+  public Brano (String titolo, int durata, String testo, Set<GenereMusicale> genere_Brano, Album album_Brano, int numero_Ascolti) {
     this.titolo=titolo; 
     this.durata=durata; 
     this.testo=testo; 
@@ -25,7 +25,7 @@ public class Brano implements Ricercabile, Riproducibile {
   public String getTesto() {
     return testo; 
   }
-  public Set<Genere> getGenereBrano() {
+  public Set<GenereMusicale> getGenereBrano() {
     return new HashSet<>(this.genere_Brano); 
   }
   public Album getAlbumBrano() {
@@ -43,7 +43,7 @@ public class Brano implements Ricercabile, Riproducibile {
   public void setTesto(String testo) {
     this.testo=testo; 
   }
-  public void setGenereBrano(Set<Genere> genere_Brano) {
+  public void setGenereBrano(Set<GenereMusicale> genere_Brano) {
     if (genere_Brano!=null) this.genere_Brano=new HashSet<>(genere_Brano); 
     else this.genere_Brano=new HashSet<>();
   }
