@@ -51,7 +51,7 @@ public class Playlist implements Riproducibile{
   }
   public void setLista_brani(List<Brano> nuovaLista_brani){
     if(nuovaLista_brani!=null) this.lista_brani=new ArrayList<>(nuovaLista_brani); 
-    else this.lista_brani=new ArrayList<>()
+    else this.lista_brani=new ArrayList<>();
     }
   public void setIndiceCorrente(int indiceCorrente){
     if(indiceCorrente<-1||indiceCorrente>=lista_brani.size()){
