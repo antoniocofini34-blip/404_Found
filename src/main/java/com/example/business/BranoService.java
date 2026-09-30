@@ -13,13 +13,4 @@ public interface BranoService{
   void assegnaAlbum(Album album, Brano brano) throws BusinessException;
   void modificaGenere(Brano brano, Set<Genere> generi) throws BusinessException;
   void aggiornaNumeroAscolti(Brano brano) throws BusinessException;
-  public void inserisciGenereBrano(Genere genere_Brano) {
-    this.genere_Brano.add(genere_Brano);  
-  }
-  public void inserisciAlbumBrano(Album album_Brano) {
-    this.album_Brano.add(album_Brano);  
-  }
-  public void incrementaAscolti() {
-    this.numero_Ascolti ++;
-  }
 }
