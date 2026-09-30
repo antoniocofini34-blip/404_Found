@@ -1,6 +1,6 @@
 package com.example.domain;
 
-public enum Genere{
+public enum GenereMusicale{
   ROCK,
   POP,
   JAZZ,
