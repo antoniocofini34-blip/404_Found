@@ -20,7 +20,4 @@ public class Ascolto{
   public void setBrano(Brano brano){
     this.brano_Ascoltato=brano;
   }
-  public void aggiornaIstanteAscolto(LocalDateTime istanteAscolto){
-    this.istanteAscolto=istanteAscolto;
-  }
 }
