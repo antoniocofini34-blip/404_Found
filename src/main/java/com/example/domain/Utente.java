@@ -59,27 +59,4 @@ public class Utente {
   public void setPreferenzeMusicali(Set<Genere> preferenze_musicali) {
     this.preferenze_musicali=preferenze_musicali;
   }
-  public Playlist creaPlaylist(String nome, String descrizione) {
-    Playlist playlist=new Playlist(nome,descrizione);
-    playlist_Create.add(playlist);
-    return playlist;
-  }
-  public void eliminaPlaylist(Playlist playlist) {
-    playlist_Create.remove(playlist);
-  }
-  public void aggiungiPreferenza(Genere genere) {
-    preferenze_musicali.add(genere);
-  }
-  public void rimuoviPreferenza(Genere genere) {
-    preferenze_musicali.remove(genere);
-  }
-  public void avviaPlaylist(Playlist playlist) {
-    playlist.play();
-  }
-  public void avviaBrano(Brano brano) {
-    brano.play();
-  }
-  public List<Brano> ottieniSuggerimenti() {
-    return new ArrayList<>();
-  }
 }
