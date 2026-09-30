@@ -9,8 +9,8 @@ public class Utente {
   private LocalDate data_di_nascita;
   private List<Playlist> playlist_Create;
   private Cronologia_Ascolti cronologia_Ascolti;
-  private Set<Genere> preferenze_musicali;
-  public Utente(String nome, String cognome, String email, LocalDate data_di_nascita, List<Playlist> playlist_Creata, Cronologia_Ascolti cronologia_Ascolti, Set<Genere> preferenze_musicali) {
+  private Set<GenereMusicale> preferenze_musicali;
+  public Utente(String nome, String cognome, String email, LocalDate data_di_nascita, List<Playlist> playlist_Creata, Cronologia_Ascolti cronologia_Ascolti, Set<GenereMusicale> preferenze_musicali) {
     this.nome=nome;
     this.cognome=cognome;
     this.email=email;
@@ -37,7 +37,7 @@ public class Utente {
   public Cronologia_Ascolti getCronologiaAscolti() {
     return this.cronologia_Ascolti;
   }
-  public Set<Genere> getGeneriMusicali() {
+  public Set<GenereMusicale> getGeneriMusicali() {
     return new HashSet<>(this.preferenze_musicali);
   }
   public void setNome(String nome) {
@@ -59,7 +59,7 @@ public class Utente {
   public void setCronologiaAscolti(Cronologia_Ascolti cronologia_Ascolti) {
     this.cronologia_Ascolti=cronologia_Ascolti;
   }
-  public void setPreferenzeMusicali(Set<Genere> preferenze_musicali) {
+  public void setPreferenzeMusicali(Set<GenereMusicale> preferenze_musicali) {
     if (preferenze_musicali!=null) this.preferenze_musicali=new HashSet<>(preferenze_musicali); 
     else this.preferenze_musicali=preferenze_musicali; 
   }
