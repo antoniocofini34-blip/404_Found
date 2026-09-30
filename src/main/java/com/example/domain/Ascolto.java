@@ -7,7 +7,7 @@ public class Ascolto{
   private LocalDateTime istanteAscolto;
   private int tempo_brano_ascoltato;
     public Ascolto(Brano brano, LocalDateTime istanteAscolto, int tempo_brano_ascoltato){
-    this.brano=new Brano();
+    this.brano=brano;
     this.istanteAscolto=istanteAscolto;
     this.tempo_brano_ascoltato=tempo_brano_ascoltato;
   }
