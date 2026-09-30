@@ -1,4 +1,6 @@
 import java.util.*;
+package com.example.domain;
+
 public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
   private List<Artista> lista_Membri;
@@ -17,9 +19,5 @@ public class ArtistaGruppo extends Artista implements Ricercabile {
   }
   public void setListMembri(List<Artista> lista_Membri) {
     this.lista_Membri=lista_Membri;
-  }
-  @Override
-  public String getNome() {
-    return nome_gruppo;
   }
 }
