@@ -1,4 +1,4 @@
-public enum Stato_Riproduzione{
+public enum StatoRiproduzione{
   FERMO,
   IN_PAUSA,
   IN_RIPRODUZIONE
