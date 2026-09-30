@@ -1,4 +1,6 @@
 import java.util.*;
+package com.example.domain;
+
 public class CodaRiproduzione implements Riproducibile {
   private List<Brano> lista_coda_brani;
   private boolean riproduzione_casuale;
@@ -11,7 +13,7 @@ public class CodaRiproduzione implements Riproducibile {
     this.stato=stato;
   }
   public List<Brano> getListaCodaBrani() {
-    return lista_coda_brani;
+    return new ArrayList<>(this.lista_coda_brani); 
   }
   public boolean getCasuale() {
     return riproduzione_casuale;
@@ -23,7 +25,8 @@ public class CodaRiproduzione implements Riproducibile {
     return stato;
   }
   public void setListaCodaBrani(List<Brano> lista_coda_brani) {
-    this.lista_coda_brani=lista_coda_brani;
+    if (lista_coda_brani!=null) this.lista_coda_brani=new ArrayList<>(lista_coda_brani); 
+    else this.lista_coda_brani=new ArrayList<>(); 
   }
   public void setShuffle(boolean shuffle) {
     this.riproduzione_casuale=shuffle;
