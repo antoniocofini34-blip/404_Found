@@ -1,9 +1,10 @@
 import java.util.*;
+import java.time.*;
 public class Playlist{
   private List<Brano> lista_brani;
   private String nome;
   private String descrizione;
-  private localDate data_creazione;
+  private LocalDate data_creazione;
   public Playlist(String nome, String descrizione, localDate data_creazione){
     this.lista_brani=new ArrayList<>();
     this.nome=nome;
