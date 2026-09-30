@@ -1,4 +1,7 @@
-  public void modificaBiografia(String biografia) {
+package com.example.business;
+import java.util.*;
+import com.example.domain.Artista;
+public void modificaBiografia(String biografia) {
     this.biografia=biografia;
   }
   public void setGenerePrincipale(Genere genere_principale) {
