@@ -16,7 +16,7 @@ public class Utente {
     this.email=email;
     this.data_di_nascita=data_di_nascita;
     this.playlist_Creata=new ArrayList<>();
-    this.cronologia_Ascolti=new Cronologia_Ascolti();
+    this.cronologia_Ascolti=cronologia_Ascolti;
     this.preferenze_musicali=new HashSet<>();
   }
   public String getNome() {
