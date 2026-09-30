@@ -41,30 +41,6 @@ public class Brano implements Ricercabile, Riproducibile {
   public void setTesto(String testo) {
     this.testo=testo; 
   }
-  public void inserisciGenereBrano(Genere genere_Brano) {
-    this.genere_Brano.add(genere_Brano);  
-  }
-  public void inserisciAlbumBrano(Album album_Brano) {
-    this.album_Brano.add(album_Brano);  
-  }
-  public void incrementaAscolti() {
-    this.numero_Ascolti ++;
-  }
-  
-  @Override
-  public void play() {
-    System.out.println("Riproduzione di" + titolo); 
-  }
-  
-  @Override
-  public void pausa() {
-    System.out.println("Pausa di" + titolo); 
-  }
-
-  @Override 
-  public boolean corrispondeA(String testo) {
-    return titolo.toLowerCase().contains(testo.toLowerCase()); 
-  }
 }
   
   
