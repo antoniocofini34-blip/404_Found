@@ -1,5 +1,7 @@
+package com.example.domain;
 import java.util.*;
 import java.time.*;
+
 public class Utente {
   private String nome;
   private String cognome;
@@ -30,13 +32,13 @@ public class Utente {
     return this.data_di_nascita;
   }
   public List<Playlist> getPlaylistCreate() {
-    return this.playlist_Creata;
+    return new ArrayList<>(this.playlist_Create);
   }
   public Cronologia_Ascolti getCronologiaAscolti() {
     return this.cronologia_Ascolti;
   }
   public Set<Genere> getGeneriMusicali() {
-    return this.preferenze_musicali;
+    return new HashSet<>(this.preferenze_musicali);
   }
   public void setNome(String nome) {
     this.nome=nome;
@@ -51,12 +53,14 @@ public class Utente {
     this.data_di_nascita=data_di_nascita;
   }
   public void setPlaylistCreate(List<Playlist> playlist_Create) {
-    this.playlist_Create=playlist_Create;
+    if (playlist_Create!=null) this.playlist_Create=new ArrayList<>(playlist_Create); 
+    else this.playlist_Create=new ArrayList<>(); 
   }
   public void setCronologiaAscolti(Cronologia_Ascolti cronologia_Ascolti) {
     this.cronologia_Ascolti=cronologia_Ascolti;
   }
   public void setPreferenzeMusicali(Set<Genere> preferenze_musicali) {
-    this.preferenze_musicali=preferenze_musicali;
+    if (preferenze_musicali!=null) this.preferenze_musicali=new HashSet<>(preferenze_musicali); 
+    else this.preferenze_musicali=preferenze_musicali; 
   }
 }
