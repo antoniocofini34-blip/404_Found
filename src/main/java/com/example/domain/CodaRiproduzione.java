@@ -4,9 +4,9 @@ package com.example.domain;
 public class CodaRiproduzione implements Riproducibile {
   private List<Brano> lista_coda_brani;
   private boolean riproduzione_casuale;
-  private Modalita_Repeat modalita_repeat;
+  private ModalitaRepeat modalita_repeat;
   private StatoRiproduzione stato;
-  public CodaRiproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, Modalita_Repeat modalita_repeat, Stato_Riproduzione stato) {
+  public CodaRiproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, ModalitaRepeat modalita_repeat, StatoRiproduzione stato) {
     this.lista_coda_brani=new ArrayList<>();
     this.riproduzione_casuale=riproduzione_casuale;
     this.modalita_repeat=new ModalitaRepeat();
