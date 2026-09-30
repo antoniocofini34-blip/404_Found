@@ -1,4 +1,4 @@
-public enum Modalita_Repeat{
+public enum ModalitaRepeat{
   NESSUNA,
   RIPETI_CODA,
   RIPETI_BRANO,
