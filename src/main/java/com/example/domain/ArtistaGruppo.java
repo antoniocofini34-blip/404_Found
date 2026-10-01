@@ -19,7 +19,7 @@ public class ArtistaGruppo extends Artista implements Ricercabile {
   public void setNomeGruppo(String nome_gruppo) {
     this.nome_gruppo=nome_gruppo;
   }
-  public void setListMembri(List<Artista> lista_Membri) {
+  public void setListaMembri(List<Artista> lista_Membri) {
     if (lista_Membri!=null) this.lista_Membri=new ArrayList<>(lista_Membri); 
     else this.lista_Membri=new ArrayList<>(); 
   }
