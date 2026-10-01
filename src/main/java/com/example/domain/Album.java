@@ -1,5 +1,5 @@
-import java.util.*;
 package com.example.domain; 
+import java.util.*;
 
 public class Album implements Ricercabile{
   private List<Brano> lista_brani;
