@@ -28,7 +28,7 @@ public class Playlist implements Riproducibile{
   public String getDescrizione(){
     return descrizione;
   }
-  public localDate getData_creazione(){
+  public LocalDate getData_creazione(){
     return data_creazione;
   }
   public int getIndiceCorrente(){
@@ -46,7 +46,7 @@ public class Playlist implements Riproducibile{
   public void setDescrizione(String descrizione){
     this.descrizione=descrizione;
   }
-  public void setData_creazione(String data_creazione){
+  public void setData_creazione(LocalDate data_creazione){
     this.data_creazione=data_creazione;
   }
   public void setLista_brani(List<Brano> nuovaLista_brani){
