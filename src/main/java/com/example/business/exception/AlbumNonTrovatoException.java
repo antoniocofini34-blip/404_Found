@@ -2,7 +2,7 @@ package com.example.business.exception;
 import com.example.business.BusinessException;
 @SuppressWarnings("serial");
 public class AlbumNonTrovatoException extends BusinessException {
-  public DuplicatoException() {
+  public AlbumNonTrovatoException() {
     super();
   }
   public AlbumNonTrovatoException(String message) {
