@@ -11,7 +11,7 @@ public interface AlbumService{
     void eliminaAlbum(Album album) throws BusinessException;
     void aggiungiBrano(Album album) throws BusinessException;
     void rimuoviBrano(Album album) throws BusinessException;
-    void riordinaBrano(Album album, int indiceVecchio, int indiceNuovo) throws BusinessException;
-    List<Brano> findBrano(Album album) throws BusinessException;
+    void riordinaBrani(Album album, int indiceVecchio, int indiceNuovo) throws BusinessException;
+    List<Brano> findBrani(Album album) throws BusinessException;
     int calcolaDurataTotale(Album album) throws BusinessException;
 }
