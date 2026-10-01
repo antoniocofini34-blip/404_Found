@@ -9,8 +9,10 @@ public abstract class Artista {
   public Artista (String biografia, GenereMusicale genere_pricipale, Set<GenereMusicale> generi_secondari, List<Album> discografia) {
     this.biografia=biografia; 
     this.genere_principale=genere_principale;  
-    this.generi_secondari=new HashSet<>(generi_secondari); 
-    this.discografia=new ArrayList<>(); 
+    if (generi_secondari!=null) this.generi_secondari=new HashSet<>(generi_secondari); 
+    else this.generi_secondari=new HashSet<>();
+    if (discografia!=null) this.discografia=new ArrayList<>(discografia); 
+    else this.discografia=new ArrayList<>();
   }
   public String getBiografia() {
     return biografia; 
