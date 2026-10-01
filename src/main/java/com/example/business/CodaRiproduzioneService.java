@@ -1,4 +1,4 @@
-package com.example.busines;
+package com.example.business;
 import java.util.*;
 import com.example.domain.Brano; 
 import com.example.domain.CodaRiproduzione; 
@@ -13,6 +13,6 @@ public interface CodaRiproduzioneService{
  void avanti(CodaRiproduzione coda) throws BusinessException;
  void indietro(CodaRiproduzione coda) throws BusinessException; 
  void shuffle(CodaRiproduzione coda) throws BusinessException; 
- void impostaRepeatCoda(CodaRiproduzione coda, ModalitaRepeat modalita) throw BusinessException;
+ void impostaRepeatCoda(CodaRiproduzione coda, ModalitaRepeat modalita) throws BusinessException;
  void branoTerminato(CodaRiproduzione coda) throws BusinessException; 
 }
