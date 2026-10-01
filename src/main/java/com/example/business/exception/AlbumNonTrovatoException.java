@@ -1,6 +1,6 @@
 package com.example.business.exception;
 import com.example.business.BusinessException;
-@SuppressWarnings("serial");
+@SuppressWarnings("serial")
 public class AlbumNonTrovatoException extends BusinessException {
   public AlbumNonTrovatoException() {
     super();
