@@ -1,4 +1,4 @@
-package com.example.business
+package com.example.business;
 import java.util.*;
 import com.example.domain.Album;
 import com.example.domain.Artista;
