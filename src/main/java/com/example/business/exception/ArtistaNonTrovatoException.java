@@ -1,7 +1,7 @@
 package com.example.business.exception;
 import com.example.business.BusinessException;
 @SuppressWarnings("serial")
-  public class extends BusinessException {
+  public class ArtistaNonTrovatoException extends BusinessException {
     public ArtistaNonTrovatoException() {
       super();
     }
