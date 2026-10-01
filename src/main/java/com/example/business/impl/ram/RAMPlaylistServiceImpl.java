@@ -9,7 +9,7 @@ import com.example.business.exception.PlaylistVuotaException;
 import com.example.domain.Brano;
 import com.example.domain.Playlist;
 
-public class RAMPlaylistServiceImpl{
+public class RAMPlaylistServiceImpl implements PlaylistService{
   private List<Playlist> playlist;
   public RAMPlaylistServiceImpl(){
     this.playlist=new ArrayList<>();
