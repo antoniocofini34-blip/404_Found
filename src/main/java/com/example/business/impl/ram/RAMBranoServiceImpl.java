@@ -5,9 +5,9 @@ import com.example.business.BusinessException;
 import com.example.business.exception.BranoNonTrovatoException;
 import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
-import com.exampe.domain.Album; 
-import com.exampe.domain.Brano; 
-import com.exampe.domain.GenereMusicale;
+import com.example.domain.Album; 
+import com.example.domain.Brano; 
+import com.example.domain.GenereMusicale;
 
 public class RAMBranoServiceImpl implements BranoService {
   private List<Brano> brani; 
@@ -52,7 +52,7 @@ public class RAMBranoServiceImpl implements BranoService {
     }
   this.brani.add(brano); 
  }
-  @Ovveride 
+  @Override
   public void modificaBrano(Brano brano) throws BusinessException {
     if (brano==null) {
       throw new OperazioneNonValidaException("Il brano non può essere null"); 
@@ -79,7 +79,7 @@ public class RAMBranoServiceImpl implements BranoService {
       throw new BranoNonTrovatoException("Brano da modificare non trovato"); 
     }
   }
-  @Ovveride 
+  @Override 
   public void eliminaBrano(Brano brano) throws BusinessException {
     if (brano==null) {
       throw new OperazioneNonValidaException("Il brano non può essere null"); 
@@ -88,7 +88,7 @@ public class RAMBranoServiceImpl implements BranoService {
       throw new BranoNonTrovatoException("Brano da eliminare non trovato"); 
     }
   }
-  @Ovveride 
+  @Override 
   public void assegnaAlbum(Brano brano, Album album) throws BusinessException {
     if (brano==null) {
       throw new OperazioneNOnValidaException("Il brano non può essere null"); 
@@ -101,8 +101,8 @@ public class RAMBranoServiceImpl implements BranoService {
     }
     brano.setAlbumBrano(album); 
   }
-  @Ovveride 
-  public void modificaGeneri(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
+  @Override 
+  public void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
     if (brano==null) {
       throw new OperazioneNonValidaException("Il brano non può essere null"); 
     }
@@ -114,7 +114,7 @@ public class RAMBranoServiceImpl implements BranoService {
     }
     brano.setGenereBrano(new HashSet<>(generi)); 
   }
-  @Ovveride 
+  @Override 
   public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
     if (brano==null) {
       throw new OperazioneNonValidaException("Il brano non può essere null");
