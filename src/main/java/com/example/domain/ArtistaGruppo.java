@@ -7,7 +7,8 @@ public class ArtistaGruppo extends Artista implements Ricercabile {
   public ArtistaGruppo(String biografia, GenereMusicale genere_pricipale, Set<GenereMusicale> generi_secondari, List<Album> discografia, String nome_gruppo, List<Artista> lista_Membri) {
     super (biografia, genere_principale, generi_secondari, discografia);
     this.nome_gruppo=nome_gruppo;
-    this.lista_Membri=new ArrayList<>();
+    if (lista_Membri!=null) this.lista_Membri=new ArrayList<>(lista_Membri); 
+    else this.lista_Membri=new ArrayList<>();    
   }
   public String getNomeGruppo() {
     return nome_gruppo;
