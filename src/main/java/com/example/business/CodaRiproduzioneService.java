@@ -15,4 +15,6 @@ public interface CodaRiproduzioneService{
  void shuffle(CodaRiproduzione coda) throws BusinessException; 
  void impostaRepeatCoda(CodaRiproduzione coda, ModalitaRepeat modalita) throws BusinessException;
  void branoTerminato(CodaRiproduzione coda) throws BusinessException; 
+ Brano getBranoCorrente(CodaRiproduzione coda) throws BusinessException;
+ List<Brano> getCoda(CodaRiproduzione coda) throws BusinessException; 
 }
