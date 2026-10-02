@@ -28,7 +28,7 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     }
   }
   @Override 
-  public void aggiungiBrano(CodaRiproduzione coda, Brano brano) throws BusinessException {
+  public void aggiungiBranoCods(CodaRiproduzione coda, Brano brano) throws BusinessException {
     verificaCoda(coda); 
     if (brano==null) {
       throw new OperazioneNonValidaException("Il brano non può essere null"); 
@@ -41,26 +41,26 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     }
   }
   @Override 
-  public void rimuoviBrano(CodaRiproduzione coda, Brano brano) throws BusinessException {
+  public void rimuoviBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException {
     verificaCoda(coda); 
     verificaCoda(coda); 
       if (brano==null) {
         throw new OperazioneNonValidaException("Il brano non può essere null"); 
       }
-    List<Brano> brani=coda.gertListaCodaBrani(); 
+    List<Brano> brani=coda.getListaCodaBrani(); 
     int indiceRimosso=brani.indexOf(brano); 
     if (indiceRimosso==-1) {
       throw new OperazioneNonValidaException("Il brano non è presente nella coda"); 
     }
     int indiceCorrente=this.indiciCorrenti.get(coda); 
     brani.remove(indiceRimosso); 
-    coda.setListaCodaBran(brani); 
+    coda.setListaCodaBrani(brani); 
     if (brani.isEmpty()) {
       this.indiciCorrenti.put(coda, -1); 
       coda.setStato(StatoRiproduzione.FERMO); 
     }
     else if (indiceRimosso<indiceCorrente) {
-      this.indiciCorrenti.put(coda.indiceCorrente-1); 
+      this.indiciCorrenti.put(coda, indiceCorrente-1); 
     }
     else if (indiceRimosso==indiceCorrente) {
       if (indiceCorrente >= brani.size()) {
@@ -83,10 +83,10 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
       indice=0;
       this.indiciCorrenti.put(coda, indice); 
     }
-    coda.SetStato(StatoRiproduzione.IN_RIPRODUZIONE); 
+    coda.setStato(StatoRiproduzione.IN_RIPRODUZIONE); 
   }
   @Override 
-  public void pause(CodaRiproduzione coda) throws BusinessException {
+  public void pausa(CodaRiproduzione coda) throws BusinessException {
     verificaCodaNonVuota(coda); 
     coda.setStato(StatoRiproduzione.IN_PAUSA); 
   }
