@@ -7,7 +7,8 @@ public class CodaRiproduzione implements Riproducibile {
   private ModalitaRepeat modalita_repeat;
   private StatoRiproduzione stato;
   public CodaRiproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, ModalitaRepeat modalita_repeat, StatoRiproduzione stato) {
-    this.lista_coda_brani=new ArrayList<>();
+    if (lista_coda_brani!=null) this.lista_coda_brani=new ArrayList<>(lista_coda_brani);
+    else this.lista_coda_brani=new ArrayList<>(); 
     this.riproduzione_casuale=riproduzione_casuale;
     this.modalita_repeat=modalita_repeat; 
     this.stato=stato; 
