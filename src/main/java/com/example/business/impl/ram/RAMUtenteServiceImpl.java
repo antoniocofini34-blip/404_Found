@@ -8,6 +8,8 @@ import com.example.business.exception..UtenteNonTrovatoException;
 import com.example.domain.GenereMusicale;
 import com.example.domain.Playlist;
 import com.example.domain.Utente;
+import com.example.domain.CodaRiproduzione; 
+
 public class RAMUtenteServiceImpl implements UtenteService{
   private List<Utente> utenti;
   public RAMUtenteServiceImpl() {
@@ -147,4 +149,27 @@ public class RAMUtenteServiceImpl implements UtenteService{
       throw new UtenteNonTrovatoException("Utente non trovato"9;
       return new HashSet<>(utente.getGeneriMusicali());
     }
-}  
+  @Override
+  public CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException {
+    if (utente==null) {
+      throw new OperazioneNonValidaException("L'utente non può essere null"); 
+    }
+    if (!this.utenti.contains(utente)) {
+      throw new UtenteNonTrovatoException("Utente non trovato"); 
+    }
+    return utente.getCodaRiproduzione(); 
+  }
+  @Override 
+  public void setCodaRiproduzione(Utente utente, CodaRiproduzione coda) throws BusinessException {
+    if (utente==null) {
+      throw new OperazioneNonValidaException("L'utente non può essere null"); 
+    }
+    if (!this.utenti.contains(utente)) {
+      throw new UtenteNonTrovatoException("Utente non trovato"); 
+    }
+    if (coda==null) {
+      throw new OperazioneNonValidaException("La coda di riproduzione non può essere null"); 
+    }
+    utente.setCodaRiproduzione(coda);     
+  }  
+}
