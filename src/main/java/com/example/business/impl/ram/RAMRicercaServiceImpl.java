@@ -1,5 +1,5 @@
-package com.example.business.impl.ram
-import java.util.*:
+package com.example.business.impl.ram;
+import java.util.*;
 import com.example.business.BusinessException;
 import com.example.business.RicercaService;
 import com.example.business.exception.OperazioneNonValidaException;
@@ -49,7 +49,7 @@ public class RAMRicercaServiceImpl implements RicercaService {
     List<Artista> risultati=new ArrayList<>();
     for (Artista artista: artistaService.findAllArtisti()) {
       String nomeArtista=ottieniNomeArtista(artista);
-      if (noemArtista!=null && nomeArtista.toLowerCase().contains(testoRicerca)) 
+      if (nomeArtista!=null && nomeArtista.toLowerCase().contains(testoRicerca)) 
         risultati.add(artista);
     }
     return risultati;
