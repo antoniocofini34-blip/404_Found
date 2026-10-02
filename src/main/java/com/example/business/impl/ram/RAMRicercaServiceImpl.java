@@ -42,7 +42,7 @@ public class RAMRicercaServiceImpl implements RicercaService {
     return risultati;
   }
   @Override
-  public List<Artista> cercaArtisti(String testo) throws BusinessException {
+  public List<Artista> cercaArtista(String testo) throws BusinessException {
     if (testo==null || testo.trim().isEmpty())
       throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
     String testoRicerca=testo.trim().toLowerCase();
