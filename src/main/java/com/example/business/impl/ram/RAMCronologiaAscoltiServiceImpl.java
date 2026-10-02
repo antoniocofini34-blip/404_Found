@@ -41,6 +41,12 @@ public class RAMCronologiaAscoltiServiceImpl implements CronologiaAscoltiService
        cronologia.setRegistroAscolti(new ArrayList<>());
     }
     @Override
+        public List<Ascolto> getAscolti(CronologiaAscolti cronologia) throws BusinessException {
+        if (cronologia==null)
+            throw new OperazioneNonValidaException("La cronologia non può essere null");
+        return new ArrayList<>(cronologia.getRegistroAscolti());
+    }
+    @Override
     public int calcolaTempoTotaleAscolto(CronologiaAscolti cronologia) throws BusinessException{
       if (cronologia == null) {
         throw new OperazioneNonValidaException("La cronologia non può essere null");
@@ -54,7 +60,7 @@ public class RAMCronologiaAscoltiServiceImpl implements CronologiaAscoltiService
      return tempoTotale;
     }
     @Override
-    public int contaAscolti(CronologiaAscolti cronologia, Brano brano){
+    public int contaAscolti(CronologiaAscolti cronologia, Brano brano) throws BusinessException{
       if (cronologia == null) {
         throw new OperazioneNonValidaException("La cronologia non può essere null");
        }
