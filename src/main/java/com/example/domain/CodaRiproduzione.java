@@ -1,5 +1,5 @@
-import java.util.*;
 package com.example.domain;
+import java.util.*;
 
 public class CodaRiproduzione implements Riproducibile {
   private List<Brano> lista_coda_brani;
