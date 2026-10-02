@@ -146,12 +146,12 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
   }
   @Override 
   public void shuffle(CodaRiproduzione coda) throws BusinessException {
-    verificaCoda(coda), 
+    verificaCoda(coda); 
       List<Brano> brani=coda.getListaCodaBrani(); 
     if (brani.isEmpty()) {
       throw new OperazioneNonValidaException("Non è possibile effettuare lo shuffle su una coda vuota"); 
     }
-    int indiceCorrente=this.indiciCorrenti.get(coda), 
+    int indiceCorrente=this.indiciCorrenti.get(coda);
       Brano branoCorrente=null; 
     if (indiceCorrente >= 0 && indiceCorrente < brani.size()) {
       branoCorrente=brani.get(indiceCorrente); 
