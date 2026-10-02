@@ -43,6 +43,9 @@ public class Utente {
   public Set<GenereMusicale> getGeneriMusicali() {
     return new HashSet<>(this.preferenze_musicali);
   }
+  public CodaRiproduzione getCodaRiproduzione() {
+    return this.coda_riproduzione; 
+  }
   public void setNome(String nome) {
     this.nome=nome;
   }
@@ -65,5 +68,8 @@ public class Utente {
   public void setPreferenzeMusicali(Set<GenereMusicale> preferenze_musicali) {
     if (preferenze_musicali!=null) this.preferenze_musicali=new HashSet<>(preferenze_musicali); 
     else this.preferenze_musicali=preferenze_musicali; 
+  }
+  public void setCodaRiproduzione(CodaRiproduzione coda_riproduzione) {
+    this.coda_riproduzione=coda_riproduzione;
   }
 }
