@@ -10,14 +10,17 @@ public class Utente {
   private List<Playlist> playlist_Create;
   private Cronologia_Ascolti cronologia_Ascolti;
   private Set<GenereMusicale> preferenze_musicali;
-  public Utente(String nome, String cognome, String email, LocalDate data_di_nascita, List<Playlist> playlist_Creata, Cronologia_Ascolti cronologia_Ascolti, Set<GenereMusicale> preferenze_musicali) {
+  private CodaRiproduzione coda_riproduzione; 
+  public Utente(String nome, String cognome, String email, LocalDate data_di_nascita, List<Playlist> playlist_Creata, Cronologia_Ascolti cronologia_Ascolti, Set<GenereMusicale> preferenze_musicali, CodaRiproduzione coda_riproduzione) {
     this.nome=nome;
     this.cognome=cognome;
     this.email=email;
     this.data_di_nascita=data_di_nascita;
-    this.playlist_Creata=new ArrayList<>();
+    if (playlist_Create!=null) this.playlist_Create=new ArrayList<>(playlist_Create); 
+    else this.playlist_Create=new ArrayList<>(); 
     this.cronologia_Ascolti=cronologia_Ascolti;
-    this.preferenze_musicali=new HashSet<>();
+    if (preferenze_musicali!=null) this.preferenze_musicali=new HashSet<>(preferenze_musicali); 
+    else this.preferenze_musicali=new HashSet<>(); 
   }
   public String getNome() {
     return this.nome;
