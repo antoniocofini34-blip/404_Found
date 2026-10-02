@@ -4,6 +4,7 @@ import java.time.*;
 import com.example.domain.Utente;
 import com.example.domain.Playlist; 
 import com.example.domain.GenereMusicale;
+import com.example.domain.CodaRiproduzione; 
 
 public interface UtenteService {
   void creaUtente(Utente utente) throws BusinessException; 
