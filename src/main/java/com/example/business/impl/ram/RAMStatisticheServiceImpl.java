@@ -68,7 +68,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
     List<Artista> risultati= new ArrayList<>(conteggi.keySet());
     List<Artista> ordinati= new ArrayList<>();
     while (!risultati.isEmpty()) {
-        Artista piuAscolto=risultati.get(0);
+        Artista piuAscoltato=risultati.get(0);
       for(Artista artista: risultati) {
         if (conteggi.get(artista) > conteggi.get(piuAscoltato)) piuAscoltato=artista;
       }
@@ -83,7 +83,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
     return cronologiaService.calcolaTempoTotaleAscolto(utente.getCronologiaAscolti());
   }
   @Override
-  public GenereMusicale ottieniGenerePiuAscoltato(Utente utente) throws BusinessException {
+  public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException {
     verificaUtente(utente);
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     if (ascolti.isEmpty()) return null;
@@ -111,7 +111,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
   @Override
   public List<Brano> suggerisciBrani(Utente utente) throws BusinessException {
     verificaUtente(utente);
-    GenereMusicale generePreferito=ottieniGenerePiuAscoltato(utente);
+    GenereMusicale generePreferito=ottieniGenereMusicalePiuAscoltato(utente);
     if (generePreferito==null) return new ArrayList<>();
     Set<Brano> braniAscoltati=new HashSet<>();
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
