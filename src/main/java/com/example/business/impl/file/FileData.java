@@ -15,4 +15,4 @@ public class FileData {
   public void setRighe(List<String[]> righe) {
     this.righe=righe;
   }
-  
+}
