@@ -10,5 +10,5 @@ public enum GenereMusicale{
   COUNTRY,
   REGGAETON,
   METAL,
-  RAP,
+  RAP
 }
