@@ -1,5 +1,6 @@
-import java.util.*;
 package com.example.domain;
+import java.util.*;
+
 
 public abstract class Artista {
   private String biografia; 
