@@ -4,7 +4,7 @@ import com.example.business.ArtistaService;
 import com.example.business.BranoService;
 import com.example.business.CatalogoService;
 import com.example.business.CodaRiproduzioneService;
-import com.example.business.CronologiaService;
+import com.example.business.CronologiaAscoltiService;
 import com.example.business.PlaylistService;
 import com.example.business.RicercaService;
 import com.example.business.StatisticheService;
