@@ -1,5 +1,5 @@
-import java.util.*;
 package com.example.domain;
+import java.util.*;
 
 public class ArtistaSolista extends Artista {
   private String nome_arte;
