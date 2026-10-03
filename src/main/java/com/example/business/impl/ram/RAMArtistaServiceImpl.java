@@ -47,13 +47,13 @@ public class RAMArtistaServiceImpl implements ArtistaService {
       throw new OperazioneNonValidaException("L'artista non può essere null"); 
     }
     String nome=ottieniNome(artista);   
-    if (nome==null || nome.trim().isEmpty() {
+    if (nome==null || nome.trim().isEmpty()) {
       throw new OperazioneNonValidaException("Il nome dell'artista non può essere vuoto"); 
     }
     for (Artista a : this.artisti) {
       String nomeEsistente=ottieniNome(a); 
       if (nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) {
-        throw new DuplicationException("Esiste già un artista con il nome:" + nome); 
+        throw new DuplicatoException("Esiste già un artista con il nome:" + nome); 
       }
     }
     this.artisti.add(artista); 
@@ -77,7 +77,7 @@ public class RAMArtistaServiceImpl implements ArtistaService {
       }
     }
     if (!trovato) {
-      throw new ArtistaNOnTrovatoException("Artista da modificare non trovato"); 
+      throw new ArtistaNonTrovatoException("Artista da modificare non trovato"); 
     }
   }
   @Override 
@@ -128,7 +128,7 @@ public class RAMArtistaServiceImpl implements ArtistaService {
     if (componente==null) {
       throw new OperazioneNonValidaException("Il componente non può essere null"); 
     }
-    if (this.artisti.contains(gruppo)) {
+    if (!this.artisti.contains(gruppo)) {
       throw new ArtistaNonTrovatoException("Gruppo non trovato"); 
     }
     List<Artista> componenti=gruppo.getListaMembri(); 
