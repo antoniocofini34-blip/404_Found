@@ -5,7 +5,7 @@ import java.util.*;
 public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
   private List<Artista> lista_Membri;
-  public ArtistaGruppo(String biografia, GenereMusicale genere_pricipale, Set<GenereMusicale> generi_secondari, List<Album> discografia, String nome_gruppo, List<Artista> lista_Membri) {
+  public ArtistaGruppo(String biografia, GenereMusicale genere_principale, Set<GenereMusicale> generi_secondari, List<Album> discografia, String nome_gruppo, List<Artista> lista_Membri) {
     super (biografia, genere_principale, generi_secondari, discografia);
     this.nome_gruppo=nome_gruppo;
     if (lista_Membri!=null) this.lista_Membri=new ArrayList<>(lista_Membri); 
