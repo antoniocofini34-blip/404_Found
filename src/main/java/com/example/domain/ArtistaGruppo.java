@@ -1,5 +1,6 @@
-import java.util.*;
 package com.example.domain;
+import java.util.*;
+
 
 public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
