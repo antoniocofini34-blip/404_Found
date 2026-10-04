@@ -14,7 +14,7 @@ import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
 import com.example.domain.GenereMusicale;
 public class FileArtistaServiceImpl implements ArtistaService {
-  private String fileName;
+  private String filename;
   public FileArtistaServiceImpl(String filename) {
     this.filename=filename;
   }
@@ -22,13 +22,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
   public List<Artista> findAllArtisti() throws BusinessException {
     try {
       FileData data= leggiDati();
-      List<Artista> artisti=new ArrayList<>();
-      for (String[] riga: data.getRighe()) {
-        Artista artista= creaArtistaDaRiga(riga);
-        if(artista!=null) artista.add(artista);
-      }
-      collegaComponentiGruppi(artisti);
-      return artisti;
+      return convertiRighe(data);
     } catch (IOException e) {
       throw new BusinessException("Errore durante la lettura degli artisti", e);
     }
@@ -105,7 +99,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
     if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere null");
     if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere null");
     if (gruppo==componente) throw new OperazioneNonValidaException("Un gruppo non può essere componente di se stesso");
-    Artista artista=findArtistaByNome(gruppo.getNomeGruppo());
+    Artista artistaGruppo=findArtistaByNome(gruppo.getNomeGruppo());
     if(!(artistaGruppo instanceof ArtistaGruppo)) throw new OperazioneNonValidaException("L'artista indicato non è un gruppo");
     ArtistaGruppo gruppoFile= (ArtistaGruppo) artistaGruppo;
     String nomeComponente=ottieniNome(componente);
@@ -126,8 +120,9 @@ public class FileArtistaServiceImpl implements ArtistaService {
     if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere null");
     Artista artistaGruppo=findArtistaByNome(gruppo.getNomeGruppo());
     if(!(artistaGruppo instanceof ArtistaGruppo)) throw new OperazioneNonValidaException("L'artista indicato non è un gruppo");
-    ArtistaGruppo= gruppoFile=(ArtistaGruppo) artistaGruppo;
+    ArtistaGruppo gruppoFile=(ArtistaGruppo) artistaGruppo;
     String nomeComponente=ottieniNome(componente);
+    if (nomeComponente==null||nomeComponente.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome del componente non è valido");
     List<Artista> componenti=gruppoFile.getListaMembri();
     boolean rimosso=false;
     for (int i=0; i<componenti.size(); i++) {
@@ -138,7 +133,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
         break;
       }
     }
-    if(!rimosso) throw new OperazioneNonValidaexception("Il componente non è presente nel gruppo");
+    if(!rimosso) throw new OperazioneNonValidaException("Il componente non è presente nel gruppo");
     gruppoFile.setListaMembri(componenti);
     modificaArtista(gruppoFile);
   }
@@ -160,7 +155,16 @@ public class FileArtistaServiceImpl implements ArtistaService {
     }
     return Utility.readAllRows(this.filename);
   }
-  private Artista creaArtistaDaRiga(String[] riga) throws BusinessException {
+  private List<Artista> convertiRighe(FileData data) throws BusinessException {
+    List<Artista> artisti= new ArrayList<>();
+    for(String[] riga:data.getRighe()) {
+      Artista artista=creaArtistaDaRiga(riga);
+      if(artista!=null) artisti.add(artista);
+    }
+    collegaComponentiGruppi(artisti);
+    return artisti;
+  }
+    private Artista creaArtistaDaRiga(String[] riga) throws BusinessException {
     if (riga==null || riga.length<5) return null;
     String tipo=riga[0];
     String nome=riga[1];
@@ -192,18 +196,101 @@ public class FileArtistaServiceImpl implements ArtistaService {
   }
   private void collegaComponentiGruppi(List<Artista> artisti) {
     for(String[] riga: getRigheFile()) {
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+      if(riga.length<6) continue;
+      if(!"GRUPPO".equalsIgnoreCase(riga[0])) continue;
+      String nomeGruppo=riga[1];
+      Artista gruppoTrovato=trovaArtistaPerNome(artisti,nomeGruppo);
+      if(!(gruppoTrovato instanceof ArtistaGruppo)) continue;
+      ArtistaGruppo gruppo=(ArtistaGruppo) gruppoTrovato;
+      List<Artista> componenti=new ArrayList<>();
+      if(!riga[5].trim().isEmpty()) {
+        String[] nomi=riga[5].split("\\|");
+        for(String nomeComponente:nomi) {
+          Artista componente=trovaArtistaPerNome(artisti, nomeComponente.trim());
+          if(componente!=null) componenti.add(componente);
+        }
+      }
+      gruppo.setListaMembri(componenti);
+    }
+  }
+  private List<String[]> getRigheFile() {
+    try {
+      FileData data=leggiDati();
+      return data.getRighe();
+    } catch (IOException e) {
+      return new ArrayList<>();
+    }
+  }
+  private Artista trovaArtistaPerNome(List<Artista> artisti, String nome) {
+    for (Artista artista: artisti) {
+      String nomeArtista=ottieniNome(artista);
+      if(nomeArtista!=null && nomeArtista.equalsIgnoreCase(nome.trim())) return artista;
+    }
+    return null;
+  }
+  private void scriviArtisti(List<Artista> artisti) throws BusinessException {
+    File file=new File(this.filename);
+    File cartella=file.getParentFile();
+    if(cartella!=null && !cartella.exists()) cartella.mkdirs();
+    try (PrintWriter out=new PrintWriter(file)) {
+      out.println(artisti.size());
+      for (Artista artista:artisti) {
+        out.println(convertiArtistaInRiga(artista));
+      }
+    } catch (IOException e) {
+      throw new BusinessException("Errore durante il salvataggio degli artisti", e);
+    }
+  }
+  private String convertiArtistaInRiga(Artista artista) {
+    String tipo;
+    String nome;
+    if (artista instanceof ArtistaSolista) {
+      tipo="SOLISTA";
+      ArtistaSolista solista=(ArtistaSolista) artista;
+      nome=solista.getNomeArte();
+    }
+    else {
+      tipo="GRUPPO";
+      ArtistaGruppo gruppo=(ArtistaGruppo) artista;
+      nome=gruppo.getNomeGruppo();
+    }
+    String biografia=artista.getBiografia();
+    String generePrincipale=artista.getGenerePrincipale().name();
+    String generiSecondari="";
+    for (GenereMusicale genere:artista.getGeneriSecondari()) {
+      if(!generiSecondari.isEmpty()) generiSecondari+="|";
+      generiSecondari+=genere.name();
+    }
+    StringBuilder riga=new StringBuilder();
+    riga.append(tipo);
+    riga.append(",");
+    riga.append(nome);
+    riga.append(",");
+    riga.append(biografia);
+    riga.append(",");
+    riga.append(generePrincipale);
+    riga.append(",");
+    riga.append(generiSecondari);
+    if (artista instanceof ArtistaGruppo) {
+      ArtistaGruppo gruppo= (ArtistaGruppo) artista;
+      riga.append(",");
+      List<Artista> componenti=gruppo.getListaMembri();
+      for (int i=0; i<componenti.size(); i++) {
+        if (i>0) riga.append("|");
+        riga.append(ottieniNome(componenti.get(i)));
+      }
+    }
+    return riga.toString();
+  }
+  private String ottieniNome(Artista artista) {
+  if (artista instanceof ArtistaSolista) {
+      ArtistaSolista solista=(ArtistaSolista) artista;
+      return solista.getNomeArte();
+    } 
+    if (artista instanceof ArtistaGruppo) {
+      ArtistaGruppo gruppo=(ArtistaGruppo) artista;
+      return gruppo.getNomeGruppo();
+    }
+    return null;
+  }
+}
