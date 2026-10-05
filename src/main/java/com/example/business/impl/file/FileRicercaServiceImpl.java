@@ -1,5 +1,5 @@
 package com.example.business.impl.file;
-import java,util.*;
+import java.util.*;
 import com.example.business.BusinessException;
 import com.example.business.RicercaService;
 import com.example.business.exception.OperazioneNonValidaException;
@@ -22,7 +22,7 @@ public class FileRicercaServiceImpl implements RicercaService {
     this.artistaService=artistaService;
   }
   @Override
-  public List<Brano> cercaBrani(String testo) throws BusinessExcepotion {
+  public List<Brano> cercaBrani(String testo) throws BusinessException {
     if (testo==null||testo.trim().isEmpty()) throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
     String testoRicerca=testo.trim().toLowerCase();
     List<Brano> risultati=new ArrayList<>();
