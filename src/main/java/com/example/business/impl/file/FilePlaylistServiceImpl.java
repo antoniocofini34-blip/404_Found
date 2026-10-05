@@ -234,6 +234,7 @@ public class FilePlaylistServiceImpl implements PlaylistService {
       List<Brano> brani=new ArrayList<>(); 
       for (String titoloBrano : titoliBrani) {
         Brano brano=branoService.findBranoByTitolo(titoloBrano.trim()); 
+        brani.add(brano); 
       }
       playlist.setLista_brani(brani); 
     }
