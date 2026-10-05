@@ -83,7 +83,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
   }
   @Override
   public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException {
-    verificaUtente(utente;
+    verificaUtente(utente);
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     if (ascolti.isEmpty()) return null;
     Map<GenereMusicale, Integer> conteggi=new HashMap<>();
@@ -109,7 +109,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
   public List<Brano> suggerisciBrani(Utente utente) throws BusinessException {
     verificaUtente(utente);
     GenereMusicale generePreferito=ottieniGenereMusicalePiuAscoltato(utente);
-    if (generePreferito==null) return new ArrayList<>()
+    if (generePreferito==null) return new ArrayList<>();
     Set<Brano> braniAscoltati=new HashSet<>();
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     for (Ascolto ascolto:ascolti) {
@@ -125,6 +125,6 @@ public class FileStatisticheServiceImpl implements StatisticheService {
   }
   private void verificaUtente(Utente utente) throws BusinessException {
     if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
-    if (utente.getCronbologiaAscolti()==null) throw new OperazioneNonValidaException("La cronologia dell'utente non può essere null");
+    if (utente.getCronologiaAscolti()==null) throw new OperazioneNonValidaException("La cronologia dell'utente non può essere null");
   }
 }
