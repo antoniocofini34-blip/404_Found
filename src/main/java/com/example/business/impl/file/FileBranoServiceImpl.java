@@ -81,14 +81,14 @@ public class FileBranoServiceImpl implements BranoService {
     scriviBrani(brani);
   }
   @Override
-  public void assegnaAlbum(Brano brano, Album album) throws BusinessException {
+  public void assegnaAlbum(Album album, Brano brano) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null");
     if (album==null) throw new OperazioneNonValidaException("L'album non può essere null");
     brano.setAlbumBrano(album);
     modificaBrano(brano);
   }
   @Override
-  public void modificaGeneri(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
+  public void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null");
     if (generi==null) throw new OperazioneNonValidaException("I generi non possono essere null");
     brano.setGenereBrano(generi);
@@ -176,7 +176,7 @@ public class FileBranoServiceImpl implements BranoService {
     }
     riga.append(generi);
     riga.append(",");
-    ripga.append(brano.getNumeroAscolti());
+    riga.append(brano.getNumeroAscolti());
     riga.append(",");
     if (brano.getAlbumBrano()!=null) riga.append(brano.getAlbumBrano().getTitolo());
     return riga.toString();
