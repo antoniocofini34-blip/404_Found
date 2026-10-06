@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.*; 
 
 public class RicercaController{
   @FXML
@@ -40,7 +41,7 @@ public class RicercaController{
     try{
       List<Brano>brani=ricercaService.cercaBrani(testo);
       List<Album>album=ricercaService.cercaAlbum(testo);
-      List<Artista>artista=ricercaServic.cercaArtisti(testo);
+      List<Artista>artista=ricercaServic.cercaArtista(testo);
       StringBuilder risultato=new StringBuilder();
       risultato.append("Risultati trovati:\n\n");
       risultato.append("Brani: ").append(brani.size()).append("\n");
