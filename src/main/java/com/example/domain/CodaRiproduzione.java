@@ -3,21 +3,21 @@ import java.util.*;
 
 public class CodaRiproduzione implements Riproducibile {
   private List<Brano> lista_coda_brani;
-  private boolean riproduzione_casuale;
+  private boolean shuffle;
   private ModalitaRepeat modalita_repeat;
   private StatoRiproduzione stato;
-  public CodaRiproduzione(List<Brano> lista_coda_brani, boolean riproduzione_casuale, ModalitaRepeat modalita_repeat, StatoRiproduzione stato) {
+  public CodaRiproduzione(List<Brano> lista_coda_brani, boolean shuffle, ModalitaRepeat modalita_repeat, StatoRiproduzione stato) {
     if (lista_coda_brani!=null) this.lista_coda_brani=new ArrayList<>(lista_coda_brani);
     else this.lista_coda_brani=new ArrayList<>(); 
-    this.riproduzione_casuale=riproduzione_casuale;
+    this.shuffle=shuffle;
     this.modalita_repeat=modalita_repeat; 
     this.stato=stato; 
   }
   public List<Brano> getListaCodaBrani() {
     return new ArrayList<>(this.lista_coda_brani); 
   }
-  public boolean getCasuale() {
-    return riproduzione_casuale;
+  public boolean getShuffle() {
+    return shuffle;
   }
   public ModalitaRepeat getRepeat() {
     return modalita_repeat;
@@ -30,10 +30,10 @@ public class CodaRiproduzione implements Riproducibile {
     else this.lista_coda_brani=new ArrayList<>(); 
   }
   public void setShuffle(boolean shuffle) {
-    this.riproduzione_casuale=shuffle;
+    this.shuffle=shuffle;
   }
-  public void setModalitaRepeat(ModalitaRepeat modalitaRepeat) {
-    this.modalita_repeat=modalitaRepeat;
+  public void setModalitaRepeat(ModalitaRepeat modalita_repeat) {
+    this.modalita_repeat=modalita_repeat;
   }
   public void setStato(StatoRiproduzione stato) {
     this.stato=stato;
