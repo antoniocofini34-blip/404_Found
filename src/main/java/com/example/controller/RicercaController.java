@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java-io-IOException;
+import java.io.IOException;
 
 public class RicercaController{
   @FXML
@@ -14,7 +14,7 @@ public class RicercaController{
   @FXML
   private Label risultatoLabel;
   @FXML
-  private void(){
+  private void cerca(){
     String testo=campoRicerca.getText();
     if(testo==null||testo.trim().isEmpty()){
       risultatoLabel.setText("Inserisci qualcosa da cercare");
@@ -24,9 +24,9 @@ public class RicercaController{
   }
   @FXML
   private void tornaIndietro() throws IOException{
-    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml");
+    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
     Parent root=loader.load();
     Stage stage=(Stage)campoRicerca.getScene().getWindow();
-    stage.setScene(newScene(root, 1000, 700));
+    stage.setScene(new Scene(root, 1000, 700));
   }
 }
