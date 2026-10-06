@@ -1,17 +1,18 @@
-import java.util.*; 
 package com.example.domain;
+import java.util.*; 
 
 public class CronologiaAscolti {
-  private List<Ascolto> registro_Ascolti; 
-  public CronologiaAscolti (List<Ascolto> registro_Ascolti) {
-    this.registro_Ascolti=new ArrayList<>(); 
+  private List<Ascolto> registro_ascolti; 
+  public CronologiaAscolti (List<Ascolto> registro_ascolti) {
+    if (registro_ascolti!=null) this.registro_ascolti=new ArrayList<>(registro_ascolti);
+    else this.registro_ascolti=new ArrayList<>(); 
   }
   public List<Ascolto> getRegistroAscolti() {
-    return new ArrayList<>(this.registro_Ascolti); 
+    return new ArrayList<>(this.registro_ascolti); 
   }   
-  public void setRegistroAscolti(List<Ascolto> registro_Ascolti) {
-    if (registro_Ascolti!=null) this.registro_Ascolti=new ArrayList<>(registro_Ascolti); 
-    else this.registro_Ascolti=new ArrayList<>(); 
+  public void setRegistroAscolti(List<Ascolto> registro_ascolti) {
+    if (registro_ascolti!=null) this.registro_ascolti=new ArrayList<>(registro_ascolti); 
+    else this.registro_ascolti=new ArrayList<>(); 
   }
 }
     
