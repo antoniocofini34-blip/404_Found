@@ -1,19 +1,21 @@
 package com.example.domain; 
 import java.util.*;
 
-public class Album implements Ricercabile{
+public class Album implements Ricercabile {
   private List<Brano> lista_brani;
   private Artista artista;
   private String titolo; 
   private int annoPubblicazione; 
   private Set<GenereMusicale> genere; 
   private String copertina;
-  public Album(List<Brano> lista_brani, Artista artista, String titolo, int annoPubblicazione, Set<GenereMusicale> genere, String copertina){
-    this.lista_brani=new ArrayList<>();
+  public Album(List<Brano> lista_brani, Artista artista, String titolo, int annoPubblicazione, Set<GenereMusicale> genere, String copertina) {
+    if (lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
+    else this.lista_brani=new ArrayList<>();
     this.artista=artista;  
     this.titolo=titolo;
     this.annoPubblicazione=annoPubblicazione;
-    this.genere=new HashSet<>(genere); 
+    if (genere!=null) this.genere=new HashSet<>(genere); 
+    else this.genere=new HashSet<>(); 
     this.copertina=copertina;
   } 
 
@@ -54,5 +56,9 @@ public class Album implements Ricercabile{
   }
   public void setCopertina(String copertina) {
     this.copertina=copertina;
+  }
+  @Override
+  public boolean contieneTesto(String testo) {
+    return false;
   }
 }
