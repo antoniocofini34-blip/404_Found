@@ -1,20 +1,21 @@
-import java.util.*; 
 package com.example.domain;
+import java.util.*; 
 
 public class Brano implements Ricercabile, Riproducibile {
   private String titolo;
   private int durata; 
   private String testo;
-  private Set<GenereMusicale> genere_Brano; 
-  private Album album_Brano; 
-  private int numero_Ascolti; 
-  public Brano (String titolo, int durata, String testo, Set<GenereMusicale> genere_Brano, Album album_Brano, int numero_Ascolti) {
+  private Set<GenereMusicale> genere_brano; 
+  private Album album_brano; 
+  private int numero_ascolti; 
+  public Brano (String titolo, int durata, String testo, Set<GenereMusicale> genere_brano, Album album_brano, int numero_ascolti) {
     this.titolo=titolo; 
     this.durata=durata; 
     this.testo=testo; 
-    this.genere_Brano=new HashSet<>(genere_Brano); 
-    this.album_Brano=album_Brano;  
-    this.numero_Ascolti=numero_Ascolti; 
+    if (genere_brano!=null) this.genere_brano=new HashSet<>(genere_brano); 
+    else this.genere_brano=new HashSet<>(); 
+    this.album_brano=album_brano;  
+    this.numero_ascolti=numero_ascolti; 
   }
   public String getTitolo() {
     return titolo;
@@ -52,6 +53,10 @@ public class Brano implements Ricercabile, Riproducibile {
   }
   public void setNumeroAscolti(int numero_Ascolti) {
     this.numero_Ascolti=numero_Ascolti; 
+  }
+  @Override
+  public boolean contieneTesto(String testo) {
+    return false;
   }
 }
   
