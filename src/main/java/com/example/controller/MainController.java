@@ -15,7 +15,7 @@ public class MainController {
   }
   @FXML
   private void apriRicerca() throws IOException {
-    FXMLLoader loader=new FXML(getClass().getResource("/viste/RicercaView.fxml"));
+    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/RicercaView.fxml"));
     Parent root=loader.load(); 
     Stage stage=(Stage) titoloLabel.getScene().getWindow(); 
     stage.setScene(new Scene(root, 1000, 700)); 
