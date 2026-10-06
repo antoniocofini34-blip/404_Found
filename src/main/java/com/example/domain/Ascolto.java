@@ -2,29 +2,29 @@ import java.util.*;
 import java.time.*;
 package com.example.domain;
 
-public class Ascolto{
-  private Brano brano_Ascoltato;
-  private LocalDateTime istanteAscolto;
+public class Ascolto {
+  private Brano brano_ascoltato;
+  private LocalDateTime istante_ascolto;
   private int tempo_brano_ascoltato;
-    public Ascolto(Brano brano, LocalDateTime istanteAscolto, int tempo_brano_ascoltato){
-    this.brano=brano;
-    this.istanteAscolto=istanteAscolto;
+  public Ascolto(Brano brano_ascoltato, LocalDateTime istante_ascolto, int tempo_brano_ascoltato){
+    this.brano_ascoltato=brano_ascoltato;
+    this.istante_ascolto=istante_ascolto;
     this.tempo_brano_ascoltato=tempo_brano_ascoltato;
   }
   public String getBrano(){
-    return brano_Ascoltato;
+    return brano_ascoltato;
   }
   public LocalDateTime getIstanteAscolto(){
-    return istanteAscolto;
+    return istante_ascolto;
   }
   public int getTempoBranoAscoltato(){
     return tempo_brano_ascoltato;
   }
-  public void setBrano(Brano brano){
-    this.brano_Ascoltato=brano;
+  public void setBrano(Brano brano_ascoltato){
+    this.brano_ascoltato=brano_ascoltato;
   }
-  public void setIstanteAscolto(LocalDateTime istanteAscolto) {
-    this.istanteAscolto=istanteAscolto; 
+  public void setIstanteAscolto(LocalDateTime istante_ascolto) {
+    this.istante_ascolto=istante_ascolto; 
   }
   public void setTempoBranoAscoltato(int tempo_brano_ascoltato) {
     this.tempo_brano_ascoltato=tempo_brano_ascoltato;
