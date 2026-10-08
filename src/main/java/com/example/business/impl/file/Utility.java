@@ -11,16 +11,12 @@ public class Utility {
     }
     return s;
   }
-  public static FileData readAllRows(String filename) throws IOException {
-    FileData result=new FileData();
-    try (BufferedReader in=new BufferedReader(new FileReader(filename))) {
-      List<String[]> righe= new ArrayList<>();
+  public static FileData readAllRows(String filename) throws IOException { FileData result=new FileData();
+    try (BufferedReader in=new BufferedReader(new FileReader(filename))) { List<String[]> righe= new ArrayList<>();
       long contatore=Long.parseLong(in.readLine());
       result.setContatore(contatore);
       String linea=null;
-      while ((linea=in.readLine())!=null) {
-        righe.add(trim(linea.split(SEPARATORE_COLONNA)));
-      }
+      while ((linea=in.readLine())!=null) { righe.add(trim(linea.split(SEPARATORE_COLONNA))); }
       result.setRighe(righe);
     }
     return result;
