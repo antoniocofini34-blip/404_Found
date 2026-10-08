@@ -27,8 +27,7 @@ public class RAMPlaylistServiceImpl implements PlaylistService{
     boolean trovata=false;
     for(int i=0; i<this.playlist.size(); i++) {
       Playlist.playlistEsistente=this.playlist.get(i);
-      if(playlistEsistente==playlist) {
-        this.playlist.set(i, playlist);
+      if(playlistEsistente==playlist) { this.playlist.set(i, playlist);
         trovata=true;
         break;
       }
