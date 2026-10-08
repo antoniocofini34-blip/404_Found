@@ -2,7 +2,6 @@ package com.example.business;
 import java.util.*;
 import com.example.domain.Brano; 
 import com.example.domain.CodaRiproduzione; 
-
 public interface CodaRiproduzioneService{
  void aggiungiBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException;
  void rimuoviBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException;
