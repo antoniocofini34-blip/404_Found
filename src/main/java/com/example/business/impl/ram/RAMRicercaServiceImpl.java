@@ -24,33 +24,28 @@ public class RAMRicercaServiceImpl implements RicercaService {
     String testoRicerca=testo.trim().toLowerCase();
     List<Brano> risultati=new ArrayList<>();
     for (Brano brano : branoService.findAllBrani()) {
-      if(brano.getTitolo()!=null && brano.getTitolo().toLowerCase().contains(testoRicerca))
-        risultati.add(brano);
+      if(brano.getTitolo()!=null && brano.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(brano);
     }
     return risultati;
   }
   @Override
   public List<Album> cercaAlbum(String testo) throws BusinessException {
-    if (testo==null || testo.trim().isEmpty())
-      throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
+    if (testo==null || testo.trim().isEmpty()) throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
     String testoRicerca=testo.trim().toLowerCase();
     List<Album> risultati=new ArrayList<>();
     for (Album album: albumService.findAllAlbum()) {
-      if(album.getTitolo()!=null && album.getTitolo().toLowerCase().contains(testoRicerca))
-        risultati.add(album);
+      if(album.getTitolo()!=null && album.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(album);
     }
     return risultati;
   }
   @Override
   public List<Artista> cercaArtista(String testo) throws BusinessException {
-    if (testo==null || testo.trim().isEmpty())
-      throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
+    if (testo==null || testo.trim().isEmpty()) throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
     String testoRicerca=testo.trim().toLowerCase();
     List<Artista> risultati=new ArrayList<>();
     for (Artista artista: artistaService.findAllArtisti()) {
       String nomeArtista=ottieniNomeArtista(artista);
-      if (nomeArtista!=null && nomeArtista.toLowerCase().contains(testoRicerca)) 
-        risultati.add(artista);
+      if (nomeArtista!=null && nomeArtista.toLowerCase().contains(testoRicerca)) risultati.add(artista);
     }
     return risultati;
   }
@@ -75,11 +70,3 @@ public class RAMRicercaServiceImpl implements RicercaService {
     return null;
   }
 }
-  
-
-
-
-
-
-      
-      
