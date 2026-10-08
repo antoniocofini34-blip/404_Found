@@ -23,8 +23,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
     this.cronologiaService=cronologiaService;
   }
   @Override
-  public List<Brano> ottieniBraniPiuAscoltati(Utente utente, int limite) throws BusinessException {
-    verificaUtente(utente);
+  public List<Brano> ottieniBraniPiuAscoltati(Utente utente, int limite) throws BusinessException { verificaUtente(utente);
     if (limite<=0) throw new OperazioneNonValidaException("Il limite deve essere maggiore di 0");
     List<Ascolto> ascolti= cronologiaService.getAscolti(utente.getCronologiaAscolti());
     Map<Brano, Integer> conteggi=new HashMap<>();
@@ -47,8 +46,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
     return ordinati;
   }
   @Override
-  public List<Artista> ottieniArtistiPiuAscoltati(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public List<Artista> ottieniArtistiPiuAscoltati(Utente utente) throws BusinessException { verificaUtente(utente);
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     Map<Artista, Integer> conteggi=new HashMap<>();
     for (Ascolto ascolto:ascolti) {
@@ -82,8 +80,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
     return cronologiaService.calcolaTempoTotaleAscolto(utente.getCronologiaAscolti());
   }
   @Override
-  public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException { verificaUtente(utente);
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     if (ascolti.isEmpty()) return null;
     Map<GenereMusicale, Integer> conteggi=new HashMap<>();
@@ -106,8 +103,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
     return generePiuAscoltato;
   }
   @Override
-  public List<Brano> suggerisciBrani(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public List<Brano> suggerisciBrani(Utente utente) throws BusinessException { verificaUtente(utente);
     GenereMusicale generePreferito=ottieniGenereMusicalePiuAscoltato(utente);
     if (generePreferito==null) return new ArrayList<>();
     Set<Brano> braniAscoltati=new HashSet<>();
