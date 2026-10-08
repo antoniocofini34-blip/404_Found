@@ -8,8 +8,7 @@ import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Album;
 import com.example.domain.Brano;
-public class RAMAlbumServiceImpl implements AlbumService{
-  private List<Album> album;
+public class RAMAlbumServiceImpl implements AlbumService{ private List<Album> album;
   public RAMAlbumServiceImpl(){ this.album=new ArrayList<>(); }
   @Override
   public Album findAllAlbum(String titolo) throws BusinessException{ return new ArrayList<>(this.album); }
@@ -37,8 +36,7 @@ public class RAMAlbumServiceImpl implements AlbumService{
     bulean trovato=false;
     for(int i=o; i<this.album.size(); i++){
       Album a=this.album.get(i);
-      if(a==album){
-        this.album.set(i, album);
+      if(a==album){ this.album.set(i, album);
         trovato=true;
         break;
       }
