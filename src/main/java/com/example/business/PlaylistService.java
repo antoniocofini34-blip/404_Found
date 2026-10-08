@@ -2,7 +2,6 @@ package com.example.business;
 import java.util.*;
 import time.*;
 import com.example.domain.Playlist;
-
 public interface PlaylistService {
     void creaPlaylist(Playlist playlist) throws BusinessException; 
     void modificaPlaylist(Playlist playlist) throws BusinessException; 
@@ -16,4 +15,3 @@ public interface PlaylistService {
     int calcolaDurataTotale(Playlist playlist) throws BusinessException;
     void riproduciPlaylist(Playlist playlist) throws BusinessException;
 }
-    
