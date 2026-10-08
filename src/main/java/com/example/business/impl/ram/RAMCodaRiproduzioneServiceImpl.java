@@ -9,9 +9,7 @@ import com.example.domain.ModalitaRepeat;
 import com.example.domain.StatoRiproduzione; 
 public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
   private Map<CodaRiproduzione, Integer> indiciCorrenti; 
-  public RAMCodaRiproduzioneServiceImpl() {
-    this.indiciCorrenti=new HashMap<>(); 
-  }
+  public RAMCodaRiproduzioneServiceImpl() { this.indiciCorrenti=new HashMap<>(); }
   private void verificaCoda(CodaRiproduzione coda) throws BusinessException {
     if (coda==null) { throw new OperazioneNonValidaException("La coda non può essere null"); }
     if (!this.indiciCorrenti.containsKey(coda)) { this.indiciCorrenti.put(coda, -1); }
@@ -20,8 +18,7 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     if (coda.getListaCodaBrani().isEmpty()) { throw new OperazioneNonValidaException("La coda di riproduzione è vuota"); }
   }
   @Override 
-  public void aggiungiBranoCods(CodaRiproduzione coda, Brano brano) throws BusinessException {
-    verificaCoda(coda); 
+  public void aggiungiBranoCods(CodaRiproduzione coda, Brano brano) throws BusinessException { verificaCoda(coda); 
     if (brano==null) { throw new OperazioneNonValidaException("Il brano non può essere null"); }
     List<Brano> brani=coda.getListaCodaBrani(); 
     brani.add(brano); 
@@ -49,15 +46,13 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     }
   }
   @Override 
-  public void svuotaCoda(CodaRiproduzione coda) throws BusinessException {
-    verificaCoda(coda); 
+  public void svuotaCoda(CodaRiproduzione coda) throws BusinessException { verificaCoda(coda); 
     coda.setListaCodaBrani(new ArrayList<>()); 
     this.indiciCorrenti.put(coda, -1); 
     coda.setStato(StatoRiproduzione.FERMO); 
   }
   @Override
-  public void play(CodaRiproduzione coda) throws BusinessException {
-    verificaCodaNonVuota(coda); 
+  public void play(CodaRiproduzione coda) throws BusinessException { verificaCodaNonVuota(coda); 
     int indice=this.indiciCorrenti.get(coda); 
     if (indice==-1) { indice=0;
       this.indiciCorrenti.put(coda, indice); 
@@ -106,8 +101,7 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     }
     else if (coda.getRepeat()==ModalitaRepeat.RIPETI_CODA) { this.indiciCorrenti.put(coda, brani.size()-1); 
     }
-    else { this.indiciCorrenti.put(coda, 0); 
-    }
+    else { this.indiciCorrenti.put(coda, 0); }
     coda.setStato(StatoRiproduzione.IN_RIPRODUZIONE); 
   }
   @Override 
