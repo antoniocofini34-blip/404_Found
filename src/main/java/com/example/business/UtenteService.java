@@ -5,7 +5,6 @@ import com.example.domain.Utente;
 import com.example.domain.Playlist; 
 import com.example.domain.GenereMusicale;
 import com.example.domain.CodaRiproduzione; 
-
 public interface UtenteService {
   void creaUtente(Utente utente) throws BusinessException; 
   void modificaUtente(Utente utente) throws BusinessException; 
@@ -21,5 +20,3 @@ public interface UtenteService {
   CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException; 
   void setCodaRiproduzione(Utente utente, CodaRiproduzione coda) throws BusinessException; 
 }
-  
-  
