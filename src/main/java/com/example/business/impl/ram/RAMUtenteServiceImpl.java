@@ -34,8 +34,7 @@ public class RAMUtenteServiceImpl implements UtenteService{
     boolean trovato = false;
     for (int i=0; i<this.utenti.size(); i++) {
       Utente utenteEsistente = this.utente.get(i);
-      if(utenteEsistente == utente) {
-        this.utenti.set(i, utente);
+      if(utenteEsistente == utente) { this.utenti.set(i, utente);
         trovato = true;
         break;
       }
