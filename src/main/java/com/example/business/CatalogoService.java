@@ -1,7 +1,6 @@
 package com.example.domain.Catalogo;
 import java.util.*;
 import com.example.domain.Catalogo;
-
 public interface CatalogoService{
   <T>void aggiungiElemento(Catalogo<T> catalogo, T elemento) throws BusinessException;
   <T>void rimuoviElemento(Catalogo<T> catalogo, T elemento) throws BusinessException;
