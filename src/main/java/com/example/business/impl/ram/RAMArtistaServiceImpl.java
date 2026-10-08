@@ -9,8 +9,7 @@ import com.example.domain.Album;
 import com.example.domain.Artista; 
 import com.example.domain.ArtistaGruppo; 
 import com.example.domain.ArtistaSolista;
-public class RAMArtistaServiceImpl implements ArtistaService {
-  private List<Artista> artisti; 
+public class RAMArtistaServiceImpl implements ArtistaService { private List<Artista> artisti; 
   public RAMArtistaServiceImpl() { this.artisti=new ArrayList<>(); }
   @Override 
   public List<Artista> findAllArtisti() throws BusinessException { return new ArrayList<>(this.artisti); }
@@ -18,12 +17,10 @@ public class RAMArtistaServiceImpl implements ArtistaService {
   public Artista findArtistaByNome(String nome) throws BusinessException {
   if (nome==null || nome.trim().isEmpty()) { throw new OperazioneNonValidaException("Il nome dell'artista non è valido"); }
     for (Artista artista : this.artisti) {
-      if (artista instanceof ArtistaSolista) {
-        ArtistaSolista solista=(ArtistaSolista) artista; 
+      if (artista instanceof ArtistaSolista) { ArtistaSolista solista=(ArtistaSolista) artista; 
         if (solista.getNomeArte().equalsIgnoreCase(nome.trim())) { return solista; }
       }
-      else if (artista instanceof ArtistaGruppo) {
-        ArtistaGruppo gruppo=(ArtistaGruppo) artista; 
+      else if (artista instanceof ArtistaGruppo) { ArtistaGruppo gruppo=(ArtistaGruppo) artista; 
         if (gruppo.getNomeGruppo().equalsIgnoreCase(nome.trim())) { return gruppo; }
       }
     }
@@ -34,7 +31,7 @@ public class RAMArtistaServiceImpl implements ArtistaService {
     if (artista==null) { throw new OperazioneNonValidaException("L'artista non può essere null"); }
     String nome=ottieniNome(artista);   
     if (nome==null || nome.trim().isEmpty()) { throw new OperazioneNonValidaException("Il nome dell'artista non può essere vuoto"); }
-    for (Artista a : this.artisti) {
+    for (Artista a : this.artisti) { 
       String nomeEsistente=ottieniNome(a); 
       if (nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) { throw new DuplicatoException("Esiste già un artista con il nome:" + nome); }
     }
@@ -48,8 +45,7 @@ public class RAMArtistaServiceImpl implements ArtistaService {
     boolean trovato=false; 
     for (int i=0; i<this.artisti.size(); i++) {
       Artista artistaEsistente=this.artisti.get(i); 
-      if (artistaEsistente==artista) {
-        this.artisti.set(i, artista); 
+      if (artistaEsistente==artista) { this.artisti.set(i, artista); 
         trovato=true; 
         break; 
       }
