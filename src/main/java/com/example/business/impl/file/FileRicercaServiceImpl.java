@@ -9,8 +9,7 @@ import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
 import com.example.domain.Brano;
 import com.example.domain.CriterioFiltro;
-public class FileRicercaServiceImpl implements RicercaService {
-  private FileBranoServiceImpl branoService;
+public class FileRicercaServiceImpl implements RicercaService { private FileBranoServiceImpl branoService;
   private FileAlbumServiceImpl albumService;
   private FileArtistaServiceImpl artistaService;
   public FileRicercaServiceImpl(FileBranoServiceImpl branoService, FileAlbumServiceImpl albumService, FileArtistaServiceImpl artistaService) {
@@ -27,7 +26,7 @@ public class FileRicercaServiceImpl implements RicercaService {
     String testoRicerca=testo.trim().toLowerCase();
     List<Brano> risultati=new ArrayList<>();
     for (Brano brano: branoService.findAllBrani()) {
-      if (brano.getTitolo()!=null && brano.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(brano);
+      if (brano.getTitolo()!=null && brano.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(brano); 
     }
     return risultati;
   }
@@ -37,7 +36,7 @@ public class FileRicercaServiceImpl implements RicercaService {
     String testoRicerca=testo.trim().toLowerCase();
     List<Album> risultati=new ArrayList<>();
     for (Album album: albumService.findAllAlbum()) {
-      if (album.getTitolo()!=null && album.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(album);
+      if (album.getTitolo()!=null && album.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(album); 
     }
     return risultati;
   }
@@ -63,11 +62,9 @@ public class FileRicercaServiceImpl implements RicercaService {
     return risultati;
   }
   private String ottieniNomeArtista(Artista artista) {
-    if (artista instanceof ArtistaSolista) {
-      ArtistaSolista solista=(ArtistaSolista) artista;
+    if (artista instanceof ArtistaSolista) { ArtistaSolista solista=(ArtistaSolista) artista;
       return solista.getNomeArte();
-    } else if (artista instanceof ArtistaGruppo) {
-      ArtistaGruppo gruppo=(ArtistaGruppo)artista;
+    } else if (artista instanceof ArtistaGruppo) { ArtistaGruppo gruppo=(ArtistaGruppo)artista;
       return gruppo.getNomeGruppo();
     }
     return null;
