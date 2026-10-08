@@ -40,8 +40,7 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
     boolean trovato=false; 
     for (int i=0; i<this.brani.size(); i++) {
       Brano branoEsistente=this.brani.get(i); 
-      if (branoEsistente==brano) {
-        this.brani.set(i, brano); 
+      if (branoEsistente==brano) { this.brani.set(i, brano); 
         trovato=true; 
         break;
       }
