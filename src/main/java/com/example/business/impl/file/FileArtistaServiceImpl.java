@@ -13,23 +13,17 @@ import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
 import com.example.domain.GenereMusicale;
-public class FileArtistaServiceImpl implements ArtistaService {
-  private String filename;
-  public FileArtistaServiceImpl(String filename) {
-    this.filename=filename;
-  }
+public class FileArtistaServiceImpl implements ArtistaService{ private String filename;
+  public FileArtistaServiceImpl(String filename) { this.filename=filename; }
   @Override
   public List<Artista> findAllArtisti() throws BusinessException {
-    try {
-      FileData data= leggiDati();
+    try { FileData data= leggiDati();
       return convertiRighe(data);
-    } catch (IOException e) {
-      throw new BusinessException("Errore durante la lettura degli artisti", e);
-    }
+    } catch (IOException e) { throw new BusinessException("Errore durante la lettura degli artisti", e); }
   }
   @Override
   public Artista findArtistaByNome(String nome) throws BusinessException {
-    if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non è valido");
+    if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non è valido"); 
     List<Artista> artisti=findAllArtisti();
     for(Artista artista: artisti) {
       String nomeArtista= ottieniNome(artista);
@@ -59,8 +53,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
     boolean trovato= false;
     for (int i=0; i<artisti.size(); i++) {
       String nomeEsistente=ottieniNome(artisti.get(i));
-      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) {
-        artisti.set(i, artista);
+      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) { artisti.set(i, artista);
         trovato=true;
         break;
       }
@@ -77,8 +70,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
     boolean rimosso=false;
     for (int i=0; i<artisti.size(); i++) {
       String nomeEsistente=ottieniNome(artisti.get(i));
-      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) {
-        artisti.remove(i);
+      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) { artisti.remove(i);
         rimosso=true;
         break;
       }
@@ -127,8 +119,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
     boolean rimosso=false;
     for (int i=0; i<componenti.size(); i++) {
       String nomeMembro=ottieniNome(componenti.get(i));
-      if (nomeMembro!=null && nomeMembro.equalsIgnoreCase(nomeComponente)) {
-        componenti.remove(i);
+      if (nomeMembro!=null && nomeMembro.equalsIgnoreCase(nomeComponente)) { componenti.remove(i);
         rimosso=true;
         break;
       }
@@ -145,10 +136,8 @@ public class FileArtistaServiceImpl implements ArtistaService {
     ArtistaGruppo gruppoFile=(ArtistaGruppo) artistaGruppo;
     return new ArrayList<>(gruppoFile.getListaMembri());
   }
-  private FileData leggiDati() throws IOException {
-    File file= new File(this.filename);
-    if(!file.exists()) {
-      FileData data=new FileData();
+  private FileData leggiDati() throws IOException { File file= new File(this.filename);
+    if(!file.exists()) { FileData data=new FileData();
       data.setContatore(0);
       data.setRighe(new ArrayList<>());
       return data;
@@ -179,19 +168,13 @@ public class FileArtistaServiceImpl implements ArtistaService {
     if (!riga[4].trim().isEmpty()) {
       String[] generi=riga[4].split("\\|");
       for (String genere: generi) {
-        try {
-          generiSecondari.add(GenereMusicale.valueOf(genere.trim()));
-        } catch (IllegalArgumentException e) {
-          throw new BusinessException("Genere musicale non valido: " + genere);
+        try { generiSecondari.add(GenereMusicale.valueOf(genere.trim()));
+        } catch (IllegalArgumentException e) { throw new BusinessException("Genere musicale non valido: " + genere);
         }
       }
     }
-    if ("SOLISTA".equalsIgnoreCase(tipo)) {
-      return new ArtistaSolista(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome);
-    }
-    if("GRUPPO".equalsIgnoreCase(tipo)) {
-      return new ArtistaGruppo(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome, new ArrayList<Artista>());
-    }
+    if ("SOLISTA".equalsIgnoreCase(tipo)) { return new ArtistaSolista(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome); }
+    if("GRUPPO".equalsIgnoreCase(tipo)) { return new ArtistaGruppo(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome, new ArrayList<Artista>()); }
     return null;
   }
   private void collegaComponentiGruppi(List<Artista> artisti) {
@@ -214,12 +197,9 @@ public class FileArtistaServiceImpl implements ArtistaService {
     }
   }
   private List<String[]> getRigheFile() {
-    try {
-      FileData data=leggiDati();
+    try { FileData data=leggiDati();
       return data.getRighe();
-    } catch (IOException e) {
-      return new ArrayList<>();
-    }
+    } catch (IOException e) { return new ArrayList<>(); }
   }
   private Artista trovaArtistaPerNome(List<Artista> artisti, String nome) {
     for (Artista artista: artisti) {
@@ -228,29 +208,20 @@ public class FileArtistaServiceImpl implements ArtistaService {
     }
     return null;
   }
-  private void scriviArtisti(List<Artista> artisti) throws BusinessException {
-    File file=new File(this.filename);
+  private void scriviArtisti(List<Artista> artisti) throws BusinessException { File file=new File(this.filename);
     File cartella=file.getParentFile();
     if(cartella!=null && !cartella.exists()) cartella.mkdirs();
-    try (PrintWriter out=new PrintWriter(file)) {
-      out.println(artisti.size());
-      for (Artista artista:artisti) {
-        out.println(convertiArtistaInRiga(artista));
-      }
-    } catch (IOException e) {
-      throw new BusinessException("Errore durante il salvataggio degli artisti", e);
-    }
+    try (PrintWriter out=new PrintWriter(file)) { out.println(artisti.size());
+      for (Artista artista:artisti) { out.println(convertiArtistaInRiga(artista)); }
+    } catch (IOException e) { throw new BusinessException("Errore durante il salvataggio degli artisti", e); }
   }
-  private String convertiArtistaInRiga(Artista artista) {
-    String tipo;
+  private String convertiArtistaInRiga(Artista artista) { String tipo;
     String nome;
-    if (artista instanceof ArtistaSolista) {
-      tipo="SOLISTA";
+    if (artista instanceof ArtistaSolista) { tipo="SOLISTA";
       ArtistaSolista solista=(ArtistaSolista) artista;
       nome=solista.getNomeArte();
     }
-    else {
-      tipo="GRUPPO";
+    else { tipo="GRUPPO";
       ArtistaGruppo gruppo=(ArtistaGruppo) artista;
       nome=gruppo.getNomeGruppo();
     }
@@ -271,8 +242,7 @@ public class FileArtistaServiceImpl implements ArtistaService {
     riga.append(generePrincipale);
     riga.append(",");
     riga.append(generiSecondari);
-    if (artista instanceof ArtistaGruppo) {
-      ArtistaGruppo gruppo= (ArtistaGruppo) artista;
+    if (artista instanceof ArtistaGruppo) { ArtistaGruppo gruppo= (ArtistaGruppo) artista;
       riga.append(",");
       List<Artista> componenti=gruppo.getListaMembri();
       for (int i=0; i<componenti.size(); i++) {
@@ -283,12 +253,10 @@ public class FileArtistaServiceImpl implements ArtistaService {
     return riga.toString();
   }
   private String ottieniNome(Artista artista) {
-  if (artista instanceof ArtistaSolista) {
-      ArtistaSolista solista=(ArtistaSolista) artista;
+  if (artista instanceof ArtistaSolista) { ArtistaSolista solista=(ArtistaSolista) artista;
       return solista.getNomeArte();
     } 
-    if (artista instanceof ArtistaGruppo) {
-      ArtistaGruppo gruppo=(ArtistaGruppo) artista;
+    if (artista instanceof ArtistaGruppo) { ArtistaGruppo gruppo=(ArtistaGruppo) artista;
       return gruppo.getNomeGruppo();
     }
     return null;
