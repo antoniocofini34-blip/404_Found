@@ -9,8 +9,7 @@ import com.example.domain.GenereMusicale;
 import com.example.domain.Playlist;
 import com.example.domain.Utente;
 import com.example.domain.CodaRiproduzione; 
-public class RAMUtenteServiceImpl implements UtenteService{
-  private List<Utente> utenti;
+public class RAMUtenteServiceImpl implements UtenteService{ private List<Utente> utenti;
   public RAMUtenteServiceImpl() { this.utenti=new ArrayList<>(); }
   @Override
   public void creaUtente(Utente utente) throws BusinessException {
