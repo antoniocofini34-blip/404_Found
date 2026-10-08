@@ -2,7 +2,6 @@ package com.example.business;
 import java.util.*;
 import com.example.domain.Album;
 import com.example.domain.Brano;
-
 public interface AlbumService{
     List<Album>findAllAlbum() throws BusinessException;
     Album findAlbumByTitolo(String titolo) throws BusinessException;
