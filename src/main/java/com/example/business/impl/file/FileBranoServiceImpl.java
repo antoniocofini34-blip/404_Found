@@ -11,19 +11,13 @@ import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Album;
 import com.example.domain.Brano;
 import com.example.domain.GenereMusicale;
-public class FileBranoServiceImpl implements BranoService {
-  private String filename;
-  public FileBranoServiceImpl(String filename) {
-    this.filename=filename;
-  }
+public class FileBranoServiceImpl implements BranoService { private String filename;
+  public FileBranoServiceImpl(String filename) { this.filename=filename;}
   @Override
   public List<Brano> findAllBrani() throws BusinessException {
-    try {
-      FileData data=leggiDati();
+    try { FileData data=leggiDati();
       return convertiRighe(data);
-    } catch (IOException e) {
-      throw new BusinessException("Errore durante la lettura dei brani", e);
-    }
+    } catch (IOException e) { throw new BusinessException("Errore durante la lettura dei brani", e); }
   }
   @Override
   public Brano findBranoByTitolo(String titolo) throws BusinessException {
@@ -54,8 +48,7 @@ public class FileBranoServiceImpl implements BranoService {
     boolean trovato=false;
     for (int i=0;i<brani.size();i++) {
       Brano branoEsistente=brani.get(i);
-      if (branoEsistente.getTitolo()!=null && branoEsistente.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) {
-        brani.set(i, brano);
+      if (branoEsistente.getTitolo()!=null && branoEsistente.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) { brani.set(i, brano);
         trovato=true;
         break;
       }
@@ -71,8 +64,7 @@ public class FileBranoServiceImpl implements BranoService {
     boolean rimosso=false;
     for (int i=0;i<brani.size();i++) {
       Brano branoEsistente=brani.get(i);
-      if (branoEsistente.getTitolo()!=null && branoEsistente.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) {
-        brani.remove(i);
+      if (branoEsistente.getTitolo()!=null && branoEsistente.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) { brani.remove(i);
         rimosso=true;
         break;
       }
@@ -102,8 +94,7 @@ public class FileBranoServiceImpl implements BranoService {
   }
   private FileData leggiDati() throws IOException {
     File file = new File(this.filename);
-    if (!file.exists()) {
-      FileData data= new FileData();
+    if (!file.exists()) { FileData data= new FileData();
       data.setContatore(0);
       data.setRighe(new ArrayList<>());
       return data;
@@ -122,29 +113,19 @@ public class FileBranoServiceImpl implements BranoService {
     if (riga==null||riga.length<6) return null;
     String titolo=riga[0];
     int durata;
-    try {
-      durata=Integer.parseInt(riga[1].trim());
-    } catch (NumberFormatException e) {
-      throw new BusinessException("Durata non valida: " + riga[1]);
-    }
+    try { durata=Integer.parseInt(riga[1].trim());
+    } catch (NumberFormatException e) { throw new BusinessException("Durata non valida: " + riga[1]); }
     String testo=riga[2];
     Set<GenereMusicale> generi=new HashSet<>();
-    if (!riga[3].trim().isEmpty()) {
-      String[] generiString=riga[3].split("\\|");
+    if (!riga[3].trim().isEmpty()) { String[] generiString=riga[3].split("\\|");
       for (String genere:generiString) {
-        try {
-          generi.add(GenereMusicale.valueOf(genere.trim()));
-        } catch (IllegalArgumentException e) {
-          throw new BusinessException("Genere musicale non valido: " + genere);
-        }
+        try { generi.add(GenereMusicale.valueOf(genere.trim()));
+        } catch (IllegalArgumentException e) { throw new BusinessException("Genere musicale non valido: " + genere); }
       }
     }
     int numeroAscolti;
-    try {
-      numeroAscolti=Integer.parseInt(riga[4].trim());
-    } catch (NumberFormatException e) {
-      throw new BusinessException("Numero ascolti non valido: " + riga[4]);
-    }
+    try { numeroAscolti=Integer.parseInt(riga[4].trim());
+    } catch (NumberFormatException e) { throw new BusinessException("Numero ascolti non valido: " + riga[4]); }
     Brano brano = new Brano(titolo, durata, testo, generi, null, numeroAscolti);
     return brano;
   }
@@ -152,17 +133,13 @@ public class FileBranoServiceImpl implements BranoService {
     File file = new File(this.filename);
     File cartella=file.getParentFile();
     if (cartella!=null && !cartella.exists()) cartella.mkdirs();
-    try (PrintWriter out= new PrintWriter(file)) {
-      out.println(brani.size());
+    try (PrintWriter out= new PrintWriter(file)) { out.println(brani.size());
       for (Brano brano:brani) {
         out.println(convertiBranoInRiga(brano));
       }
-    } catch (IOException e) {
-      throw new BusinessException("Errore durante il salvataggio dei brani", e);
-    }
+    } catch (IOException e) { throw new BusinessException("Errore durante il salvataggio dei brani", e); }
   }
-  private String convertiBranoInRiga(Brano brano) {
-    StringBuilder riga=new StringBuilder();
+  private String convertiBranoInRiga(Brano brano) { StringBuilder riga=new StringBuilder();
     riga.append(brano.getTitolo());
     riga.append(",");
     riga.append(brano.getDurata());
@@ -182,4 +159,3 @@ public class FileBranoServiceImpl implements BranoService {
     return riga.toString();
   }
 }
-  
