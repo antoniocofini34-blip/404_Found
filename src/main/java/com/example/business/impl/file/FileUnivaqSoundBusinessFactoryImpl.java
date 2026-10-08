@@ -39,43 +39,23 @@ public class FileUnivaqSoundBusinessFactoryImpl() implements UnivaqSoundBusiness
     this.statisticheService=new RAMStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
   }
   @Override
-  public ArtistaService getArtistaService() {
-    return this.artistaService;
-  }
+  public ArtistaService getArtistaService() { return this.artistaService; }
   @Override
-  public AlbumService getAlbumService() {
-    return this.albumService;
-  }
+  public AlbumService getAlbumService() { return this.albumService; }
   @Override
-  public BranoService getBranoService() {
-    return this.branoService;
-  }
+  public BranoService getBranoService() { return this.branoService; }
   @Override
-  public CatalogoService getCatalogoService() {
-    return this.catalogoService;
-  }
+  public CatalogoService getCatalogoService() { return this.catalogoService; }
   @Override
-  public CodaRiproduzioneService getCodaRiproduzioneService() {
-    return this.codaRiproduzioneService;
-  }
+  public CodaRiproduzioneService getCodaRiproduzioneService() { return this.codaRiproduzioneService; }
   @Override
-  public CronologiaAscoltiService getCronologiaAscoltiService() {
-    return this.cronologiaAscoltiService;
-  }
+  public CronologiaAscoltiService getCronologiaAscoltiService() { return this.cronologiaAscoltiService; }
   @Override
-  public PlaylistService getPlaylistService() {
-    return this.playlistService;
-  }
+  public PlaylistService getPlaylistService() { return this.playlistService; }
   @Override
-  public RicercaService getRicercaService() {
-    return this.ricercaService;
-  }
+  public RicercaService getRicercaService() { return this.ricercaService; }
   @Override
-  public StatisticheService getStatisticheService() {
-    return this.statisticheService;
-  }
+  public StatisticheService getStatisticheService() { return this.statisticheService; }
   @Override
-  public UtenteService getUtenteService() {
-    return this.utenteService;
-  }
+  public UtenteService getUtenteService() { return this.utenteService; }
 }
