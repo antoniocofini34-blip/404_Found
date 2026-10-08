@@ -24,8 +24,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
     this.cronologiaService=cronologiaService;
   }
   @Override
-  public List<Brano> ottieniBraniPiuAscoltati(Utente utente, int limite) throws BusinessException {
-    verificaUtente(utente);
+  public List<Brano> ottieniBraniPiuAscoltati(Utente utente, int limite) throws BusinessException { verificaUtente(utente);
     if (limite<=0) throw new OperazioneNonValidaException("Il limite deve essere maggiore di 0");
     List<Ascolto> ascolti= cronologiaService.getAscolti(utente.getCronologiaAscolti());
     Map<Brano, Integer> conteggi= new HashMap<>();
@@ -48,8 +47,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
     return ordinati;
   }
   @Override
-  public List<Artista> ottieniArtistiPiuAscoltati(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public List<Artista> ottieniArtistiPiuAscoltati(Utente utente) throws BusinessException { verificaUtente(utente);
     List<Ascolto> ascolti= cronologiaService.getAscolti(utente.getCronologiaAscolti());
     Map<Artista, Integer> conteggi= new HashMap<>();
     for (Ascolto ascolto: ascolti) {
@@ -59,8 +57,7 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
       if (album==null) continue;
       for (Artista artista: artistaService.findAllArtisti()) {
         List<Album> albumArtista=artistaService.findAlbumArtista(artista);
-        if (albumArtista.contains(album)) {
-          conteggi.put(artista, conteggi.getOrDefault(artista, 0) +1);
+        if (albumArtista.contains(album)) { conteggi.put(artista, conteggi.getOrDefault(artista, 0) +1);
           break;
         }
       }
@@ -78,13 +75,11 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
     return ordinati;
   }
   @Override
-  public int calcolaTempoTotaleAscolto(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public int calcolaTempoTotaleAscolto(Utente utente) throws BusinessException { verificaUtente(utente);
     return cronologiaService.calcolaTempoTotaleAscolto(utente.getCronologiaAscolti());
   }
   @Override
-  public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public GenereMusicale ottieniGenereMusicalePiuAscoltato(Utente utente) throws BusinessException { verificaUtente(utente);
     List<Ascolto> ascolti=cronologiaService.getAscolti(utente.getCronologiaAscolti());
     if (ascolti.isEmpty()) return null;
     Map<GenereMusicale, Integer> conteggi= new HashMap<>();
@@ -92,25 +87,21 @@ public class RAMStatisticheServiceImpl implements StatisticheService {
       if (ascolto==null || ascolto.getBrano()==null) continue;
       Brano brano= ascolto.getBrano();
       for (GenereMusicale genere: brano.getGenereBrano()) {
-        if (genere!=null) {
-          conteggi.put(genere, conteggi.getOrDefault(genere, 0) +1);
-        }
+        if (genere!=null) { conteggi.put(genere, conteggi.getOrDefault(genere, 0) +1); }
       }
     }
     if (conteggi.isEmpty()) return null;
     GenereMusicale generePiuAscoltato=null;
     int massimo=-1;
     for (Map.Entry<GenereMusicale, Integer> entry: conteggi.entrySet()) {
-      if (entry.getValue() > massimo) {
-        massimo=entry.getValue();
+      if (entry.getValue() > massimo) { massimo=entry.getValue();
         generePiuAscoltato=entry.getKey();
       }
     }
     return generePiuAscoltato;
   }
   @Override
-  public List<Brano> suggerisciBrani(Utente utente) throws BusinessException {
-    verificaUtente(utente);
+  public List<Brano> suggerisciBrani(Utente utente) throws BusinessException { verificaUtente(utente);
     GenereMusicale generePreferito=ottieniGenereMusicalePiuAscoltato(utente);
     if (generePreferito==null) return new ArrayList<>();
     Set<Brano> braniAscoltati=new HashSet<>();
