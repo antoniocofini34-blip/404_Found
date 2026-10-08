@@ -1,7 +1,5 @@
 package com.example.domain;
 import java.util.*;
-
-
 public abstract class Artista {
   private String biografia; 
   private GenereMusicale genere_principale; 
@@ -15,24 +13,12 @@ public abstract class Artista {
     if (discografia!=null) this.discografia=new ArrayList<>(discografia); 
     else this.discografia=new ArrayList<>();
   }
-  public String getBiografia() {
-    return biografia; 
-  }
-  public GenereMusicale getGenerePrincipale() {
-    return genere_principale; 
-  }
-  public Set<GenereMusicale> getGeneriSecondari() {
-    return new HashSet<>(this.generi_secondari);  
-  }
-  public List<Album> getDiscografia() {
-    return new ArrayList<>(this.discografia); 
-  }
-  public void setBiografia(String biografia) {
-    this.biografia=biografia; 
-  }
-  public void setGenerePrincipale(GenereMusicale genere_principale) {
-    this.genere_principale=genere_principale; 
-  }
+  public String getBiografia() { return biografia; }
+  public GenereMusicale getGenerePrincipale() { return genere_principale; }
+  public Set<GenereMusicale> getGeneriSecondari() { return new HashSet<>(this.generi_secondari); }
+  public List<Album> getDiscografia() { return new ArrayList<>(this.discografia); }
+  public void setBiografia(String biografia) { this.biografia=biografia; }
+  public void setGenerePrincipale(GenereMusicale genere_principale) { this.genere_principale=genere_principale; }
   public void setGeneriSecondari(Set<GenereMusicale> generi_secondari) {
     if (generi_secondari!=null) this.generi_secondari=new HashSet<>(generi_secondari);
     else this.generi_secondari=new HashSet<>(); 
