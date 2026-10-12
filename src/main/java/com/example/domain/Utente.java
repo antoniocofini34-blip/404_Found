@@ -28,7 +28,7 @@ public class Utente {
   public LocalDate getDataDiNascita() { return this.data_di_nascita; }
   public List<Playlist> getPlaylistCreate() { return new ArrayList<>(this.playlist_create); }
   public Cronologia_Ascolti getCronologiaAscolti() { return this.cronologia_ascolti; }
-  public Set<GenereMusicale> getGeneriMusicali() { return new HashSet<>(this.preferenze_musicali); }
+  public Set<GenereMusicale> getPreferenzeMusicali() { return new HashSet<>(this.preferenze_musicali); }
   public CodaRiproduzione getCodaRiproduzione() { return this.coda_riproduzione; }
   public void setNome(String nome) { this.nome=nome; }
   public void setCognome(String cognome) { this.cognome=cognome; }
