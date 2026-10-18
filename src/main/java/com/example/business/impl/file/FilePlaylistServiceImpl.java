@@ -12,7 +12,7 @@ import com.example.domain.Brano;
 import com.example.domain.Playlist; 
 public class FilePlaylistServiceImpl implements PlaylistService { private String filename; 
   private FileBranoServiceImpl branoService; 
-  public FilePlaylistServiceImpl(String filename, FileBranoServiceImpl branoService) { this.filename=filename; 
+  public FilePlaylistServiceImpl(String filename) { this.filename=filename; 
     this.branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt"); 
   }
   @Override 
