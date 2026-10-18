@@ -1,5 +1,6 @@
 package com.example.business;
 import java.util.*;
+import com.example.business.exception.BusinessException;
 import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
 import com.example.domain.Album;
