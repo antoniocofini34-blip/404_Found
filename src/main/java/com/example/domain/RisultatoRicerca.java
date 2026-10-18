@@ -1,37 +1,29 @@
 package com.example.domain;
-public class RisultatoRicerca{
-  private final Brano brano;
-  private final Album album;
-  public RisultatoRicerca(Brano brano){
-    this.brano=brano
-    this.album=null;
+public record RisultatoRicerca(Brano brano, Album album, Artista artista) {
+  public RisultatoRicerca(Brano brano){ this(brano, null, null); }
+  public RisultatoRicerca(Album album){ this(null, album, null); }
+  public RisultatoRicerca(Artista artista){ this(null, null, artista); }
+  public String getTipo() { 
+    if (brano!=null) return "Brano";
+    if (album!=null) return "Album";
+    return "Artista";
   }
-  public RisultatoRicerca(Album album){
-    this.brano=null;
-    this.album=album;
+  public String getTitolo() { 
+    if (brano!=null) return brano.getTitolo();
+    if (album!=null) return album.getTitolo(); 
+    if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
+    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo);
+    return "Artista";
   }
-  public String getTipo(){
-    return brano!=null?"Brano":"Album";
+  public String getDurata() { return brano!=null ? brano.getDurata() + "sec" : "-"; }
+  public String getGenere() { 
+    if (brano!=null) return brano.getGenereBrano().toString();
+    if (album!=null) return album.getGenere().toString(); 
+    return artista!=null ? artista.getGenerePrincipale().toString() : "-";
   }
-  public String getTitolo(){
-    return brano != null ? brano.getDurata() + "sec":"-";
+  public int getAnnoPubblicazione() {
+    if (brano!=null && brano.getAlbumBrano()!=null) return brano.getAlbumBrano().getAnnoPubblicazione();
+    return album!=null ? album.getAnnoPubblicazione() : 0; 
   }
-   public String getGenere() {
-        return brano != null ? brano.getGenereBrano().toString(): album.getGenere().toString();
-    }
-    public Brano getBrano() {
-        return brano;
-    }
-    public Album getAlbum() {
-        return album;
-    }
-    public int getAnnoPubblicazione(){
-      if(brano != null && brano.getAlbumBrano() != null){
-        return brano.getAlbumBrano().getAnnoPubblicazione();
-      }
-      return album != null ? album.getAnnoPubblicazione(): 0;
-    }
-  public int getNumeroAscolti(){
-    return brano != null ? brano.getNumeroAscolti() :0;
-  }
-}
+  public int getNumeroAscolti() { return brano!=null ? brano.getNumeroAscolti() : 0; }
+
