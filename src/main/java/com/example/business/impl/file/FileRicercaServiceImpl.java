@@ -1,6 +1,6 @@
 package com.example.business.impl.file;
 import java.util.*;
-import com.example.business.BusinessException;
+import com.example.business.exception.BusinessException;
 import com.example.business.RicercaService;
 import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Album;
@@ -25,9 +25,12 @@ public class FileRicercaServiceImpl implements RicercaService { private FileBran
     if (testo==null||testo.trim().isEmpty()) throw new OperazioneNonValidaException("Il testo di ricerca non può essere vuoto");
     String testoRicerca=testo.trim().toLowerCase();
     List<Brano> risultati=new ArrayList<>();
-    for (Brano brano: branoService.findAllBrani()) {
+    List<Album> albumCaricati=albumService.findAllAlbum();
+    for (Album album:albumCaricati) {
+    for (Brano brano: album.getListaBrani()) {
       if (brano.getTitolo()!=null && brano.getTitolo().toLowerCase().contains(testoRicerca)) risultati.add(brano); 
     }
+  }
     return risultati;
   }
   @Override
