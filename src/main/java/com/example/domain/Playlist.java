@@ -9,7 +9,8 @@ public class Playlist implements Riproducibile{
   private int indice_corrente; 
   private int indice_nuovo; 
   private int indice_vecchio; 
-  public Playlist(List<Brano> lista_brani, String nome, String descrizione, LocalDate data_creazione, int indice_corrente, int indice_nuovo, int indice_vecchio){
+  private String proprietarioEmail; 
+  public Playlist(List<Brano> lista_brani, String nome, String descrizione, LocalDate data_creazione, int indice_corrente, int indice_nuovo, int indice_vecchio, String proprietarioEmail){
     if (lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
     else this.lista_brani=new ArrayList<>(); 
     this.nome=nome;
@@ -18,6 +19,7 @@ public class Playlist implements Riproducibile{
     this.indice_corrente=-1;
     this.indice_nuovo=indice_nuovo; 
     this.indice_vecchio=indice_vecchio; 
+    this.proprietarioEmail=proprietarioEmail;
   }
   public List<Brano> getListaBrani() { return new ArrayList<>(lista_brani); }
   public String getNome() { return nome; }
@@ -26,6 +28,7 @@ public class Playlist implements Riproducibile{
   public int getIndiceCorrente() { return indice_corrente; }
   public int getIndiceNuovo() { return indice_nuovo; }
   public int getIndiceVecchio() { return indice_vecchio; }
+  public int getProprietarioEmail() { return proprietarioEmail; }
   public void setListaBrani(List<Brano> lista_brani) {
     if(lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
     else this.lista_brani=new ArrayList<>();
@@ -39,4 +42,5 @@ public class Playlist implements Riproducibile{
   }
   public void setIndiceNuovo(int indice_nuovo) { this.indice_nuovo=indice_nuovo; }
   public void setIndiceVecchio(int indice_vecchio) { this.indice_vecchio=indice_vecchio; }
+  public void setProprietarioEmail(String proprietarioEmail) { this.proprietarioEmail=proprietarioEmail; }
 }
