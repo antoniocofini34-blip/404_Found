@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter; 
 import java.util.*; 
 import com.example.business.AlbumService; 
-import com.example.business.BusinessException; 
+import com.example.business.exception.BusinessException; 
 import com.example.business.exception.AlbumNonTrovatoException;
 import com.example.business.exception.ArtistaNonTrovatoException;
 import com.example.business.exception.DuplicatoException; 
