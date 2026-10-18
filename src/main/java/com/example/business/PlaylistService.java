@@ -1,10 +1,12 @@
 package com.example.business;
 import java.util.*;
 import time.*;
+import com.example.business.exception.BusinessException;
 import com.example.domain.Playlist;
+import com.example.domain.Brano;
 public interface PlaylistService {
     void creaPlaylist(Playlist playlist) throws BusinessException; 
-    void modificaPlaylist(Playlist playlist) throws BusinessException; 
+    void modificaPlaylist(String nomeVecchio, Playlist playlist) throws BusinessException; 
     void eliminaPlaylist(Playlist playlist) throws BusinessException; 
     List<Playlist> findAllPlaylist() throws BusinessException;
     Playlist findPlaylistByNome(String nome) throws BusinessException;
