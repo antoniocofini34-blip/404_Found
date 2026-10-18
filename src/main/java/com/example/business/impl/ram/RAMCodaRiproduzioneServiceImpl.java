@@ -1,6 +1,6 @@
 package com.example.business.impl.ram; 
 import java.util.*; 
-import com.example.business.BusinessException; 
+import com.example.business.exception.BusinessException; 
 import com.example.business.CodaRiproduzioneService; 
 import com.example.business.exception.OperazioneNonValidaException; 
 import com.example.domain.Brano;
@@ -11,15 +11,15 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
   private Map<CodaRiproduzione, Integer> indiciCorrenti; 
   public RAMCodaRiproduzioneServiceImpl() { this.indiciCorrenti=new HashMap<>(); }
   private void verificaCoda(CodaRiproduzione coda) throws BusinessException {
-    if (coda==null) throw new OperazioneNonValidaException("La coda non può essere null"); 
+    if (coda==null) throw new OperazioneNonValidaException("La coda non può essere vuota"); 
     if (!this.indiciCorrenti.containsKey(coda)) this.indiciCorrenti.put(coda, -1); 
   }
   private void verificaCodaNonVuota(CodaRiproduzione coda) throws BusinessException { verificaCoda(coda); 
     if (coda.getListaCodaBrani().isEmpty()) throw new OperazioneNonValidaException("La coda di riproduzione è vuota"); 
   }
   @Override 
-  public void aggiungiBranoCods(CodaRiproduzione coda, Brano brano) throws BusinessException { verificaCoda(coda); 
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null");
+  public void aggiungiBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException { verificaCoda(coda); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
     List<Brano> brani=coda.getListaCodaBrani(); 
     brani.add(brano); 
     coda.setListaCodaBrani(brani); 
@@ -27,7 +27,7 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
   }
   @Override 
   public void rimuoviBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException { verificaCoda(coda); 
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     List<Brano> brani=coda.getListaCodaBrani(); 
     int indiceRimosso=brani.indexOf(brano); 
     if (indiceRimosso==-1) throw new OperazioneNonValidaException("Il brano non è presente nella coda");
@@ -69,10 +69,7 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
   public void avanti(CodaRiproduzione coda) throws BusinessException { verificaCodaNonVuota(coda); 
     List<Brano> brani=coda.getListaCodaBrani(); 
     int indiceCorrente=this.indiciCorrenti.get(coda); 
-    if (indiceCorrente==-1) { this.indiciCorrenti.put(coda, 0);
-      coda.setStato(StatoRiproduzione.IN_RIPRODUZIONE); 
-      return; 
-    }
+    if (indiceCorrente<0) return;
     if (coda.getRepeat()==ModalitaRepeat.RIPETI_BRANO) { coda.setStato(StatoRiproduzione.IN_RIPRODUZIONE); 
       return; 
     }
@@ -82,9 +79,14 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     else if (coda.getRepeat()==ModalitaRepeat.RIPETI_CODA) { this.indiciCorrenti.put(coda, 0);
       coda.setStato(StatoRiproduzione.IN_RIPRODUZIONE); 
     }
-    else { this.indiciCorrenti.put(coda, -1); 
-      coda.setStato(StatoRiproduzione.FERMO); 
-    }
+  }
+  public boolean isAvantiDisabilitato(CodaRiproduzione coda) throws BusinessException { verificaCoda(coda);
+  List<Brano> brani=coda.getListaCodaBrani();
+  int indiceCorrente=indiciCorrenti.get(coda);
+  if (brani.isEmpty()||indiceCorrente<0) return true;
+  boolean ultimoBrano=indiceCorrente>=brani.size()-1;
+  boolean nessunaRipetizione=coda.getRepeat()==ModalitaRepeat.NESSUNA;
+  return ultimoBrano && nessunaRipetizione;
   }
   @Override
   public void indietro(CodaRiproduzione coda) throws BusinessException { verificaCodaNonVuota(coda); 
@@ -112,8 +114,19 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     if (branoCorrente!=null) this.indiciCorrenti.put(coda, brani.indexOf(branoCorrente));
   }
   @Override
+  public void ripristinaOrdine(CodaRiproduzione coda, List<Brano> ordineOriginale) throw BusinessException { verificaCoda(coda);
+  if (ordineOriginale==null||ordineOriginale.isEmpty()) throw new OperazionenonValidaException("L'ordine originale non è vuoto");
+  Brano branoCorrente=getBranoCorrente(coda);
+  coda.setListaCodaBrani(new ArrayList<>(ordineOriginale));
+  if (branoCorrente!=null) {
+    int nuovoIndice=ordineOriginale.indexOf(branoCorrente);
+    this.indiciCorrenti.put(coda, nuovoIndice);
+  } else this.indiciCorrenti.put(coda, -1);
+  coda.setShuffle(false);
+  }
+  @Override
   public void impostaRepeatCoda(CodaRiproduzione coda, ModalitaRepeat modalita) throws BusinessException { verificaCoda(coda);
-    if (modalita==null) throw new OperazioneNonValidaException("La modalità repeat non può essere null");
+    if (modalita==null) throw new OperazioneNonValidaException("La modalità repeat non può essere vuota");
     coda.setModalitaRepeat(modalita); 
   }
   @Override 
@@ -136,6 +149,11 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     else { this.indiciCorrenti.put(coda, -1); 
       coda.setStato(StatoRiproduzione.FERMO); 
     }
+  }
+  public void impostaIndiceCorrente(CodaRiproduzione coda, int indice) throws BusinessException {verificaCodaNonVuota(coda);
+    List<Brano> brani=coda.getListaCodaBrani();
+    if (indice<0||indice>=brani.size()) throw new OperazioneNonValidaException("Indice del brano non valido");
+    indiciCorrenti.put(coda, indice);
   }
   @Override
   public Brano getBranoCorrente(CodaRiproduzione coda) throws BusinessException { verificaCodaNonVuota(coda); 
