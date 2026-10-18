@@ -1,6 +1,6 @@
 package com.example.business.impl.file;
 import java.util.*;
-import com.example.business.BusinessException;
+import com.example.business.exception.BusinessException;
 import com.example.business.StatisticheService;
 import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Album;
@@ -120,7 +120,7 @@ public class FileStatisticheServiceImpl implements StatisticheService {
     return suggerimenti;
   }
   private void verificaUtente(Utente utente) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
-    if (utente.getCronologiaAscolti()==null) throw new OperazioneNonValidaException("La cronologia dell'utente non può essere null");
+    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
+    if (utente.getCronologiaAscolti()==null) throw new OperazioneNonValidaException("La cronologia dell'utente non può essere vuota");
   }
 }
