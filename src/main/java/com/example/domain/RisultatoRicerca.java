@@ -12,7 +12,7 @@ public record RisultatoRicerca(Brano brano, Album album, Artista artista) {
     if (brano!=null) return brano.getTitolo();
     if (album!=null) return album.getTitolo(); 
     if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
-    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo);
+    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
     return "Artista";
   }
   public String getDurata() { return brano!=null ? brano.getDurata() + "sec" : "-"; }
