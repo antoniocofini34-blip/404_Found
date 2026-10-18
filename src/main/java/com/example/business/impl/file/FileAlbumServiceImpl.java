@@ -158,7 +158,7 @@ public class FileAlbumServiceImpl implements AlbumService {
     catch (NunmberFormatException e) { throw new BusinessException("Anno di pubblicazione non valido:" + riga[1]); }
     String nomeArtista=riga[2]; 
     Artista artista=trovaArtista(nomeArtista); 
-    if (artista==null) throw new BusinessException("Artista non trovato per l'album:" + nomeArtista); 
+    if (artista==null) throw new BusinessException("Artista non trovato:" + nomeArtista); 
     Set<GenereMusicale> generi=new HashSet<>(); 
     if (!riga[3].trim().isEmpty()) { String[] generiString=riga[3].split("\\|"); 
       for (String genere : generiString) {
@@ -191,7 +191,7 @@ public class FileAlbumServiceImpl implements AlbumService {
         out.println(convertiAlbumInRiga(a));
       }
     }
-    catch (IOException e) { throw new BusinessException("Errore durante il salvataggio degli album", e); }
+    catch (IOException e) { throw new BusinessException("Errore nel salvataggio degli album", e); }
   }
   private String convertiAlbumInRiga(Album album) { StringBuilder riga=new StringBuilder(); 
     riga.append(album.getTitolo()); 
