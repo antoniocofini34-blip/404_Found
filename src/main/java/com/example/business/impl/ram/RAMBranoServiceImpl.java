@@ -51,26 +51,26 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
   }
   @Override 
   public void eliminaBrano(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null");
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
     if (!this.brani.remove(brano)) throw new BranoNonTrovatoException("Brano da eliminare non trovato"); 
   }
   @Override 
   public void assegnaAlbum(Album album, Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNOnValidaException("Il brano non può essere null"); 
-    if (album==null) throw new OperazioneNonValidaException("L'album non può essere null"); 
+    if (brano==null) throw new OperazioneNOnValidaException("Il brano non può essere vuoto"); 
+    if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
     if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Brano non trovato"); 
     brano.setAlbumBrano(album); 
   }
   @Override 
   public void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Il brano non è stato trovato"); 
-    if (generi==null) throw new OperazioneNonValidaException("L'insieme dei generi non può essere null"); 
+    if (generi==null) throw new OperazioneNonValidaException("L'insieme dei generi non può essere vuoto"); 
     brano.setGenereBrano(new HashSet<>(generi)); 
   }
   @Override 
   public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Il brano non è stato trovato"); 
     int numeroAscolti=brano.getNumeroAscolti(); 
     brano.setNumeroAscolti(numeroAscolti+1); 
