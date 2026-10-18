@@ -1,7 +1,7 @@
 package com.example.business.impl.ram; 
 import java.util.*; 
 import com.example.business.BranoService; 
-import com.example.business.BusinessException; 
+import com.example.business.exception.BusinessException; 
 import com.example.business.exception.BranoNonTrovatoException;
 import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
@@ -17,23 +17,25 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
     if (titolo==null || titolo.trim().isEmpty()) throw new OperazioneNonValidaException("Il titolo del brano non è valido"); 
     for (Brano brano : this.brani) {
       if (brano.getTitolo().equalsIgnoreCase(titolo.trim())) return brano;
+      for(Brano brano : this.brani){
+        if(brano.getTitolo().equalsIgnoreCase(titolo.tirm())){ return brano; }
+      }
     }
-    throw new BranoNonTrovatoException("Brano non trovato:" + titolo); 
+    throw new BranoNonTrovatoException("Il brano non è stato trovato:" + titolo); 
   }
   @Override 
   public void creaBrano(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null");
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
     if (brano.getTitolo()==null || brano.getTitolo().trim().isEmpty()) throw new OperazioneNOnValidaException("Il titolo del brano non può essere vuoto"); 
     if (brano.getDurata()<=0) throw new OperazioneNonValidaException("La durata del brano deve essere maggiore di zero"); 
     if (brano.getAlbumBrano()==null) throw new OperazioneNonValidaException("Ogni brano deve appartenere a un album"); 
     for (Brano b : this.brani) {
-    if (b.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) throw new DuplicatoException("Esiste già un brano con il titolo:" + brano.getTitolo());
-    }
+    if (b.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) throw new DuplicatoException("Esiste già un brano con il titolo:" + brano.getTitolo()); }
   this.brani.add(brano); 
  }
   @Override
   public void modificaBrano(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può non esistere"); 
     if (brano.getTitolo()==null || brano.getTitolo().trim().isEmpty())  throw new OperazioneNonValidaException("Il titolo del brano non può essere vuoto"); 
     if (brano.getDurata()<=0)  throw new OperazioneNonValidaException("La durata del brano deve essere maggiore di zero"); 
     if (brano.getAlbumBrano()==null) throw new OperazioneNonValidaException("Ogni brano deve appartenere a un album"); 
@@ -53,7 +55,7 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
     if (!this.brani.remove(brano)) throw new BranoNonTrovatoException("Brano da eliminare non trovato"); 
   }
   @Override 
-  public void assegnaAlbum(Brano brano, Album album) throws BusinessException {
+  public void assegnaAlbum(Album album, Brano brano) throws BusinessException {
     if (brano==null) throw new OperazioneNOnValidaException("Il brano non può essere null"); 
     if (album==null) throw new OperazioneNonValidaException("L'album non può essere null"); 
     if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Brano non trovato"); 
@@ -62,14 +64,14 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
   @Override 
   public void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
-    if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Brano non trovato"); 
+    if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Il brano non è stato trovato"); 
     if (generi==null) throw new OperazioneNonValidaException("L'insieme dei generi non può essere null"); 
     brano.setGenereBrano(new HashSet<>(generi)); 
   }
   @Override 
   public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
-    if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Brano non trovato"); 
+    if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Il brano non è stato trovato"); 
     int numeroAscolti=brano.getNumeroAscolti(); 
     brano.setNumeroAscolti(numeroAscolti+1); 
   }
