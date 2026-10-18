@@ -7,8 +7,7 @@ import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Album;
 import com.example.domain.Brano;
-public class RAMAlbumServiceImpl implements AlbumService{
-  private List<Album> album;
+public class RAMAlbumServiceImpl implements AlbumService{ private List<Album> album;
   public RAMAlbumServiceImpl(){ this.album=new ArrayList<>(); }
   @Override
   public List<Album> findAllAlbum() throws BusinessException{ return new ArrayList<>(this.album); }
