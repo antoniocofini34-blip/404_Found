@@ -30,7 +30,7 @@ public class RAMUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFac
     this.cronologiaAscoltiService=new RAMCronologiaAscoltiServiceImpl();
     this.playlistService=new RAMPlaylistServiceImpl();
     this.utenteService=new RAMUtenteServiceImpl();
-    this.ricercaService=new RAMStatisticheServiceImpl(this.branoService, this.albumService, this.artistaService);
+    this.ricercaService=new RAMRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
     this.statisticheService=new RAMStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
   }
   @Override
