@@ -1,8 +1,8 @@
 package com.example.domain;
 public record RisultatoRicerca(Brano brano, Album album, Artista artista) {
-  public RisultatoRicerca(Brano brano){ this(brano, null, null); }
-  public RisultatoRicerca(Album album){ this(null, album, null); }
-  public RisultatoRicerca(Artista artista){ this(null, null, artista); }
+  public RisultatoRicerca(Brano brano) { this(brano, null, null); }
+  public RisultatoRicerca(Album album) { this(null, album, null); }
+  public RisultatoRicerca(Artista artista)  { this(null, null, artista); }
   public String getTipo() { 
     if (brano!=null) return "Brano";
     if (album!=null) return "Album";
@@ -26,4 +26,4 @@ public record RisultatoRicerca(Brano brano, Album album, Artista artista) {
     return album!=null ? album.getAnnoPubblicazione() : 0; 
   }
   public int getNumeroAscolti() { return brano!=null ? brano.getNumeroAscolti() : 0; }
-
+}
