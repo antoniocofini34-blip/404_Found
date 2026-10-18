@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.example.business.BusinessException;
+import com.example.business.exception.BusinessException;
 import com.example.business.UtenteService;
 import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
@@ -24,18 +24,18 @@ public class FileUtenteServiceImpl implements UtenteService{
   }
   @Override
   public void creaUtente(Utente utente) throws BusinessException{
-    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
+    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
     if(utente.getEmail()==null||utente.getEmail().trim().isEmpty()) throw new OperazioneNonValidaException("L'email dell'utente non può essere vuota");
     List<Utente>utenti=findAllUtenti();
     for(Utente u : utenti){
-      if(u.getEmail()!=null && u.getEmail.equalsIgnoreCasa(utente.getEmail().trim())) throw new DuplicatoException("Esiste già un utente con email:" + utente.getEmail());
+      if(u.getEmail()!=null && u.getEmail.equalsIgnoreCasa(utente.getEmail().trim())) throw new DuplicatoException("Utente già esistente con la seguente email:" + utente.getEmail());
     }
     utenti.add(utente);
     scriviUtenti(utenti);
   }
   @Override
   public void modificaUtente(Utente utente) throws BusinessException{
-    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
+    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
     if(utente.getEmail()==null||utente.getEmail().trim().isEmpty()) throw new OperazioneNonValidaException("L'email dell'utente non può essere vuota");
     List<Utente>utenti=findAllUtenti();
     boolean trovato=false;
@@ -47,12 +47,12 @@ public class FileUtenteServiceImpl implements UtenteService{
         break;
       }
     }
-    if(!trovato) throw new OperazioneNonValidaException("Utente da modificare non trovato");
+    if(!trovato) throw new OperazioneNonValidaException("L'utente da modificare non è stato trovato");
     scriviUtenti(utenti);
   }
   @Override
    public void eliminaUtente(Utente utente) throws BusinessException{
-    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
+    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
     if(utente.getEmail()==null||utente.getEmail().trim().isEmpty()) throw new OperazioneNonValidaException("L'email dell'utente non è valida");
     List<Utente>utenti=findAllUtenti();
     boolean rimosso=false;
@@ -64,7 +64,7 @@ public class FileUtenteServiceImpl implements UtenteService{
         break;
       }
     }
-    if(!rimosso) throw new OperazioneNonValidaException("Utente da eliminare non trovato");
+    if(!rimosso) throw new OperazioneNonValidaException("L'utente da eliminare non è stato trovato");
     scriviUtenti(utenti);
   }
   @Override
@@ -81,14 +81,14 @@ public class FileUtenteServiceImpl implements UtenteService{
     for(Utente utente : utenti){
       if(utente.getEmail()!=null && utente.getEmail().equalsIgnoreCase(email.trim())) return utente;
     }
-      throw new OperazioneNonValidaException("Utente non trovato:" + email);
+      throw new OperazioneNonValidaException("L'utente non è stato trovato:" + email);
     }
     @Override
     public void aggiungiPlaylist(Utente utente, Playlist playlist) throws BusinessException{
-    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere null");
-    if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null");
-    Utente utenteFile =findUtenteByEmail(utente.getEmail());
-    List<Playlist> playlistUtente =new ArrayList<>(utenteFile.getPlaylistCreate());
+    if(utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
+    if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
+    Utente utenteFile=findUtenteByEmail(utente.getEmail());
+    List<Playlist> playlistUtente=new ArrayList<>(utenteFile.getPlaylistCreate());
         for (Playlist p :playlistUtente) {
             if (p.getNome() != null && p.getNome().equalsIgnoreCase(playlist.getNome())) throw new DuplicatoException("La playlist è già associata all'utente");
         }
@@ -98,8 +98,8 @@ public class FileUtenteServiceImpl implements UtenteService{
         modificaUtente(utenteFile);
      }
      public void rimuoviPlaylist(Utente utente, Playlist playlist) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
-        if (playlist == null) throw new OperazioneNonValidaException("La playlist non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
+        if (playlist == null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
         List<Playlist> playlistUtente = new ArrayList<>(utenteFile.getPlaylistCreate());
         boolean rimossa = false;
@@ -117,45 +117,45 @@ public class FileUtenteServiceImpl implements UtenteService{
     }
     @Override
     public List<Playlist> getPlaylist(Utente utente) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
         return new ArrayList<>(utenteFile.getPlaylistCreate());
     }
     @Override
     public void aggiungiPreferenza(Utente utente, GenereMusicale genere) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
-        if (genere == null) throw new OperazioneNonValidaException("Il genere musicale non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
+        if (genere == null) throw new OperazioneNonValidaException("Il genere musicale non può essere vuoto");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
-        Set<GenereMusicale> preferenze = new HashSet<>(utenteFile.getGeneriMusicali());
+        Set<GenereMusicale> preferenze = new HashSet<>(utenteFile.getPreferenzeMusicali());
         if (!preferenze.add(genere)) throw new DuplicatoException("La preferenza è già presente");
         utenteFile.setPreferenzeMusicali(preferenze);
         modificaUtente(utenteFile);
     }
     @Override
     public void rimuoviPreferenza(Utente utente, GenereMusicale genere) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
-         if (genere == null) throw new OperazioneNonValidaException("Il genere musicale non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
+         if (genere == null) throw new OperazioneNonValidaException("Il genere musicale non può essere vuoto");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
-        Set<GenereMusicale> preferenze = new HashSet<>(utenteFile.getGeneriMusicali());
+        Set<GenereMusicale> preferenze = new HashSet<>(utenteFile.getPreferenzeMusicali());
         if (!preferenze.remove(genere)) throw new OperazioneNonValidaException("La preferenza non è presente");
         utenteFile.setPreferenzeMusicali(preferenze);
         modificaUtente(utenteFile);
     }
     @Override
     public Set<GenereMusicale> getPreferenze(Utente utente) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
         Utente utenteFile =findUtenteByEmail(utente.getEmail());
-        return new HashSet<>(utenteFile.getGeneriMusicali());
+        return new HashSet<>(utenteFile.getPreferenzeMusicali());
     }
     @Override
     public CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
         return utenteFile.getCodaRiproduzione();
     }
     @Override
     public void setCodaRiproduzione(Utente utente, CodaRiproduzione coda) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere null");
+        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
         Utente utenteFile = findUtenteByEmail(utente.getEmail());
         utenteFile.setCodaRiproduzione(coda);
         modificaUtente(utenteFile);
@@ -178,43 +178,43 @@ public class FileUtenteServiceImpl implements UtenteService{
     }
     private Utente creaUtenteDaRiga(String[] riga) throws BusinessException {
         if (riga == null || riga.length < 6) return null;
-        String nome =vriga[0];
-        String cognome =riga[1];
-        String email =riga[2];
+        String nome=riga[0];
+        String cognome=riga[1];
+        String email=riga[2];
         LocalDate dataNascita;
         try {dataNascita =LocalDate.parse(riga[3].trim()); } catch (Exception e) throw new BusinessException("Data di nascita non valida: " + riga[3]);
         List<Playlist> playlist =new ArrayList<>();
         if (!riga[4].trim().isEmpty()) {
-            String[] nomiPlaylist =riga[4].split("\\|");
-            for (String nomePlaylist :nomiPlaylist) {
-                Playlist p = playlistService.findPlaylistByNome(nomePlaylist.trim());
+            String[] nomiPlaylist=riga[4].split("\\|");
+            for (String nomePlaylist:nomiPlaylist) {
+                Playlist p=playlistService.findPlaylistByNome(nomePlaylist.trim());
                 playlist.add(p);
             }
         }
         Set<GenereMusicale> preferenze =new HashSet<>();
         if (!riga[5].trim().isEmpty()) {
-            String[] generi =riga[5].split("\\|");
-            for (String genere :generi) {
+            String[] generi=riga[5].split("\\|");
+            for (String genere:generi) {
                 if (!genere.trim().isEmpty()) {
                     try { preferenze.add(GenereMusicale.valueOf(genere.trim().toUpperCase())); } catch (IllegalArgumentException e) throw new BusinessException("Genere musicale non valido: " + genere);
                 }
             }
         }
-        Utente utente = new Utente(nome,cognome,email, dataNascita, playlist, null, preferenze, null);
+        Utente utente= new Utente(nome,cognome,email, dataNascita, playlist, null, preferenze, null);
         utente.setPreferenzeMusicali(preferenze);
         return utente;
     }
-    private void scriviUtenti(List<Utente> utenti) throws BusinessException { File file =new File(this.filename);
-        File cartella =file.getParentFile();
+    private void scriviUtenti(List<Utente> utenti) throws BusinessException { File file=new File(this.filename);
+        File cartella=file.getParentFile();
         if (cartella != null && !cartella.exists()) cartella.mkdirs();
-        try (PrintWriter out = new PrintWriter(file)) {
+        try (PrintWriter out= new PrintWriter(file)) {
             out.println(utenti.size());
             for (Utente utente : utenti) {
                 out.println(convertiUtenteInRiga(utente));
             }
         } catch (IOException e) throw new BusinessException("Errore durante il salvataggio degli utenti", e);
     }
-    private String convertiUtenteInRiga(Utente utente){ StringBuilder riga =new StringBuilder();
+    private String convertiUtenteInRiga(Utente utente) { StringBuilder riga=new StringBuilder();
         riga.append(utente.getNome());
         riga.append(",");
         riga.append(utente.getCognome());
@@ -231,7 +231,7 @@ public class FileUtenteServiceImpl implements UtenteService{
         riga.append(playlist);
         riga.append(",");
         String preferenze = "";
-        for (GenereMusicale genere : utente.getGeneriMusicali()) {
+        for (GenereMusicale genere : utente.getPreferenzeMusicali()) {
                 if (!preferenze.isEmpty()) preferenze += "|";
             preferenze += genere.name();
         }
