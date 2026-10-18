@@ -12,12 +12,12 @@ import com.example.domain.Brano;
 import com.example.domain.Playlist; 
 public class FilePlaylistServiceImpl implements PlaylistService { private String filename; 
   private FileBranoServiceImpl branoService; 
-  public FilePlaylistServiceImpl(String filename) { this.filename=filename; 
+  public FilePlaylistServiceImpl(String filename, FileBranoServiceImpl branoService) { this.filename=filename; 
     this.branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt"); 
   }
   @Override 
   public void creaPlaylist(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
     if (playlist.getNome()==null || playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("Il nome della playlist non può essere vuoto");
     List<Playlist> playlistEsistenti=findAllPlaylist(); 
     for (Playlist p : playlistEsistenti) {
@@ -27,24 +27,25 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     scriviPlaylist(playlistEsistenti); 
   }
   @Override 
-  public void modificaPlaylistpublic(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null"); 
-    if (playlist.getNome()==null || playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("Il nome della playlist non può essere vuoto"); 
+  public void modificaPlaylistpublic(String nomeVecchio, Playlist playlist) throws BusinessException {
+    if (nomeVecchio==null || nomeVecchio.trim().isEmpty()) throw new OperazioneNonValidaException("Il vecchio nome della playlist non può essere vuoto"); 
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
+    if (playlist.getNome()==null || playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("Il nuovo nome della playlist non può essere vuoto"); 
     List<Playlist> playlistEsistenti=findAllPlaylist(); 
     boolean trovata=false; 
     for (int i=0; i < playlistEsistenti.size(); i++) {
       Playlist playlistEsistente=playlistEsistenti.get(i); 
-      if (playlistEsistente.getNome()!=null && playlistEsistente.getNome().equalsIgnoreCase(playlist.getNome().trim())) { playlistEsistenti.set(i, playlist); 
+      if (playlistEsistente.getNome()!=null && playlistEsistente.getNome().equalsIgnoreCase(nomeVecchio.trim())) { playlistEsistenti.set(i, playlist); 
         trovato=true; 
         break; 
       }
     }
-    if (!trovato) throw new OperazioneNonValidaException("Playlist da modificare non trovata"); 
+    if (!trovato) throw new OperazioneNonValidaException("Errore: playlist non trovata"); 
     scriviPlaylist(playlistEsistenti); 
   }
   @Override
   public void eliminaPlaylist(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null");
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
     if (playlist.getNome()==null || playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("Il nome della playlist non può essere vuoto"); 
     List<Playlist> playlistEsistenti=findAllPlaylist(); 
     boolean rimossa=false; 
@@ -55,44 +56,44 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
         break; 
       }
     }
-    if (!rimossa) throw new OperazioneNonValidaException("Playlist da eliminare non trovata"); 
+    if (!rimossa) throw new OperazioneNonValidaException("Errore: playlist non trovata"); 
     scriviPlaylist(playlistEsistenti); 
   }
   @Override 
   public List<Playlist> findAllPlaylist() throws BusinessException {
     try { FileData data=leggiDati(); 
-      return convertiRighe(data); 
-    } catch(IOException e) throw new BusinessException("Errore durante la lettura della playlist", e);
+         return convertiRighe(data); 
+    } catch(IOException e) { throw new BusinessException("Errore nella lettura della playlist", e); }
   }
   @Override
   public Playlist findPlaylistByNome(String nome) throws BusinessException {
-    if (nome==null || nome.trim.isEmpty()) throw new OperazioneNonValidaException("Il nome della playlist non è valido"); 
+    if (nome==null || nome.trim.isEmpty()) throw new OperazioneNonValidaException("Il nome della playlist non può essere vuoto"); 
     List<Playlist> playlist=findAllPlaylist(); 
     for (Playlist p : playlist) {
       if (p.getNome()!=null && p.getNome().equalsIgnoreCase(nome.trim())) return p; 
     }
-    throw new OperazioneNonValidaException("Playlist non trovata:" + nome); 
+    throw new OperazioneNonValidaException("Errore: playlist non trovata:" + nome); 
   }
   @Override 
   public void aggiungiBrano(Playlist playlist, Brano brano) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null"); 
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     Playlist playlistFile=finPlaylistByNome(playlist.getNome()); 
     Brano branoFile=branoService.findBranoByTitolo(brano.getTitolo()); 
-    List<Brano> brani=playlistFile.getLista_brani(); 
+    List<Brano> brani=new ArrayList<>(playlistFile.getListaBrani());
     for (Brano b : brani) {
       if (b.getTitolo()!=null && b.getTitolo().equalsIgnoreCase(branoFile.getTitolo())) throw new DuplicatoException("Il brano è già presente nella playlist"); 
     }
     brani.add(branoFile); 
-    playlistFile.setLista_brani(brani); 
-    modificaPlaylist(playlistFile); 
+    playlistFile.setListaBrani(brani); 
+    modificaPlaylist(playlistFile.getNome().playlistFile); 
   }
   @Override
   public void rimuoviBrano(Playlist playlist, Brano brano) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null"); 
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
-    List<Brano> brani=playlistFile.getLista_brani(); 
+    List<Brano> brani=playlistFile.getListaBrani(); 
     boolean rimosso=false; 
     for (int i=0; i < brani.size(); i++) {
       Brano b=brani.get(i); 
@@ -101,42 +102,42 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
         break; 
       }
     }
-    if (!rimosso) throw new OperazioneNonValidaException("Il brano non è presente nella playlist"); 
-    playlistFile.setLista_brani(brani); 
-    modificaPlaylist(playlistFile); 
+    if (!rimosso) throw new OperazioneNonValidaException("Errore: il brano non è presente nella playlist"); 
+    playlistFile.setListaBrani(brani); 
+    modificaPlaylist(playlistFile.getNome(), playlistFile); 
   }
   @Override 
   public void riordinaBrani(Playlist playlist, int indiceVecchio, int indiceNuovo) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
     Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
-    List<Brano> brani=playlistFile.getLista_brani(); 
-    if (indiceVecchio < 0 || indiceVecchio >= brani.size() || indiceNuovo < 0 || indiceNuovo >= brani.size() throw new OperazioneNonValidaException("Gli indici specificati non sono validi"); 
+    List<Brano> brani=playlistFile.getListaBrani(); 
+    if (indiceVecchio < 0 || indiceVecchio >= brani.size() || indiceNuovo < 0 || indiceNuovo >= brani.size() throw new OperazioneNonValidaException("Errore: gli indici specificati non sono validi"); 
     Brano brano=brani.remove(indiceVecchio); 
     brani.add(indiceNuovo, brano); 
-    playlistFile.setLista_brani(brani); 
-    modificaPlaylist(playlistFile); 
+    playlistFile.setListaBrani(brani); 
+    modificaPlaylist(playlistFile.getNome(), playlistFile); 
   }
   @Override 
   public List<Brano> getBrani(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValida("La playlist non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValida("La playlist non può essere vuota"); 
     Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
-    return new ArrayList<>(playlistFile.getLista_brani()); 
+    return new ArrayList<>(playlistFile.getListaBrani()); 
   }
   @Override 
   public int calcolaDurataTotale(Playlist playlist) throws BusinessException {
-    if (playlist==null) { throw new OperazioneNonValida("La playlist non può essere null"); }
+    if (playlist==null) { throw new OperazioneNonValida("La playlist non può essere vuota"); }
     Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
     int totale=0; 
-    for (Brano brano : playlistFile.getLista_brani()) {
+    for (Brano brano : playlistFile.getListaBrani()) {
       totale += brano.getDurata(); 
     }
     return totale; 
   }
   @Override 
   public void riproduciPlaylist(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValida("La playlist non può essere null"); 
+    if (playlist==null) throw new OperazioneNonValida("La playlist non può essere vuota"); 
     List<Brano> brani=getBrani(playlist); 
-    if (brani.isEmpty()) throw new OperazioneNonValidaException("La playlist è vuota");
+    if (brani.isEmpty()) throw new OperazioneNonValidaException("Errore: la playlist è vuota");
     playlist.setIndiceCorrente(0); 
   }
   private FileData leggiDati() throws IOException { File file=new File(this.filename); 
@@ -158,17 +159,19 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     if (riga==null || riga.length < 4) return null; 
     String nome=riga[0]; 
     String descrizione=riga[1]; 
+    String proprietarioEmail="";
+    if (riga.length >= 5) proprietarioEmail=riga[4].trim();
     LocalDate dataCreazione; 
     try { dataCreazione=LocalDate.parse(riga[2].trim()); }
-    catch(Exception e) throw new BusinessException("Data di creazione non valida:" + riga[2]; 
-    Playlist playlist=new Playlist(nome, descrizione, dataCreazione, -1, 0, 0); 
+    catch(Exception e) throw new BusinessException("Errore: data di creazione non valida:" + riga[2]; 
+    Playlist playlist=new Playlist(nome, descrizione, dataCreazione, -1, 0, 0, proprietarioEmail); 
     if (!riga[3].trim().isEmpty()) { String[] titoliBrani=riga[3].split("\\|"); 
       List<Brano> brani=new ArrayList<>(); 
       for (String titoloBrano : titoliBrani) {
         Brano brano=branoService.findBranoByTitolo(titoloBrano.trim()); 
         brani.add(brano); 
       }
-      playlist.setLista_brani(brani); 
+      playlist.setListaBrani(brani); 
     }
     return playlist; 
   }
@@ -178,21 +181,22 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     try (PrintWriter out=new PrintWriter(file)) { out.println(playlist.size()); 
       for (Playlist p : playlist) {
         out.println(convertiPlaylistInRiga(p)); 
-      } catch(IOException e) throw new BusinessException("Errore durante il salvataggio delle playlist"); 
+      } catch(IOException e) throw new BusinessException("Errore nel salvataggio delle playlist"); 
   }
   private String convertiPlaylistInRiga(Playlist playlist) { StringBuilder riga=new StringBuilder(); 
     riga.append(playlist.getNome()); 
     riga.append(","); 
     riga.append(playlist.getDescrizione()); 
     riga.append(",");
-    riga.append(playlist.getData_creazione()); 
+    riga.append(playlist.getDataCreazione()); 
     riga.append(",");
     String brani=""; 
-    for (Brano brano : playlist.getLista_brani()) {
+    for (Brano brano : playlist.getListaBrani()) {
       if (!brani.isEmpty()) brani +="|"; 
       brani +=brano.getTitolo(); 
     }
     riga.append(brani); 
+    riga.append(playlist.getProprietarioEmail()==null ? "" : playlist.getProprietarioEmail());                                                            
     return riga.toString(); 
   }
 }
