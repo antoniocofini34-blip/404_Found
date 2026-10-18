@@ -13,8 +13,6 @@ import com.example.business.UnivaqSoundBusinessFactory;
 import com.example.business.impl.ram.RAMCatalogoServiceImpl;
 import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
 import com.example.business.impl.ram.RAMCronologiaAscoltiServiceImpl;
-import com.example.business.impl.ram.RAMRicercaServiceImpl;
-import com.example.business.impl.ram.RAMStatisticheServiceImpl;
 public class FileUnivaqSoundBusinessFactoryImpl() implements UnivaqSoundBusinessFactory {
   private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
@@ -23,8 +21,8 @@ public class FileUnivaqSoundBusinessFactoryImpl() implements UnivaqSoundBusiness
   private RAMCodaRiproduzioneServiceImpl codaRiproduzioneService;
   private RAMCronologiaAscoltiServiceImpl cronologiaAscoltiService;
   private FilePlaylistServiceImpl playlistService;
-  private RAMRicercaServiceImpl ricercaService;
-  private RAMStatisticheServiceImpl statisticheService;
+  private FileRicercaServiceImpl ricercaService;
+  private FileStatisticheServiceImpl statisticheService;
   private FileUtenteServiceImpl utenteService;
   public FileUnivaqSoundBusinessFactoryImpl() {
     this.artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
@@ -35,8 +33,8 @@ public class FileUnivaqSoundBusinessFactoryImpl() implements UnivaqSoundBusiness
     this.catalogoService=new RAMCatalogoServiceImpl();
     this.codaRiproduzioneService=new RAMCodaRiproduzioneServiceImpl();
     this.cronologiaAscoltiService=new RAMCronologiaAscoltiServiceImpl();
-    this.ricercaService=new RAMRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
-    this.statisticheService=new RAMStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
+    this.ricercaService=new FileRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
+    this.statisticheService=new FileStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
   }
   @Override
   public ArtistaService getArtistaService() { return this.artistaService; }
