@@ -19,11 +19,11 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   public List<Artista> findAllArtisti() throws BusinessException {
     try { FileData data= leggiDati();
       return convertiRighe(data);
-    } catch (IOException e) { throw new BusinessException("Errore durante la lettura degli artisti", e); }
+    } catch (IOException e) { throw new BusinessException("Errore nella lettura degli artisti", e); }
   }
   @Override
   public Artista findArtistaByNome(String nome) throws BusinessException {
-    if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non è valido"); 
+    if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Nome artista non valido"); 
     List<Artista> artisti=findAllArtisti();
     for(Artista artista: artisti) {
       String nomeArtista= ottieniNome(artista);
@@ -33,20 +33,20 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   }
   @Override
   public void creaArtista(Artista artista) throws BusinessException {
-    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere null");
+    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere vuoto");
     String nome=ottieniNome(artista);
     if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non può essere vuoto");
     List<Artista> artisti= findAllArtisti();
     for (Artista artistaEsistente: artisti) {
       String nomeEsistente=ottieniNome(artistaEsistente);
-      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) throw new DuplicatoException("Esiste già un artista con il nome: " + nome);
+      if(nomeEsistente!=null && nomeEsistente.equalsIgnoreCase(nome.trim())) throw new DuplicatoException("Artista esistente con il seguente nome: " + nome);
     }
     artisti.add(artista);
     scriviArtisti(artisti);
   }
   @Override
   public void modificaArtista(Artista artista) throws BusinessException {
-    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere null");
+    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere vuoto");
     String nome=ottieniNome(artista);
     if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non può essere vuoto");
     List<Artista> artisti=findAllArtisti();
@@ -58,12 +58,12 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
         break;
       }
     }
-    if (!trovato) throw new ArtistaNonTrovatoException("Artista da modificare non trovato");
+    if (!trovato) throw new ArtistaNonTrovatoException("Non è stato possibile trovare l'artista da modificare");
     scriviArtisti(artisti);
   }
   @Override
   public void eliminaArtista(Artista artista) throws BusinessException {
-    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere null");
+    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere vuoto");
     String nome=ottieniNome(artista);
     if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non può essere vuoto");
     List<Artista> artisti= findAllArtisti();
@@ -80,7 +80,7 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   }
   @Override
   public List<Album> findAlbumArtista(Artista artista) throws BusinessException{
-    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere null");
+    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere vuoto");
     String nome=ottieniNome(artista);
     if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non è valido");
     Artista artistaFile=findArtistaByNome(nome);
@@ -88,8 +88,8 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   }
   @Override
   public void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException {
-    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere null");
-    if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere null");
+    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere vuoto");
+    if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere vuoto");
     if (gruppo==componente) throw new OperazioneNonValidaException("Un gruppo non può essere componente di se stesso");
     Artista artistaGruppo=findArtistaByNome(gruppo.getNomeGruppo());
     if(!(artistaGruppo instanceof ArtistaGruppo)) throw new OperazioneNonValidaException("L'artista indicato non è un gruppo");
@@ -108,8 +108,8 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   }
   @Override
   public void rimuoviComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException {
-    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere null");
-    if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere null");
+    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere vuoto");
+    if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere vuoto");
     Artista artistaGruppo=findArtistaByNome(gruppo.getNomeGruppo());
     if(!(artistaGruppo instanceof ArtistaGruppo)) throw new OperazioneNonValidaException("L'artista indicato non è un gruppo");
     ArtistaGruppo gruppoFile=(ArtistaGruppo) artistaGruppo;
@@ -130,7 +130,7 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
   }
   @Override
   public List<Artista> findComponenti(ArtistaGruppo gruppo) throws BusinessException {
-    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere null");
+    if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere vuoto");
     Artista artistaGruppo=findArtistaByNome(gruppo.getNomeGruppo());
     if(!(artistaGruppo instanceof ArtistaGruppo)) throw new OperazioneNonValidaException("L'artista indicato non è un gruppo");
     ArtistaGruppo gruppoFile=(ArtistaGruppo) artistaGruppo;
@@ -161,20 +161,17 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
     GenereMusicale generePrincipale;
     try {
       generePrincipale=GenereMusicale.valueOf(riga[3].trim());
-    } catch (IllegalArgumentException e) {
-      throw new BusinessException("Genere musicale non valido: " + riga[3]);
-    }
+    } catch (IllegalArgumentException e) {throw new BusinessException("Genere musicale non valido: " + riga[3]);}
     Set<GenereMusicale> generiSecondari=new HashSet<>();
     if (!riga[4].trim().isEmpty()) {
       String[] generi=riga[4].split("\\|");
       for (String genere: generi) {
         try { generiSecondari.add(GenereMusicale.valueOf(genere.trim()));
-        } catch (IllegalArgumentException e) { throw new BusinessException("Genere musicale non valido: " + genere);
-        }
+        } catch (IllegalArgumentException e) { throw new BusinessException("Genere musicale non valido: " + genere); }
       }
     }
-    if ("SOLISTA".equalsIgnoreCase(tipo)) { return new ArtistaSolista(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome); }
-    if("GRUPPO".equalsIgnoreCase(tipo)) { return new ArtistaGruppo(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome, new ArrayList<Artista>()); }
+    if ("SOLISTA".equalsIgnoreCase(tipo)) return new ArtistaSolista(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome);
+    if("GRUPPO".equalsIgnoreCase(tipo)) return new ArtistaGruppo(biografia, generePrincipale, generiSecondari, new ArrayList<Album>(), nome, new ArrayList<Artista>()); 
     return null;
   }
   private void collegaComponentiGruppi(List<Artista> artisti) {
