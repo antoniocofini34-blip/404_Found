@@ -408,7 +408,201 @@ public class MainController {
          }
         } catch(BusinessException e) { e.getMessage(); }
   }
-  
+  @FXML
+  private void miniStop() {
+    try {
+      PlayerStato.fermaTimerRiproduzione();
+      PlayerStato.terminaSessioneCronologiaConStop();
+      PlayerStato.getCodaService().stop(PlayerStato.getCoda());
+      PlayerStato.setProgressoCorrente(0);
+      PlayerStato.setBranoCorrente(null);
+      if (branoMiniPlayer!=null) branoMiniPlayer.setText("Nessun Brano in riproduzione");
+      if (barraMiniPlayer!=null) {
+        barraMiniPlayer.setValue(0);
+        barraMiniPlayer.setDisable(true);
+      }
+      if (miniPlayPausa!=null) miniPlayPausa.setText("▶");
+      if (miniTimeline!=null) {
+        miniTimeline.stop();
+        miniTimeline=null;
+      }
+    } catch (BusinessException e) { e.getMessage(); }
+  }
+  @FXML
+  private void miniAvanti() {
+    try {
+      if (PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda())) return;
+      //ferma il timer grafico del mini-player
+      if (miniTimeline!=null) {
+        miniTimeline.stop();
+        miniTimeline=null;
+      }
+      //passa al brano successivo
+      PlayerStato.getCodaService().avanti(PlayerStato.getCoda());
+      Brano brano=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
+      if (brano!=null) {
+        PlayerStato.setBranoCorrente(brano);
+        PlayerStato.setProgressoCorrente(0);
+        branoMiniPlayer.setText(brano.getTitolo());
+        barraMiniPlayer.setValue(0);
+        barraMiniPlayer.setDisable(false);
+        PlayerStato.getCodaService().play(PlayerStato.getCoda());
+        if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+        miniPlayPausa.setText("⏸");
+        avviaMiniTimer();
+      } else {
+        //la coda è terminata: puliamo il mini-player
+        PlayerStato.fermaTimerRiproduzione();
+        PlayerStato.setBranoCorrente(null);
+        PlayerStato.setProgressoCorrente(0);
+        titoloMiniPlayer.setText("Nessun brano in riproduzione");
+        artistaMiniPlayer.setText("");
+        copertinaMiniPlayer.setImage(null);
+        barraMiniPlayer.setValue(0);
+        barraMiniPlayer.setDisable(true);
+        miniPlayPausa.setText("▶");
+      }
+    } catch (BusinessException e) { e.getMessage(); }
+  }
+  @FXML
+  private void miniIndietro() {
+    try {
+      Brano branoCorrente=PlayerStato.getBranoCorrente();
+      if (branoCorrente==null) return;
+      double progresso=PlayerStato.getProgressoCorrente();
+      //se sono trascorsi almeno 5 secondi, riavviamo il brano corrente
+      if (progresso>=5) {
+        riavviaBranoMiniPlayer();
+        return;
+      }
+      //Nei primi 5 secondi torniamo al precedente se disponibile
+      List<Brano> braniCoda=PlayerStato.getCodaService().getCoda(PlayerStato.getCoda());
+      int indiceCorrente=braniCoda.indexOf(branoCorrente);
+      if (indiceCorrente<=0) {
+        //in questo caso non esiste un precedente quindi riavviamo il brano corrente
+        riavviaBranoMiniPlayer();
+        return;
+      }
+      if (miniTimeline!=null) {
+        miniTimeline.stop()
+        miniTimeline=null;
+      }
+      PlayerStato.salvaSessioneCronologia();
+      PlayerStato.getCodaService().indietro(PlayerStato.getCoda());
+      Brano branoPrecedente=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
+      if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+      miniPlayPausa.setText("⏸");
+      avviaMiniTimer();
+      aggiornaPulsanteMiniIndietro();
+    } catch (BusinessException e) { e.getMessage(); }
+  }
+  private void riavviaBranoMiniPlayer() throws BusinessException {
+    if (miniTimeline!=null) {
+      miniTimeline.stop();
+      miniTimeline=null;
+    }
+    PlayerStato.salvaSessioneCronologia();
+    PlayerStato.setProgressoCorrente(0);
+    PlayerStato.iniziaNuovoAscolto();
+    barraMiniPlayer.setValue(0);
+    PlayerStato.getCodaService().play(PlayerStato.getCoda());
+    if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+    miniPlayPausa.setText("⏸");
+    avviaMiniTimer();
+    aggiornaPulsanteMiniIndietro();
+  }
+  private void aggiornaPulsanteMiniIndietro() {
+    if (miniIndietro!=null) miniIndietro.setDisable(PlayerStato.getBranoCorrente()==null);
+  }
+  @FXML
+  private void miniInizioTrascinamento() {
+    miniTrascinamento=true;
+    if (miniTimeline!=null) miniTimeline.pause();
+  }
+  @FXML
+  private void miniFineTrascinamento() {
+    miniTrascinamento=false;
+    try {
+      Brano brano=PlayerStato.getBranoCorrente();
+      if (brano==null) return;
+      double durataSecondi=brano.getDurata();
+      double nuovoProgresso=barraMiniPlayer.getValue()*durataSecondi;
+      PlayerStato.setProgressoCorrente(nuovoProgresso);
+      if (miniTimeline!=null) {
+        miniTimeline.stop();
+        miniTimeline=null;
+      }
+      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) avviaMiniTimer();
+    } catch (Exception e) { e.getMessage(); }
+  }
+  @FXML
+  private void apriStatistiche() throws IOException {
+    mostraVista("/viste/StatisticheView.fxml");
+  }
+  @FXML
+  private void apriUtente() throws IOException {
+    mostraVista("/viste/UtenteForm.fxml");
+  }
+  private void mostraVista(String percorso) throws IOException {
+    Navigazione.svuotaCronologia();
+    boolean mostraMiniPlayer=!percorso.equals("/viste/PlayerView.fxml");
+    miniPlayerContenitore.setVisible(mostraMiniPlayer);
+    miniPlayerContenitore.setManaged(mostraMiniPlayer);
+    FXMLLoader loader=new FXMLLoader(getClass().get(Resource(percorso));
+    Parent vista=loader.load();
+    if (percorso.equals("/viste/StatisticheView.fxml")) controllerStatisticheCorrente=loader.getController();
+    else controllerStatisticheCorrente=null;
+    if (percorso.equals("/viste/PlayerView.fxml")) controllerPlayerCorrente=loader.getController();
+    else controllerPlayerCorrente=null;
+    if (percorso.equals("/viste/UtenteForm.fxml")) controllerUtenteCorrente=loader.getController();
+    else controllerUtenteCorrente=null;
+    if (percorso.equals("/viste/PlayerView.fxml")) {
+      contenutoCentrale.setPadding(Insets.EMPTY);
+      contenutoCentrale.setSpacing(0);
+    } else {
+      contenutoCentrale.setPadding(new Insets(28,30,28,30));
+      contenutoCentrale.setSpacing(22);
+    }
+    contenutoCentrale.getChildren().setAll(vista);
+    VBox.setVgrow(vista, Priority.ALWAYS);
+    TemaVisivo.applicaTema(vista);
+    if (vista instanceof Region) ((Region vista).setBackground(new Background(new BackgroundFill(Color.web(TemaVisivo.getColoreSfondo()), CornerRadii.EMPTY, Insets.EMPTY)));
+    if (percorso.equals("/viste/UtenteForm.fxml")) {
+      UtenteController controllerUtente= loader.getController();
+      controllerUtente.aggiornaTemaUtente();
+    }
+    if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaPlayer();
+    if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaStatistiche();
+  }
+  private void tornaAllaVistaPrecedente() {
+    boolean tornatoIndietro=Navigazione.indietro();
+    if (!tornatoIndietro) apriHome();
+  }
+  private String ottieniNomeArtistaMiniPlayer(Brano brano) {
+    if (brano==null||brano.getAlbumBrano()==null) return "";
+    Artista artista=brano.getAlbumBrano().getArtista();
+    if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
+    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
+    return "";
+  }
+  private void aggiornaInformazioniMiniPlayer(Brano brano) {
+    if (brano==null) {
+      titoloMiniPlayer.setText("");
+      artistaMiniPlayer.setText("");
+      copertinaMiniPlayer.setImage(null);
+      return;
+    
+    titoloMiniPlayer.setText(brano.getTitolo());
+    artistaMiniPlayer.setText(ottieniNomeArtistaMiniPlayer(brano));
+    copertinaMiniPlayer.setImage(null);
+    if (brano.getAlbumBrano()==null) return;
+    String nomeFile=brano.getAlbumBrano().getCopertina();
+    if (nomeFile==null||nomeFile.trim().isEmpty()) return;
+    nomeFile=nomeFile.trim();
+    File file=new File("src/main/resources/dati/" + nomeFile.trim());
+    if (file.isFile()) {
+      Image immagine=new Image(file.toURI().toString());
+        
            
   
   
