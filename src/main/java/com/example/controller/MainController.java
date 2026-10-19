@@ -262,7 +262,7 @@ public class MainController {
            if (albumBrano!=null && albumBrano.getCopertina()!=null && !albumBrano.getCopertina().trim().isEmpty()) {
              File fileCopertina=new File("src/main/resources/dati/" + albumBrano.getCopertina().trim());
              if (fileCopertina.isFile()) {
-               image immagine=new Image(fileCopertina.toURl().toString());
+               image immagine=new Image(fileCopertina.toURI().toString());
                if (!immagine.isError()) immagineCopertina=immagine;
              }
            }
@@ -591,7 +591,7 @@ public class MainController {
       artistaMiniPlayer.setText("");
       copertinaMiniPlayer.setImage(null);
       return;
-    
+    }
     titoloMiniPlayer.setText(brano.getTitolo());
     artistaMiniPlayer.setText(ottieniNomeArtistaMiniPlayer(brano));
     copertinaMiniPlayer.setImage(null);
@@ -602,12 +602,51 @@ public class MainController {
     File file=new File("src/main/resources/dati/" + nomeFile.trim());
     if (file.isFile()) {
       Image immagine=new Image(file.toURI().toString());
-        
-           
-  
-  
-
-
-
-  
+      if(!immagine.isError()) copertinaMiniPlayer.setImage(immagine);
+    }
+    var risorsa=getClass().getResource("/dati/" + nomeFile);
+    if (risorsa!=null) {
+      Image immagine=new Image(risorsa.toExternalForm());
+      if (!immagine.isError()) copertinaMiniPlayer.setImage(immagine);
+    }
+  }
+  private void aggiornaPulsanteMiniAvanti() {
+    if (miniAvanti==null) return;
+    try {miniAvanti.setDisable(PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda()));
+        } catch (BusinessException e) { e.getMessage(); }
+  }
+  private void avviaSincronizzazioneMiniPlayer() {
+    sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {
+      Brano brano=PlayerStato.getBranoCorrente();
+      if (miniIndietro!=null) miniIndietro.setDisable(brano==null);
+      aggiornaInformazioniMiniPlayer(brano);
+      aggiornaVisibilitaMiniPlayer();
+      if (brano==null) {
+        titoloMiniPlayer.setText("Nessun brano in riproduzione");
+        barraMiniPlayer.setValue(0);
+        barraMiniPlayer.setDisable(true);
+        miniPlayPausa.setText("▶");
+        miniAvanti.setDisable(true);
+        return;
+      }
+      aggiornaPulsanteMiniAvanti();
+      titoloMiniPlayer.setText(brano.getTitolo());
+      barraMiniPlayer.setDisable(false);
+      if (brano.getDurata()>0) {
+        double progresso=PlayerStato.getProgressoCorrente()/brano.getDurata();
+        barraMiniPlayer.setValue(Math.max(0, Math.min(1, progresso)));
+      }
+      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) miniPlayPausa.setText("⏸");
+      else miniPlayPausa.setText("▶");
+    }));
+    sincronizzazioneMiniPlayer.setCycleCount(Timeline.INDEFINITE);
+    sincronizzazioneMiniPlayer.play();
+  }
+  private void aggiornaVisibilitaMiniPlayer() {
+    boolean branoPresente=PlayerStato.getBranoCorrente()!=null;
+    contenitoreInformazioniMiniPlayer.setVisible(branoPresente);
+    contenitoreInformazioniMiniPlayer.setManaged(branoPresente);
+    contenitoreControlliMiniPlayer.setVisible(branoPresente);
+    contenitoreControlliMiniPlayer.setManaged(branoPresente);
+  }
 }
