@@ -57,9 +57,11 @@ public class LibreriaController {
   private List<Brano> tuttiIBrani;
   @FXML
   private void initialize() {
+    //i servizi li abbiamo collegati ai file di testo che contengono i dati di artisti, album e brani
     artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
     branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
+    //qui andiamo a definire come vengono mostrati i dati nelle tabelle e poi carichiamo i contenuti così da attivare le iterazioni
     configuraTabellaArtisti();
     configuraTabellaAlbum();
     configuraTabellaBrani();
@@ -71,55 +73,58 @@ public class LibreriaController {
     configuraFiltro();
   }  
   private void configuraTabellaArtisti() {
-    colonnaNome.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(ottieniNomeArtista(cellData.getValue())));
-    colonnaGenere.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(ottieniGenereArtista(cellData.getValue())));
-    colonnaTipo.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(ottieniTipoArtista(cellData.getValue())));
+    //qui andiamo a usare delle lambda che trasformano ogni artista in un valore testuale così da poterlo visualizzare nella rispettiva colonna 
+    colonnaNome.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniNomeArtista(cellData.getValue())));
+    colonnaGenere.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniGenereArtista(cellData.getValue())));
+    colonnaTipo.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniTipoArtista(cellData.getValue())));
   }
   private void configuraTabellaAlbum() {
-    colonnaTitoloAlbum.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
-    colonnaAnnoAlbum.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getAnnoPubblicazione())));
-    colonnaArtistaAlbum.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(ottieniNomeArtista(cellData.getValue().getArtista())));
+    //le lambda estraggono dall'album il titolo, l'anno convertito in testo e il nome del suo artista
+    colonnaTitoloAlbum.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
+    colonnaAnnoAlbum.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getAnnoPubblicazione())));
+    colonnaArtistaAlbum.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniNomeArtista(cellData.getValue().getArtista())));
   }
   private void configuraTabellaBrani() {
-    colonnaTitoloBrano.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
-    colonnaDurataBrano.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getDurata())));
-    colonnaAlbumBrano.setCellValueFactory(cellData-> newjavafx.beans.property.SimpleStringProperty(ottieniTitoloAlbum(cellData.getValue().getAlbumBrano())));
+    //le lambda estraggono dal brano il titolo, la durata convertita in testo e il titolo del suo album
+    colonnaTitoloBrano.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
+    colonnaDurataBrano.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getDurata())));
+    colonnaAlbumBrano.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniTitoloAlbum(cellData.getValue().getAlbumBrano())));
   }
   private void caricaArtisti() {
-    try {
+    try { //qui andiamo a recuperare tutti gli artisti dal file e li convertiamo in una lista osservabile così da aggiornare la tabella di JAVAFX
       tuttiGliArtisti=artistaService.findAllArtisti();
-      tabellaArtisti=setItems(FXCollections.observableArrayList(tuttiGliArtisti));
+      tabellaArtisti.setItems(FXCollections.observableArrayList(tuttiGliArtisti)); //se il servizio non riesce a recuperare gli artisti, viene stampato un messaggio di errore
     } catch (BusinessException e) {System.out.println("Errore nel caricamento degli artisti: " + e.getMessage()); }
   }
   private void caricaAlbum() {
-    try {
+    try {//stesso concetto degli artisti anche qui
       tuttiGliAlbum=albumService.findAllAlbum();
-      tabellaAlbum=setItems(FXCollections.observableArrayList(tuttiGliAlbum));
+      tabellaAlbum.setItems(FXCollections.observableArrayList(tuttiGliAlbum));
     } catch (BusinessException e) {System.out.println("Errore nel caricamento degli album: " + e.getMessage()); }
   }
   private void caricaBrani() {
-    try {
-      tuttiIbrani=branoService.findAllBrani();
+    try { //in questo caso carichiamo tutti i brani e gli album così da ricostruire il collegamento tra ciascun brano e il suo album
+      tuttiIBrani=branoService.findAllBrani();
       tuttiGliAlbum=albumService.findAllAlbum();
-      for (Brano brano:tuttiIBrani) {
+      for (Brano brano:tuttiIBrani) {//azzeriamo l'album associato al brano così da evitare di mantenere un collegamento non corretto
         brano.setAlbumBrano(null);
         for (Album album:tuttiGliAlbum) {
-          for (Brano branoAlbum:album.getListaBrani()) {
+          for (Brano branoAlbum:album.getListaBrani()) {//si confrontano i titolo ignorando maiuscole e minuscole dopo aver verficiato per entrambi che non siano null
             if (brano.getTitolo()!=null&&branoAlbum.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(branoAlbum.getTitolo())) {
               brano.setAlbumBrano(album);
               break;
             }
-          }
+          } //trovato l'album del brano, interrompiamo anche la ricerca negli album successivi
           if (brano.getAlbumBrano()!=null) break;
         }
-      }
+      } //trasformiamo la lista completa dei brani in una lista osservabile
       tabellaBrani.setItems(FXCollections.observableArrayList(tuttiIBrani));
     } catch (BusinessException e) {System.out.println("Errore nel caricamento dei brani: " + e.getMessage()); }
   }
   private String ottieniNomeArtista(Artista artista) {
     if (artista==null) return "";
-    if (artista instanceod ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
-    else if ((artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
+    if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
+    else if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
     return "";
   }
   private String ottieniGenereArtista(Artista artista) {
@@ -136,7 +141,8 @@ public class LibreriaController {
     return album.getTitolo();
   }
   private void configuraSelezioneArtista() {
-    tabellaArtisti.getSelectionModel().selectedItemProperty.addListener((observable, vecchioArtista, nuovoArtista) -> {
+    //il listener rileva ogni cambiamento dell'artista selezionato così da aggiornare gli album e i brani da mostrare
+    tabellaArtisti.getSelectionModel().selectedItemProperty().addListener((observable, vecchioArtista, nuovoArtista) -> {
       if (nuovoArtista==null) {
         tabellaAlbum.getItems().clear();
         tabellaBrani.getItems().clear();
@@ -145,6 +151,7 @@ public class LibreriaController {
       caricaAlbumArtista(nuovoArtista); });
   }
   private void configuraSelezioneAlbum() {
+    //qui il listener aggiorna la tabella dei brani ogni volta che cambia l'album selezionato
     tabellaAlbum.getSelectionModel().selectedItemProperty.addListener((observable, vecchioAlbum, nuovoAlbum) -> {
       if (nuovoAlbum==null) {
         tabellaBrani.getItems().clear();
@@ -153,7 +160,7 @@ public class LibreriaController {
       caricaBraniAlbum(nuovoAlbum); });
   }
   private void caricaBraniAlbum(Album album) {
-    if (album==null) {
+    if (album==null) { //in questo caso la tabella viene svuotata assegnandole una lista osservabile vuota
       tabellaBrani.setItems(FXCollections.observableArrayList());
       return;
     }
@@ -168,6 +175,7 @@ public class LibreriaController {
       List<Album> albumArtista=new ArrayList<>();
       for (Album album: tuttiGliAlbum) {
         Artista artistaAlbum=album.getArtista();
+        //confrontiamo tipo e nome dell'artista per associare gli album corretti anche quando gli oggetti sono instanze diverse
         if (artistaAlbum!=null&&ottieniTipoArtista(artistaAlbum).equals(ottieniTipoArtista(artista))&&ottieniNomeArtista(artistaAlbum).equalsIgnoreCase(ottieniNomeArtista(artista))) 
           albumArtista.add(album);
       }
@@ -176,6 +184,7 @@ public class LibreriaController {
     } catch (BusinessException e) {System.out.println("Errore nel caricamento degli album dell'artista: " + e.getMessage());}
   }
   private void configuraFiltro() {
+    //il listener intercetta ogni modifica del testo digitato e applica immediatamente il filtro alle tabelle
     campoFiltro.textProperty().addListener((observable, vecchioTesto, nuovoTesto)->{applicaFiltro(nuovoTesto);});
   }
   private void applicaFiltro(String testo) {
@@ -197,6 +206,7 @@ public class LibreriaController {
         for (Album album:tuttiGliAlbum) {
           if (album.getArtista()!=null&&ottieniNomeArtista(album.getArtista()).equalsIgnoreCase(nome)) {
             albumFiltrati.add(album);
+            //andiamo a cercare tra tutti i brani quelli presenti nell'elenco dell'album, evitando di inserire due volte lo stesso elemento 
             for(Brano brano:tuttiIBrani) {
               for (Brano branoAlbum: album.getListaBrani()) {
                 if (brano.getTitolo()!=null&&branoAlbum.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(branoAlbum.getTitolo())) {
@@ -211,10 +221,11 @@ public class LibreriaController {
     }
     for (Album album:tuttiGliAlbum) {
       String titolo=album.getTitolo();
-      if(titolo!=null&&titolo.toLowerCase().comtains(filtro)) {
+      if(titolo!=null&&titolo.toLowerCase().contains(filtro)) {
         if(!albumFiltrati.contains(album)) albumFiltrati.add(album);
         if (album.getArtista()!=null&&!artistiFiltrati.contains(album.getArtista())) artistiFiltrati.add(album.getArtista());
         for (Brano branoAlbum: album.getListaBrani()) {
+          //individuiamo i brani dell0album nella lista generale e li si aggiunge senza duplicati
           for (Brano brano:tuttiIBrani) {
             if (brano.getTitolo()!=null&&branoAlbum.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(branoAlbum.getTitolo())) {
               if (!braniFiltrati.contains(brano)) braniFiltrati.add(brano);
@@ -231,7 +242,8 @@ public class LibreriaController {
         for (Album album:tuttiGliAlbum) {
           for (Brano branoAlbum: album.getListaBrani()) {
             if (branoAlbum.getTitolo()!=null&&titolo.equalsIgnoreCase(branoAlbum.getTitolo())) {
-              if (!albumFiltrati.contains(album)) alcumFiltrati.add(album);
+              //se l'album contiene il brano cercato, aggiungiamo anche l'album e il suo artista se non sono già presenti
+              if (!albumFiltrati.contains(album)) albumFiltrati.add(album);
               if (album.getArtista()!=null&&!artistiFiltrati.contains(album.getArtista())) artistiFiltrati.add(album.getArtista());
               break;
             }
@@ -239,14 +251,16 @@ public class LibreriaController {
         }
       }
     }
+    //alla fine di tutto, le tre tabelle le aggiorniamo con i rispettivi risultati filtrati
     tabellaArtisti.setItems(FXCollections.observableArrayList(artistiFiltrati));
     tabellaAlbum.setItems(FXCollections.observableArrayList(albumFiltrati));
     tabellaBrani.setItems(FXCollections.observableArrayList(braniFiltrati));
   }
   @FXML
-  private void tornaIndidetro() throws IOException {
+  private void tornaIndidetro() throws IOException { //qui carichiamo il file FXML della schermata principale per poter tornare alla vista iniziale dell'applicazione
     FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
     Parent root=loader.load();
+    //qui invece recuperiamo la finestra attuale dal pulsante premuto per poi sostituire la scena con quella principale
     Stage stage=(Stage) bottoneIndietro.getScene().getWindow();
     stage.setScene(new Scene(root, 1000, 700));
   }
