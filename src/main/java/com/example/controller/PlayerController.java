@@ -348,5 +348,202 @@ public class PlayerController{
             aggiornaPulsanteAvanti();
         } catch (BusinessException e) { System.out.println("Errore nel ritornare al brano precedente: " + e.getMessage()); }
     }
-  
+      @FXML
+    private void shuffle() {
+        try {
+            if (bottoneShuffle.isSelected()) { codaService.shuffle(coda);
+                System.out.println("Shuffle attivato.");
+            } else { codaService.ripristinaOrdine(coda, ordineOriginale);
+                System.out.println("Shuffle disattivato. Ordine ripristinato");
+            }
+        } catch (BusinessException e) { System.out.println("Errore durante lo shuffle: " + e.getMessage()); }
+    }
+    @FXML
+    private void repeat() {
+        try { ModalitaRepeat modalitaAttuale=coda.getRepeat();
+            ModalitaRepeat nuovaModalita;
+            if (modalitaAttuale==ModalitaRepeat.NESSUNA) nuovaModalita=ModalitaRepeat.RIPETI_CODA;
+            else if (modalitaAttuale==ModalitaRepeat.RIPETI_CODA) nuovaModalita=ModalitaRepeat.RIPETI_BRANO;
+            else nuovaModalita=ModalitaRepeat.NESSUNA;
+            codaService.impostaRepeatCoda(coda, nuovaModalita);
+            System.out.println("Modalita repeat: " + nuovaModalita);
+        } catch (BusinessException e) { System.out.println("Errore durante il repeat: " + e.getMessage()); }
+    }
+    private String formattaTempo(int secondi) {
+        secondi = Math.max(0, secondi);
+        int minuti = secondi / 60;
+        int secondiResidui = secondi % 60;
+        return String.format("%02d:%02d", minuti, secondiResidui);
+    }
+    private void aggiornaTempiBrano(Brano brano) {
+        if (tempoTrascorso == null || tempoRimanente == null) { return; }
+        if (brano == null) { tempoTrascorso.setText("");
+            tempoRimanente.setText("");
+            tempoTrascorso.setVisible(false);
+            tempoTrascorso.setManaged(false);
+            tempoRimanente.setVisible(false);
+            tempoRimanente.setManaged(false);
+            return;
+        }
+        tempoTrascorso.setVisible(true);
+        tempoTrascorso.setManaged(true);
+        tempoRimanente.setVisible(true);
+        tempoRimanente.setManaged(true);
+        int durata = Math.max(0, brano.getDurata());
+        int trascorsi = (int) Math.floor(Math.max(0, PlayerStato.getProgressoCorrente()));
+        trascorsi = Math.min(trascorsi, durata);
+        int rimanenti = Math.max(0, durata - trascorsi);
+        tempoTrascorso.setText(formattaTempo(trascorsi));
+        tempoRimanente.setText("-" + formattaTempo(rimanenti));
+    }
+    private void avviaTimer(Brano brano) {
+        if (timeline != null) { timeline.stop();
+            timeline = null;
+        }
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> { Brano branoCorrente = PlayerStato.getBranoCorrente();
+            if (branoCorrente == null) { timeline.stop();
+                return;
+            }
+            // Se è iniziato un brano diverso, azzera il conteggio.
+            if (branoMonitorato == null || !branoMonitorato.getTitolo().equalsIgnoreCase(branoCorrente.getTitolo())) { branoMonitorato = branoCorrente;
+                secondiAscoltoCorrente = 0;
+                branoAscoltoRegistrato = null;
+            }
+            double durata = branoCorrente.getDurata();
+            double progresso = PlayerStato.getProgressoCorrente();
+            progressoCorrente = progresso;
+            aggiornaTempiBrano(branoCorrente);
+            if (durata > 0 && !trascinamentoBarra) { barraAvanzamento.setValue(progresso / durata); }
+            titoloBrano.setText(branoCorrente.getTitolo());
+            if (branoCorrente.getAlbumBrano() != null) { albumBrano.setText(branoCorrente.getAlbumBrano().getTitolo());
+            } else { albumBrano.setText(""); }
+            if (branoCorrente.getAlbumBrano() != null && branoCorrente.getAlbumBrano().getArtista() != null) { artistaBrano.setText(ottieniNomeArtista(branoCorrente.getAlbumBrano().getArtista())); } else { artistaBrano.setText(""); }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+    private void azzeraConteggioAscolto() { secondiAscoltoCorrente = 0;
+        branoAscoltoRegistrato = null;
+    }
+    private void registraAscolto(Brano brano) {
+        try {
+            if (brano == null || brano.getTitolo() == null) { return; }
+            // Rilegge il brano dal file per usare il contatore aggiornato.
+            List<Brano> braniSalvati = branoService.findAllBrani();
+            for (Brano branoSalvato : braniSalvati) {
+                if (branoSalvato != null && branoSalvato.getTitolo() != null && branoSalvato.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) { branoService.aggiornaNumeroAscolti(branoSalvato);
+                    branoAscoltoRegistrato = brano;
+                    System.out.println("Ascolto registrato: " + brano.getTitolo());
+                    return;
+                }
+            }
+            System.out.println("Brano non trovato nel file: " + brano.getTitolo());
+        } catch (BusinessException e) { System.out.println("Errore durante la registrazione dell'ascolto: " + e.getMessage()); }
+    private String ottieniNomeArtista(Artista artista) {
+        if (artista instanceof ArtistaSolista) { ArtistaSolista solista = (ArtistaSolista) artista;
+            return solista.getNomeArte();
+        }
+        if (artista instanceof ArtistaGruppo) { ArtistaGruppo gruppo = (ArtistaGruppo) artista;
+            return gruppo.getNomeGruppo();
+        }
+        return "";
+    }
+    @FXML
+    private void inizioTrascinamento() { trascinamentoBarra = true;
+        if (timeline != null) timeline.pause();
+    }
+    @FXML
+    private void fineTrascinamento() { trascinamentoBarra = false;
+        try { Brano brano = codaService.getBranoCorrente(coda);
+            if (brano == null) return;
+            double durataSecondi = brano.getDurata();
+            progressoCorrente = barraAvanzamento.getValue()*durataSecondi;
+            PlayerStato.setProgressoCorrente(progressoCorrente);
+            aggiornaTempiBrano(brano);
+            System.out.println("NUOVO PROGRESSO PLAYER: " + progressoCorrente);
+            System.out.println("NUOVO PROGRESSO MINI PLAYER: " + PlayerStato.getProgressoCorrente());
+            if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer(brano);
+            else barraAvanzamento.setValue(progressoCorrente / durataSecondi);
+        } catch (BusinessException e) { System.out.println("Errore nello spostamento del brano: " + e.getMessage()); }
+    }
+    @FXML
+    private void tornaHome() {
+        if (timeline != null) { timeline.stop();
+            timeline = null;
+        }
+        Navigazione.indietroOHome();
+    }
+    private void aggiornaCopertinaAlbum(Brano brano) { copertinaAlbum.setImage(null);
+        if (brano == null || brano.getAlbumBrano() == null) { return; }
+        String nomeFile = brano.getAlbumBrano().getCopertina();
+        if (nomeFile == null || nomeFile.trim().isEmpty()) { return; }
+        File file = new File("src/main/resources/dati/" + nomeFile.trim());
+        if (!file.isFile()) { return; }
+        try { Image immagine = new Image(file.toURI().toString());
+            if (!immagine.isError()) { copertinaAlbum.setImage(immagine); }
+        } catch (Exception e) { copertinaAlbum.setImage(null); }
+    }
+    public void impostaAperturaDaPlaylist(boolean valore) { apertoDaPlaylist = valore;
+        aggiornaTemaPlayer();
+    }
+    private void caricaTesto(Brano brano) { contenitoreRigheTesto.getChildren().clear();
+        titoloTestoCaricato = brano == null ? null : brano.getTitolo();
+        if (brano == null) { titoloFinestraTesto.setText("Nessun brano in riproduzione");
+            messaggioTesto.setText("Avvia un brano per visualizzarne il testo.");
+            return;
+        }
+        titoloFinestraTesto.setText(brano.getTitolo());
+        String testo = brano.getTesto();
+        if (testo == null || testo.trim().isEmpty()) { messaggioTesto.setText("Il testo non è disponibile per questo brano.");
+            return;
+        }
+        messaggioTesto.setText("Testo completo del brano.");
+        String[] righe = testo.split("\\R", -1);
+        for (String riga : righe) {
+            Label etichetta = new Label(riga.isEmpty() ? " " : riga);
+            etichetta.setWrapText(true);
+            etichetta.setMaxWidth(Double.MAX_VALUE);
+            etichetta.setPadding(new Insets(8));
+            etichetta.setStyle("-fx-font-size: 18px;" + "-fx-text-fill: #dddddd;" + "-fx-background-color: transparent;" + "-fx-background-radius: 6;");
+            contenitoreRigheTesto.getChildren().add(etichetta);
+        }
+        // Ogni nuovo brano parte dall'inizio del testo.
+        scorrimentoTesto.setVvalue(0);
+    }
+    @FXML
+    private void apriTesto() { Brano brano = PlayerStato.getBranoCorrente();
+        if (finestraTesto != null && finestraTesto.isShowing()) {
+            if (brano == null) {
+                if (titoloTestoCaricato != null) { caricaTesto(null); }
+            } else if (titoloTestoCaricato == null || !titoloTestoCaricato.equalsIgnoreCase(brano.getTitolo())) { caricaTesto(brano); }
+            finestraTesto.toFront();
+            return;
+        }
+        titoloFinestraTesto = new Label();
+        titoloFinestraTesto.setStyle("-fx-font-size: 22px;" + "-fx-font-weight: bold;" + "-fx-text-fill: white;");
+        messaggioTesto = new Label();
+        messaggioTesto.setWrapText(true);
+        messaggioTesto.setStyle("-fx-font-size: 13px;" + "-fx-text-fill: #cccccc;");
+        contenitoreRigheTesto = new VBox(12);
+        contenitoreRigheTesto.setPadding(new Insets(15));
+        contenitoreRigheTesto.setStyle("-fx-background-color: #202020;");
+        scorrimentoTesto = new ScrollPane(contenitoreRigheTesto);
+        scorrimentoTesto.setFitToWidth(true);
+        scorrimentoTesto.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scorrimentoTesto.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scorrimentoTesto.setStyle("-fx-background: #202020;" + "-fx-background-color: #202020;");
+        VBox radice = new VBox(15);
+        radice.setPadding(new Insets(20));
+        radice.setStyle("-fx-background-color: #202020;");
+        radice.getChildren().addAll(titoloFinestraTesto, messaggioTesto, scorrimentoTesto);
+        VBox.setVgrow(scorrimentoTesto, javafx.scene.layout.Priority.ALWAYS);
+        finestraTesto = new Stage();
+        if (titoloBrano.getScene() != null && titoloBrano.getScene().getWindow() != null) { finestraTesto.initOwner(titoloBrano.getScene().getWindow()); }
+        finestraTesto.setTitle("Testo del brano");
+        finestraTesto.setScene(new Scene(radice, 600, 650));
+        finestraTesto.setMinWidth(400);
+        finestraTesto.setMinHeight(400);
+        caricaTesto(brano);
+        finestraTesto.show();
+    }
 }
