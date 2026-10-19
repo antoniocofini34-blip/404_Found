@@ -180,4 +180,173 @@ public class PlayerController{
         bottoneRepeat.setDisable(nessunBrano);
         aggiornaPulsanteAvanti();
     }
+  @FXML
+    private void play() {
+        try {
+            Brano branoPrima = PlayerStato.getBranoCorrente();
+            boolean ripresa = coda.getStato() == StatoRiproduzione.IN_PAUSA;
+            codaService.play(coda);
+            Brano brano=codaService.getBranoCorrente(coda);
+            if (brano!=null) {
+                boolean nuovoBrano=branoPrima==null || !branoPrima.getTitolo().equalsIgnoreCase(brano.getTitolo());
+                if (!ripresa && (nuovoBrano || !riproduzioneIniziata)) {
+                    azzeraConteggioAscolto();
+                    riproduzioneIniziata=true;
+                }
+                barraAvanzamento.setDisable(false);
+                PlayerStato.setBranoCorrente(brano);
+                progressoCorrente = PlayerStato.getProgressoCorrente();
+                barraAvanzamento.setValue(progressoCorrente/brano.getDurata());
+                titoloBrano.setText(brano.getTitolo());
+                aggiornaCopertinaAlbum(brano);
+                if(brano.getAlbumBrano()!=null) albumBrano.setText(brano.getAlbumBrano().getTitolo());
+                else albumBrano.setText("");
+                if (brano.getAlbumBrano()!=null && brano.getAlbumBrano().getArtista()!=null)
+                    artistaBrano.setText(ottieniNomeArtista(brano.getAlbumBrano().getArtista()));
+                else artistaBrano.setText("");
+                if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+            avviaTimer(brano);
+            aggiornaPulsantiRiproduzione();
+            }
+        } catch (BusinessException e) {
+            System.out.println("Errore durante la riproduzione: " + e.getMessage());
+        }
+    }
+    @FXML
+    private void pausa() {
+       try { codaService.pausa(coda);
+          PlayerStato.fermaTimerRiproduzione();
+          if (timeline!=null) { timeline.stop();
+             timeline=null;
+          }
+          System.out.println("Riproduzione in pausa");
+        } catch (BusinessException e) { System.out.println("Errore durante la pausa: " + e.getMessage()); }
+    }
+    @FXML
+    private void stop() {
+      try { PlayerStato.fermaTimerRiproduzione();
+          PlayerStato.terminaSessioneCronologiaConStop();
+          if (timeline != null) { timeline.stop();
+             timeline=null;
+          }
+          codaService.stop(coda);
+            copertinaAlbum.setImage(null);
+            progressoCorrente=0;
+            barraAvanzamento.setValue(0);
+            PlayerStato.setProgressoCorrente(0);
+            azzeraConteggioAscolto();
+            riproduzioneIniziata=false;
+            PlayerStato.setBranoCorrente(null);
+            apertoDaPlaylist = false;
+            titoloBrano.setText("Nessun brano in riproduzione");
+            artistaBrano.setText("");
+            albumBrano.setText("");
+            aggiornaTempiBrano(null);
+            aggiornaTemaPlayer();
+            barraAvanzamento.setDisable(true);
+            aggiornaPulsantiRiproduzione();
+            System.out.println("Riproduzione stoppata");
+        } catch (BusinessException e) { System.out.println("Errore durante lo stop: " + e.getMessage()); }
+    }
+  @FXML
+  private void avanti() {
+      try {
+          // Se siamo sull'ultimo brano e Repeat è disattivato,
+          // non modificare la coda e non fermare i timer.
+          if (codaService.isAvantiDisabilitato(coda)) { aggiornaPulsanteAvanti();
+              return;
+          }
+          // Ferma il timer grafico.
+          if (timeline != null) { timeline.stop();
+              timeline = null;
+          }
+          // Salva la sessione prima di cambiare brano.
+          PlayerStato.fermaTimerRiproduzione();
+          codaService.avanti(coda);
+          Brano brano = codaService.getBranoCorrente(coda);
+          if (brano != null) { aggiornaCopertinaAlbum(brano);
+              titoloBrano.setText(brano.getTitolo());
+              progressoCorrente = 0;
+              barraAvanzamento.setValue(0);
+              barraAvanzamento.setDisable(false);
+              PlayerStato.setProgressoCorrente(0);
+              PlayerStato.setBranoCorrente(brano);
+              PlayerStato.iniziaNuovoAscolto();
+              if (brano.getAlbumBrano() != null) { albumBrano.setText(brano.getAlbumBrano().getTitolo());
+                } else { albumBrano.setText(""); }
+                if (brano.getAlbumBrano() != null && brano.getAlbumBrano().getArtista() != null) {
+                    artistaBrano.setText(ottieniNomeArtista(brano.getAlbumBrano().getArtista()));
+                } else { artistaBrano.setText(""); }
+                codaService.play(coda);
+                PlayerStato.avviaTimerRiproduzione();
+                avviaTimer(brano);
+                System.out.println("Brano successivo: " + brano.getTitolo());
+            } else { titoloBrano.setText("Nessun brano in riproduzione");
+                artistaBrano.setText("");
+                albumBrano.setText("");
+                copertinaAlbum.setImage(null);
+                aggiornaTempiBrano(null);
+                progressoCorrente = 0;
+                barraAvanzamento.setValue(0);
+                barraAvanzamento.setDisable(true);
+                PlayerStato.setProgressoCorrente(0);
+                PlayerStato.setBranoCorrente(null);
+                System.out.println("Fine della coda.");
+            }
+            aggiornaPulsanteAvanti();
+        } catch (BusinessException e) { System.out.println("Errore durante il passaggio al brano successivo: " + e.getMessage());
+        }
+    }
+  @FXML
+  private void indietro() {
+     try {
+         if (timeline != null) { timeline.stop();
+                timeline = null;
+            }
+            PlayerStato.fermaTimerRiproduzione();
+            if (progressoCorrente >= 5) { Brano branoCorrente = codaService.getBranoCorrente(coda);
+                if (branoCorrente != null) { PlayerStato.salvaSessioneCronologia();
+                    progressoCorrente = 0;
+                    barraAvanzamento.setValue(0);
+                    PlayerStato.setProgressoCorrente(0);
+                    PlayerStato.setBranoCorrente(branoCorrente);
+                    PlayerStato.iniziaNuovoAscolto();
+                    codaService.play(coda);
+                    PlayerStato.avviaTimerRiproduzione();
+                    avviaTimer(branoCorrente);
+                    System.out.println("Brano riavviato.");
+                }
+                return;
+            }
+            PlayerStato.salvaSessioneCronologia();
+            codaService.indietro(coda);
+            Brano brano = codaService.getBranoCorrente(coda);
+            progressoCorrente = 0;
+            barraAvanzamento.setValue(0);
+            PlayerStato.setProgressoCorrente(0);
+            if (brano != null) { PlayerStato.setBranoCorrente(brano);
+                PlayerStato.iniziaNuovoAscolto();
+                titoloBrano.setText(brano.getTitolo());
+                aggiornaCopertinaAlbum(brano);
+                if (brano.getAlbumBrano() != null) { albumBrano.setText(brano.getAlbumBrano().getTitolo());
+                } else { albumBrano.setText(""); }
+                if (brano.getAlbumBrano() != null && brano.getAlbumBrano().getArtista() != null) { artistaBrano.setText(ottieniNomeArtista(brano.getAlbumBrano().getArtista()));
+                } else { artistaBrano.setText(""); }
+                barraAvanzamento.setDisable(false);
+                codaService.play(coda);
+                PlayerStato.avviaTimerRiproduzione();
+                avviaTimer(brano);
+                System.out.println("Brano precedente: " + brano.getTitolo());
+            } else { titoloBrano.setText("Nessun brano in riproduzione");
+                artistaBrano.setText("");
+                albumBrano.setText("");
+                copertinaAlbum.setImage(null);
+                barraAvanzamento.setDisable(true);
+                PlayerStato.setBranoCorrente(null);
+                System.out.println("Nessun brano precedente.");
+            }
+            aggiornaPulsanteAvanti();
+        } catch (BusinessException e) { System.out.println("Errore nel ritornare al brano precedente: " + e.getMessage()); }
+    }
+  
 }
