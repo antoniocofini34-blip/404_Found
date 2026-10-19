@@ -234,18 +234,186 @@ public class MainController {
            Brano brano=consigliati.get(i);
            VBox contenutoScheda=new VBox(12);
            contenutoScheda.setPadding(new Insets(18));
-           
-             
-         
-          
-  
-          
+           contenutoScheda.setPrefWidth(220);
+           contenutoScheda.setMinHeight(210);
+           contenutoScheda.setMaxWildth(250);
+           contenutoScheda.setStyle("-fx-background-color: transparent;");
+           StackPane scheda= new StackPane();
+           scheda.setPrefWidth(220);
+           scheda.setMinWidth(220);
+           scheda.setMinHeight(210);
+           scheda.setPrefHeight(210);
+           scheda.setMaxWidth(250);
+           Album albumBrano=brano.getAlbumBrano();  //Cerca l'album a cui appartiene il brano
+           if (albumBrano==null) {
+             for (Album album : albumDisponibili) {
+               if (album==null || album.getListaBrani()==null) continue;
+               for (Brano branoAlbum : album.getListaBrani()) {
+                 if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
+                   albumBrano=album;
+                   brano.setAlbumBrano(album);
+                   break;
+                 }
+               }
+               if (albumBrano!=null) break;
+             }
+           }
+           Image immagineCopertina=null;  //Carica la copertina dell'album
+           if (albumBrano!=null && albumBrano.getCopertina()!=null && !albumBrano.getCopertina().trim().isEmpty()) {
+             File fileCopertina=new File("src/main/resources/dati/" + albumBrano.getCopertina().trim());
+             if (fileCopertina.isFile()) {
+               image immagine=new Image(fileCopertina.toURl().toString());
+               if (!immagine.isError()) immagineCopertina=immagine;
+             }
+           }
+           if (immagineCopertina!=null) {  //Imposta la copertina come sfondo, mantenendo le proporzioni e ritagliando l'eventuale parte in eccesso
+             BackgroundImage sfondoCopertina=new BackgroundImage(immagineCopertina, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, true, true, false, true));
+             scheda.setBackground(new Background(sfondoCopertina)); 
+           } else scheda.setBackground(new Background(new BackgroundFill(Color.web("#242424"), new CornerRadii(12), Insets.EMPTY)));
+           Region oscuramento=new Region();   //Oscura leggermente l'immagine per rendere leggibili i testi
+           oscuramento.setMouseTransparent(true);
+           oscuramento.setStyle("-fx-background-color: rgba(0, 0, 0, 0.58);" + "-fx-background-radius: 12;");
+           oscuramento.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+           Label icona=new Label("♫");   //Simbolo musicale
+           icona.setStyle("-fx-font-size: 28px;" + "-fx-text-fill: #1ed760;");
+           Label titoloBrano=new Label(brano.getTitolo());   
+           titoloBrano.setWrapText(true);
+           titoloBrano.setMaxWidth(190);
+           titoloBrano.setStyle("-fx-font-size: 17px;" + "-fx-font-weight: bold;" + "-fx-text-fill: white;");
+           String generi=brano.getGenereBrano().isEmpty() ? "Genere non specificato" : brano.getGenereBrano().toString().replace("[","").replace("]","");
+           Label genereBrano=new Label(generi);
+           genereBrano.setWrapText(true);
+           genereBrano.setStyle("-fx-font-size: 12px;" + "-fx-text-fill: white;");
+           int durata=brano.getDurata();
+           String durataFormattata=String.format("%02d:%02d", durata / 60, durata % 60);
+           Label durataBrano=new Label(durataFormattata);
+           durataBrano.setStyle("-fx-font-size: 12px;" + "-fx-text-fill: #1ed760;");
+           Button pulsantePlay=new Button("▶️Riproduci");
+           pulsantePlay.setMaxWidth(Double.MAX_VALUE);
+           pulsantePlay.setStyle("-fx-background-color: #1ed760;" + "-fx-text-fill: black;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
+           pulsantePlay.setOnAction(event -> avviaBranoConsigliato(brano));
+           Region spazio=new Region();
+           VBox.setVgrow(spazio, Priority.ALWAYS);
+           contenutoScheda.getChildren().addAll(icona, titoloBrano, genereBrano, spazio, durataBrano, pulsantePlay);
+           scheda.getChildren().addAll(oscuramento, contenutoScheda);  //Ordine dei livelli: sfondo, oscuramento, contenuto
+           grigliaBrani.getChildren().add(scheda);
+         }
+        } catch(BusinessException e) { Label errore=new Label("Impossibile caricare i suggerimenti musicali.");
+              errore.setStyle("-fx-text-fill: #ff7777;");
+              grigliaBrani.getChildren().add(errore);
+            }
+      }
+  private void avviaBranoConsigliato(Brano brano) {
+    if (brano==null) return;
+    try { if (miniTimeline!=null) {  //Ferma il timer grafico del mini player
+            miniTimeline.stop();
+            miniTimeline=null;
+        }
+      FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resorces/dati/album.txt");
+      List<Album> album=albumService.findAllAlbum();
+      brano.setAlbumBrano(null);
+      for (Album a : album) {
+        for (Brano branoAlbum : a.getListaBrani()) {
+          if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
+            brano.setAlbumBrano(a);
+            break;
+          }
+        }
+        if (brano.getAlbumBrano()!=null) break;
+      }
+      PlayerStato.avviaBranoDaHome(brano);
+      titoloMiniPlayer.setText(brano.getTitolo());
+      barraMiniPlayer.setValue(0);
+      barraMiniPlayer.setDisable(false);
+      miniPlayPausa.setText("⏸️");
+      avviaMiniTimer();
+      } catch(Exception e) { e.getMessage(); }
   }
   @FXML
   private void apriRicerca() throws IOException {
-    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/RicercaView.fxml"));
-    Parent root=loader.load(); 
-    Stage stage=(Stage) titoloLabel.getScene().getWindow(); 
-    stage.setScene(new Scene(root, 1000, 700)); 
+    mostraVista("/viste/RicercaView.fxml");
   }
+  @FXML
+  private void apriLibreria() throws IOException {
+    mostraVista("/viste/LibreriaView.fxml");
+  }
+  @FXML
+  private void apriPlaylist() throws IOException {
+    mostraVista("/viste/PlaylistView.fxml");
+  }
+  @FXML
+  private void apriArtisti() throws IOException {
+    mostraVista("/viste/ArtistaForm.fxml");
+  }
+  @FXML
+  private void apriAlbum() throws IOException {
+    mostraVista("/viste/AlbumForm.fxml");
+  }
+  @FXML
+  private void apriBrani() throws IOException {
+    mostraVista("/viste/BranoForm.fxml");
+  }
+  @FXML
+  private void apriPlayer() throws IOException {
+    miniPlayerContenitore.setVisible(false);
+    miniPlayerContenitore.setManaged(false);
+    mostraVista("/viste/PlayerView.fxml");
+  }
+  @FXML
+  private void apriPlayerDaArtista() {
+    try { apriPlayer(); 
+        } catch(IOException e) { e.getMessage(); }
+  }
+  @FXML
+  private void apriPlayerDaTitolo() {
+    try { apriPlayer();
+        } catch(IOException e) { e.getMessage(); }
+  }
+  private void avviaMiniTimer() {
+    if (miniTimeline!=null) {
+      miniTimeline.stop();
+      miniTimeline=null;
+    }
+    miniTimeline=new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+      Brano brano=PlayerStato.getBranoCorrente();
+      if (brano==null) {
+        miniTimeline.stop();
+        return;
+      }
+      double progresso=PlayerStato.getProgressoCorrente();
+      double durata= brano.getDurata();
+      if (durata > 0 && !miniTrascinamento) barraMiniPlayer.setValue(progresso / durata);
+      titoloMiniPlayer.setText(brano.getTitolo());
+    }));
+    miniTimeline.setCycleCount(Timeline.INDEFINITE);
+    miniTimeline.play();
+  }
+  @FXML
+  private void miniPlayPausa() {
+    try { Brano brano=PlayerStato.getBranoCorrente();
+         if (brano==null) return;
+         if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) {
+           PlayerStato.getCodaService().pausa(PlayerStato.getCoda());
+           PlayerStato.fermaTimerRiproduzione();
+           if (miniTimeline!=null) {
+             miniTimeline.stop();
+             miniTimeline=null;
+           }
+           miniPlayPausa.setText("▶️");
+         } else {
+           PlayerStato.getCodaService().play(PlayerStato.getCoda());
+           if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+           miniPlayPausa.setText("⏸️");
+           avviaMiniTimer();
+         }
+        } catch(BusinessException e) { e.getMessage(); }
+  }
+  
+           
+  
+  
+
+
+
+  
 }
