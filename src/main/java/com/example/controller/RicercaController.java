@@ -251,4 +251,89 @@ public class RicercaController{
             risultatoLabel.setText("Errore nella ricerca: " + e.getMessage());
         }
     }
-  
+  private List<Brano> rimuoviDuplicati(List<Brano> brani) {
+    List<Brano> risultati=new ArrayList<>();
+    for (Brano brano : brani) {
+      if (!risultati.contains(brano)) risultati.add(brano);
+    }
+    return risultati;
+  }
+  private void aggiungiAllaPlaylist(Brano brano) {
+    try { FilePlaylistServiceImpl servizioPlaylist=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
+          List<Playlist> playlistDisponibili=servizioPlaylist.findAllPlaylist();
+          if(playlistDisponibili.isEmpty()) {
+            risultato.Label.setText("Non esistono playlist.");
+            return;
+          }
+            List<String> nomiPlaylist=new ArrayList<>();
+            for (Playlist playlist : playlistDisponibili) {
+              nomiPlaylist.add(playlist.getNome());
+            }
+            ChoiceDialog<String> dialogo=new ChoiceDialog<>(nomiPlaylist.get(0), nomiPlaylist);
+            dialogo.setTitle("Aggiungi alla playlist");
+            dialogo.setHeaderText("Brano: " + brano.getTitolo());
+            dialogo.setContentText("Scegli la playlist: ");
+            Optional<String> scelta=dialogo.showAndWait();
+            if (!scelta.isPresent()) return;
+            for (Playlist playlist : playlistDisponibili) {
+              if (playlist.getNome().equals(scelta.get())) {
+                servizioPlaylist.aggiungiBrano(playlist, brano);
+                risultatoLabel.setText("\"" + brano.getTitolo() + "\" aggiunto a \"" + playlist.getNome() + "\".");
+                return;
+              }
+            }
+            risultatoLabel.setText("Playlist non trovata.");
+          } catch(BusinessException e) { risultato.Label.setText("Errore durante l'aggiunta: " + e.getMessage()); }
+  }
+  @FXML
+  private void tornaIndietro() throws IOException {
+    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml");
+    Parent root=loader.load();
+    Stage stage=(Stage) campoRicerca.getScene().getWindow();
+    stage.setScene(new Scene(root, 1000, 700));
+  }
+  private String ottieniNomeArtistaRicerca(Artista artista) {
+    if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
+    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
+    return null;
+  }
+  private void applicaTemaCronologiaScuro() {
+    if (cronologiaListView==null) return;
+    boolean scuro=TemaVisivo.isScuro();
+    String sfondo=scuro ? "#242424" : "#ffffff";
+    String testo=scuro ? "#ffffff" : "#111111";
+    String bordo=scuro ? "#454545" : "#cccccc";
+    cronologiaListView.setStyle("-fx-control-inner-background: " + sfondo + ";" + "-fx-border-color:" + bordo + ";" + "-fx-text-fill: " + testo + ";");
+    cronologiaListView.setCellFactory(lista -> new ListCell<String>() {
+      @Override
+      protected void updateItem(String elemento, boolean vuoto) {
+        super.updateItem(elemento, vuoto);
+        if (vuoto || elemento==null) setText(null);
+        else setText(elemento);
+        setTextFill(javafx.scene.paint.Color.web(testo));
+        setStyle("-fx-background-color: " + sfondo + ";" + "-fx-text-fill: " + testo + ";");
+      }
+    });
+    javafx.application.Platform.runLater(() -> {
+      cronologiaListView.applyCss();
+      String[] selettori= {".virtual-flow", ".clipped-container", ".sheet", ".viewport"};
+      for (String selettore : selettori) {
+        for (javafx.scene.Node nodo : cronologiaListView.lookupAll(selettore)) {
+          nodo.setStyle("-fx-background-color: " + sfondo + ";");
+        }
+      }
+    });
+  }
+  private void aggiornaCronologia() {
+    Utente utente=UtenteAttivo.getUtente();
+    if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
+      utenteCronologiaLabel.setText("Nessun utente selezionato.");
+      cronologiaListView.getItems().clear();
+      return;
+    }
+    String email=utente.getEmail().trim();
+    List<String> ascolti=CronologiaAscoltiStorage.leggi(email);
+    cronologiaListView.getItems().setAll(ascolti);
+    if (ascolti.isEmpty()) utenteCronologiaLabel.setText("Nessun ascolto registrato per " + email);
+    else utenteCronologiaLabel.setText("Cronologia di " + email + "-" + ascolti.size() + "sessioni");
+  }
