@@ -14,7 +14,7 @@ public class Navigazione { private static final Deque<Runnable> cronologia = new
         azione.run();
         return true;
     }
-    public static void indietroOHome() {
+    public static void indietroHome() {
         if (!indietro()) {
             if (azioneHome != null) { azioneHome.run(); }
         }
