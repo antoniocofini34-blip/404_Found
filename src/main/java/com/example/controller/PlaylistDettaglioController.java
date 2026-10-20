@@ -19,6 +19,8 @@ import javafx.application.Platform;
 import com.example.controller.Naavigazione;
 import java.io.IOException;
 import java.util.List;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 public class PlaylistDettaglioController{
   @FXML
   private Label titoloPlaylist;
@@ -45,7 +47,7 @@ public class PlaylistDettaglioController{
   @FXML
   private void inizialize(){ playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
     configuraTabella();
-    Platform.runLater(this::aggiornaTemaPlaylist);
+    Platform.runLater(this::aggiornaTemaPlaylist);  //Sincronizza l'aggiornamento grafico del tema sul thread principale di JavaFX per evitare errori
   }
     private void configuraTabella(){ colonnaTitoloBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
       colonnaDurataBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getTitolo())));
@@ -55,24 +57,24 @@ public class PlaylistDettaglioController{
       descrizionePlaylist.setText(playlist.getDescriziono());
       try{ List<Brano> brani= playlistService.getBrani(playlist);
         tabellaBrani.setItems(FXCollections.observableArrayList(brani));
-      } catch(BusinessException e){ System.out.println("Errore nel caricamento dei brani: " + e.getMessage()); }
+      } catch(BusinessException e){ e.getMessage(); }
     }
   @FXML
-  private void rimuoviBrano() { Brano branoSelezionato = tabellaBrani.getSelectionModel().getSelectedItem();
+  private void rimuoviBrano() { Brano branoSelezionato = tabellaBrani.getSelectionModel().getSelectedItem();  //Recupera l'oggetto Brano selezionato dall'utente nella tabella
         if (branoSelezionato == null) { System.out.println("Seleziona un brano da rimuovere.");
             return;
         }
         try { playlistService.rimuoviBrano(playlistSelezionata, branoSelezionato);
             impostaPlaylist(playlistSelezionata);
-        } catch (BusinessException e) { System.out.println("Errore durante la rimozione del brano: " + e.getMessage()); }
+        } catch (BusinessException e) { e.getMessage(); }
     }
     @FXML
-    private void spostaSu() { int indice = tabellaBrani.getSelectionModel().getSelectedIndex();
+    private void spostaSu() { int indice = tabellaBrani.getSelectionModel().getSelectedIndex();  //Recupera l'indice numerico della riga selezionata nella tabella
         if (indice <= 0) return;
         try { playlistService.riordinaBrani(playlistSelezionata, indice, indice - 1);
             impostaPlaylist(playlistSelezionata);
             tabellaBrani.getSelectionModel().select(indice - 1);
-        } catch (BusinessException e) { System.out.println("Errore durante lo spostamento: " + e.getMessage()); }
+        } catch (BusinessException e) { e.getMessage(); }
     }
     @FXML
     private void spostaGiu() { int indice = tabellaBrani.getSelectionModel().getSelectedIndex();
@@ -87,7 +89,7 @@ public class PlaylistDettaglioController{
         if (!tornatoIndietro) { System.out.println("Nessuna schermata precedente registrata."); }
     }
   @FXML
-  private void aggiungiBrano() throws IOException{ FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/AggiungiBranoPLaylistView.fxml"));ù
+  private void aggiungiBrano() throws IOException{ FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/AggiungiBranoPLaylistView.fxml"));
      Parent root=loader.load();
      AggiungiBranoPlaylistController controller=loader.getController();
      controller.impostaPlaylist(playlistSelezionata);
@@ -98,9 +100,8 @@ public class PlaylistDettaglioController{
     List<Album> albumDisponibili=albumService.findAllAlbum();
     for(Brano brano : brani){
       if(brano==null || brano.getTitolo()==null) continue;
-      //Elimina eventuali associazioni mancanti o obsolete.
-      brano.setAlbumBrano(null);
-      for(Album album . albumDisponibile){
+      brano.setAlbumBrano(null);  //Elimina eventuali associazioni mancanti o obsolete.
+      for(Album album : albumDisponibile){
         if(album==null) continue;
         for(Brano branoAlbum : album.getListaBrani()){
           if(branoAlbum!=null && branoAlbum.getTitolo()!=null && branoAlbum.getTitolo.trim().equalsIgnoreCase(brano.getTitolo().trim())){ brano.setAlbumBrano(album);
@@ -131,8 +132,7 @@ public class PlaylistDettaglioController{
         }
         try { List<Brano> braniDaAssociare = new java.util.ArrayList<>();
             braniDaAssociare.add(selezionato);
-            // Recupera album e artista anche per il singolo brano.
-            associaAlbumAiBrani(braniDaAssociare);
+            associaAlbumAiBrani(braniDaAssociare); // Recupera album e artista anche per il singolo brano.
             PlayerStato.avviaSoloBrano(selezionato);
             apriPlayer();
         } catch (BusinessException | IOException e) { mostraMessaggio("Errore durante la riproduzione: " + e.getMessage()); }
@@ -148,7 +148,7 @@ public class PlaylistDettaglioController{
     stage.setScene(new Scene(root, 1000, 700));
     controller.impostaAperturaDaPlaylist(true);
     }
-    private void mostraMessaggio(String messaggio) { javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+    private void mostraMessaggio(String messaggio) { Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Riproduzione");
         alert.setHeaderText(null);
         alert.setContentText(messaggio);
