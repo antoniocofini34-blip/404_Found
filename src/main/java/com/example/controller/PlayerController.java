@@ -155,13 +155,13 @@ public class PlayerController{
     }
   private void aggiornaStileBarraAvanzamento() {
         if (barraAvanzamento == null) { return; }
-        double percentuale = Math.max(0, Math.min(100, barraAvanzamento.getValue() * 100));
+        double percentuale = Math.max(0, Math.min(100, barraAvanzamento.getValue() * 100));  //Converte il valore decimale dello slider (da 0.0 a 1.0) in una percentuale (da 0% a 100%)
         String coloreRiempimento = TemaVisivo.getColoreBarra();
         barraAvanzamento.applyCss();
-        javafx.scene.Node track = barraAvanzamento.lookup(".track");
-        if (track != null) { track.setStyle("-fx-background-color: linear-gradient(to right, " + coloreRiempimento + " " + percentuale + "%, #808080 " + percentuale + "%);" + "-fx-background-radius: 5;"); }
-        javafx.scene.Node thumb = barraAvanzamento.lookup(".thumb");
-        if (thumb != null) { thumb.setStyle("-fx-background-color: " + coloreRiempimento + ";" + "-fx-background-radius: 10;"); }
+        javafx.scene.Node track = barraAvanzamento.lookup(".track");  //Prende la linea di base dello slider musicale
+        if (track != null) { track.setStyle("-fx-background-color: linear-gradient(to right, " + coloreRiempimento + " " + percentuale + "%, #808080 " + percentuale + "%);" + "-fx-background-radius: 5;"); }  //Colora la parte ascoltata con il colore del tema e il resto di grigio
+        javafx.scene.Node thumb = barraAvanzamento.lookup(".thumb");  //Cerca il cursore dello slider
+        if (thumb != null) { thumb.setStyle("-fx-background-color: " + coloreRiempimento + ";" + "-fx-background-radius: 10;"); }  //Colora il cursore dello slider
     }
       private void aggiornaPulsanteAvanti() {
         if (bottoneAvanti == null || codaService == null || coda == null) { return; }
@@ -370,10 +370,10 @@ public class PlayerController{
         } catch (BusinessException e) { System.out.println("Errore durante il repeat: " + e.getMessage()); }
     }
     private String formattaTempo(int secondi) {
-        secondi = Math.max(0, secondi);
-        int minuti = secondi / 60;
-        int secondiResidui = secondi % 60;
-        return String.format("%02d:%02d", minuti, secondiResidui);
+        secondi = Math.max(0, secondi);  //Evita numeri negativi impostando il valore minimo a 0
+        int minuti = secondi / 60;  //Calcola il numero di minuti interi
+        int secondiResidui = secondi % 60;  //Calcola i secondi rimanenti dopo aver estratto i minuti
+        return String.format("%02d:%02d", minuti, secondiResidui);  //Trasforma il tempo nel formato standard a due cifre
     }
     private void aggiornaTempiBrano(Brano brano) {
         if (tempoTrascorso == null || tempoRimanente == null) { return; }
@@ -390,8 +390,8 @@ public class PlayerController{
         tempoRimanente.setVisible(true);
         tempoRimanente.setManaged(true);
         int durata = Math.max(0, brano.getDurata());
-        int trascorsi = (int) Math.floor(Math.max(0, PlayerStato.getProgressoCorrente()));
-        trascorsi = Math.min(trascorsi, durata);
+        int trascorsi = (int) Math.floor(Math.max(0, PlayerStato.getProgressoCorrente()));  //Calcola il tempo ascoltato dall'utente arrotondato per difetto
+        trascorsi = Math.min(trascorsi, durata);  //Impedisce al tempo trascorso di superare la durata reale
         int rimanenti = Math.max(0, durata - trascorsi);
         tempoTrascorso.setText(formattaTempo(trascorsi));
         tempoRimanente.setText("-" + formattaTempo(rimanenti));
@@ -419,7 +419,7 @@ public class PlayerController{
             } else { albumBrano.setText(""); }
             if (branoCorrente.getAlbumBrano() != null && branoCorrente.getAlbumBrano().getArtista() != null) { artistaBrano.setText(ottieniNomeArtista(branoCorrente.getAlbumBrano().getArtista())); } else { artistaBrano.setText(""); }
         }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer per ripetersi all'infinito
         timeline.play();
     }
     private void azzeraConteggioAscolto() { secondiAscoltoCorrente = 0;
@@ -460,8 +460,6 @@ public class PlayerController{
             progressoCorrente = barraAvanzamento.getValue()*durataSecondi;
             PlayerStato.setProgressoCorrente(progressoCorrente);
             aggiornaTempiBrano(brano);
-            System.out.println("NUOVO PROGRESSO PLAYER: " + progressoCorrente);
-            System.out.println("NUOVO PROGRESSO MINI PLAYER: " + PlayerStato.getProgressoCorrente());
             if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer(brano);
             else barraAvanzamento.setValue(progressoCorrente / durataSecondi);
         } catch (BusinessException e) { System.out.println("Errore nello spostamento del brano: " + e.getMessage()); }
@@ -498,7 +496,7 @@ public class PlayerController{
             return;
         }
         messaggioTesto.setText("Testo completo del brano.");
-        String[] righe = testo.split("\\R", -1);
+        String[] righe = testo.split("\\R", -1);  //Divide il testo in righe usando qualsiasi tipo di a capo. Il -1 impedsice a Java di scartare le righe vuote alla fine del testo
         for (String riga : righe) {
             Label etichetta = new Label(riga.isEmpty() ? " " : riga);
             etichetta.setWrapText(true);
@@ -525,20 +523,20 @@ public class PlayerController{
         messaggioTesto.setWrapText(true);
         messaggioTesto.setStyle("-fx-font-size: 13px;" + "-fx-text-fill: #cccccc;");
         contenitoreRigheTesto = new VBox(12);
-        contenitoreRigheTesto.setPadding(new Insets(15));
+        contenitoreRigheTesto.setPadding(new Insets(15));  //Imposta un margine interno di 15 pixel per il contenitore del testo
         contenitoreRigheTesto.setStyle("-fx-background-color: #202020;");
-        scorrimentoTesto = new ScrollPane(contenitoreRigheTesto);
-        scorrimentoTesto.setFitToWidth(true);
-        scorrimentoTesto.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scorrimentoTesto.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scorrimentoTesto = new ScrollPane(contenitoreRigheTesto);  //Inserisce il contenitore del testo all'interno di un pannello a scorrimento
+        scorrimentoTesto.setFitToWidth(true);  //Adatta automaticamente la larghezza del contenuto a quella dello ScrollPane
+        scorrimentoTesto.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  //Nasconde permanentemente la barra di scorrimento orizzontale 
+        scorrimentoTesto.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);  //Mostra la barra di scorrimento verticale solo quando serve (se il testo è lungo)
         scorrimentoTesto.setStyle("-fx-background: #202020;" + "-fx-background-color: #202020;");
         VBox radice = new VBox(15);
         radice.setPadding(new Insets(20));
         radice.setStyle("-fx-background-color: #202020;");
         radice.getChildren().addAll(titoloFinestraTesto, messaggioTesto, scorrimentoTesto);
-        VBox.setVgrow(scorrimentoTesto, javafx.scene.layout.Priority.ALWAYS);
+        VBox.setVgrow(scorrimentoTesto, javafx.scene.layout.Priority.ALWAYS);  //Fa in modo che l'area di testo si espanda verticalmente, occupando tutto lo spazio rimanente
         finestraTesto = new Stage();
-        if (titoloBrano.getScene() != null && titoloBrano.getScene().getWindow() != null) { finestraTesto.initOwner(titoloBrano.getScene().getWindow()); }
+        if (titoloBrano.getScene() != null && titoloBrano.getScene().getWindow() != null) { finestraTesto.initOwner(titoloBrano.getScene().getWindow()); }  //Associa la nuova finestra alla finestra principale per renderla dipendente
         finestraTesto.setTitle("Testo del brano");
         finestraTesto.setScene(new Scene(radice, 600, 650));
         finestraTesto.setMinWidth(400);
