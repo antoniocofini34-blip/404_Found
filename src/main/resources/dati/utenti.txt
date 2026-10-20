@@ -1,1 +1,4 @@
-
+3
+Duilio,Catarinacci,duilio.catarinacci77@gmail.com,2005-06-20,Duilio Catarinacci,POP|ROCK|ROMANTICO
+Francesco,Marcelli,marcelli.francesco@gmail.com,2005-08-08,FRANCESCO,POP|ROMANTICO
+Antonio,Cofini,antonio.cofini11@gmail.con,2006-10-11,,COUNTRY
