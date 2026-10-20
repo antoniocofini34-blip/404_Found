@@ -132,6 +132,7 @@ public class PlaylistController {
     Scene scenaPrecedente=stage.getScene();
     Navigazione.salvaSchermataPrecedente(() -> stage.setScene(scenaPrecedente));
     stage.setScene(new Scene(root, 1000, 700));
+  }
   @FXML
   private void tornaIndietro() {
     Navigazione.indietroHome();
