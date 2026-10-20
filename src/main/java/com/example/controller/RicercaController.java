@@ -84,7 +84,7 @@ public class RicercaController{
           });
         }
       @Override 
-      protected void updateIte(Void item, boolean empty) {
+      protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
         if (empty) {
           setGraphic(null);
@@ -100,12 +100,11 @@ public class RicercaController{
       RisultatoRicerca risultato=cellData.getValue();
       Utente utente=UtenteAttivo.getUtente();
       int numeroAscolti=0;
-      if (uente!=null && utente.getEmail()!=null) {
+      if (utente!=null && utente.getEmail()!=null) {
         String email=utente.getEmail();
         Brano brano=risultato.brano();
         if (brano!=null) numeroAscolti=PlayerStato.getNumeroAscoltiUtente(email, brano.getTitolo());  //Per un brano si mantiene il conteggio personale già funzionante
-        else {
-          Artista artista=risultato.artista();
+        else { Artista artista=risultato.artista();
           if (artista!=null) {
             try {  FileBranoServiceImpl servizioBrani=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
                    FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
@@ -125,7 +124,6 @@ public class RicercaController{
                          String nomeAlbumArtista=null;
                           if (artistaAlbum instanceof ArtistaSolita) nomeAlbumArtista=((ArtistaSolista) artistaAlbum).getNomeArte();
                           else if (artistaAlbum instanceof ArtistaGruppo) nomeAlbumArtista=((ArtistaGruppo) artistaAlbum).getNomeGruppo();
-                       }
                        if (nomeAlbumArtista==null || !nomeAlbumArtista.trim().equalsIgnoreCase(nomeArtista.trim())) continue;
                        boolean branoAppartieneAdAlbum=album.getListaBrani().stream().anyMatch(b -> b!=null && b.getTitolo()!=null && b.getTitolo().equalsIgnoreCase(branoCatalogo.getTitolo()));
                        if (branoAppartieneAdAlbum) {
@@ -144,48 +142,113 @@ public class RicercaController{
   aggiornaCronologia();
   applicaTemaCronologiaScuro();
 }
-  
-                                             
-
-
-
-
-      
+ public static void aggiornaCronologiaVisibile(){
+   Platform.runLate(()->{ if(istanza!=null){
+     istanza.aggiornaCronologia();
+   }
+   });
+ }
+  private void riproduciBrano(Brano brano){
+    try{
+      if(brano==null){
+        risultatoLabel.setText("Nessun brano selezionato");
+        return;
+      }
+      PlayerStato.avvioBranoDaRicerca((brano);
+      aggiornaCronologia();
+      risultatoLabel.setText("In riproduzione:" + brano.getTitolo());
+    } catch(Exception e){
+      risultatoLabel.setText("Errore durante la riproduzione:" + e.getMessage());
+    }
+  }   
   @FXML
   private void cerca(){
     String testo=campoRicerca.getText();
-    if(testo==null||testo.trim().isEmpty()){
-      risultatoLabel.setText("Inserisci qualcosa da cercare");
-      return;
+    if(testo==null){
+      testo="";
     }
+    testo=testo.trim();
     try{
-      List<Brano>brani=ricercaService.cercaBrani(testo);
-      List<Album>album=ricercaService.cercaAlbum(testo);
-      List<Artista>artista=ricercaServic.cercaArtista(testo);
-      StringBuilder risultato=new StringBuilder();
-      risultato.append("Risultati trovati:\n\n");
-      risultato.append("Brani: ").append(brani.size()).append("\n");
-      for (Brano brano : brani) {
-        risultato.append("- ").append(brano.getTitolo()).append("\n");
-      }
-      risultato.append("\nAlbum: ").append(album.size()).append("\n");
-      for (Album a : album) {
-        risultato.append("- ").append(a.getTitolo()).append("\n");
-      }
-      risultato.append("\nArtisti: ").append(artisti.size()).append("\n");
-      for (Artista artista : artisti) {
-        risultato.append("- Artista trovato\n");
-      }
-        risultatoLabel.setText(risultato.toString());
-      } catch (BusinessException e) {
-      risultatoLabel.setText("Errore nella ricerca: " + e.getMessage());
-      }
-  }
-  @FXML
-  private void tornaIndietro() throws IOException{
-    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
-    Parent root=loader.load();
-    Stage stage=(Stage)campoRicerca.getScene().getWindow();
-    stage.setScene(new Scene(root, 1000, 700));
-  }
-}
+      FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resource/dati/album.txt");
+      List<Album>tuttiAlbum=servizioAlbum.findAllAlbum();
+      FileArtistaServiceImpl servizioArtista= new FileArtistaServiceImpl("src/main/resource/dati/artista.txt");
+      List<Brano>brani=new ArrayList<>();
+      List<Album>albumTrovati=new ArrayList<>();
+      List<Artista>artistiTrovati=new ArrayList<>(); //Se il testo è vuoto, la ricerca parte da tutti i brani.
+      if(testo.isEmpty()){
+        artistiTrovati.addAll(serviziArtista.findAll(servizioArtista.findAll());
+        albumTrovati.addAll(tuttiAlbum);
+        for(Album album : tuttiAlbum){
+          for(Brano brano : album.getBrani()){
+            brano.setAlbumBrano(album);
+            brani.add(brano);
+          }
+        }
+        brani=rimuoviDuplicati(brani);
+      } else{
+        brani.addAll(ricercaService.cercaBrani(testo)); //Ricerca testuale dei brani.
+        albumTrovati.addAll(ricercaService.cercaAlbum(testo));
+        artistiTrovati.addAll(ricercaService.cercaArtista(testo));
+        for(Artista artista : artistiTrovati){
+          String nomeCercato=ottieniNomeArtistaRicerca(artista);
+          if(nomeCercato==null) continue;
+          for(Album album : tuttiAlbum){
+            Artista artistaAlbum=album.getArtista();
+            if(nomeArtistaAlbum!=null && nome.ArtistaAlbum.equalsIgnoreCase(nomeCercato)){
+              if(!albumTrovati.contains(album)){
+                if(!albumTrovati.add(album)){ albumTrovati.add(album) }
+                for(Brano brano : album.getListaBrani()){
+                  brani.setAlbumBrano(album);
+                  if(!brani.contains(brano)){
+                    brani.add(brano);
+                  }  
+                }
+              }
+            }
+          }
+          brani=rimuoviDuplicati(brani);
+        }
+        GenereMusicale genereScelto=filtroGenere.getValue();
+        if(genereScelto!=null){
+          List<Brano>braniFiltrati=new ArrayList<>();
+          for(Brano brano : brani){
+            if(brano.getGenereBrano().contains(genereScelto)){
+              braniFiltrati.add(brano);
+            }
+          }
+          brani=braniFiltrati;
+          List<Album> albumFiltrati=new ArrayList<>();
+          for(Album album : albumTrovati){
+            if(album.getGenere().contains(genereScelto)){
+              albumFiltrati.add(album);
+            }
+          }
+          albumTrovati=albumFiltrati;
+        }
+        if(genereScelto!=null){
+          artistiTrovati.removeIf(artista->!genereScelto.equals(artista.getGenerePrincipale()) && !arista.getGenereSecondario().contains(genereScelto));
+        }
+        GenereMusicale genereSelezionato=filtroGenere.getValue();
+        if(genereSelezionato!=null){
+          brani.removeIf(brano->brano.getGenereBrano==null || !brano.getGenereBrano().contains(genereSelezionato));
+        }
+        List<RisultatoRicerca>risultati=new ArrayList<>();
+        for(Brano brano : brani){
+          risultati.add(new RisultatoRicerca(brano));
+        }
+        for(Album album : albumTrovati){
+          risultati.add(new RisultatoRicerca(album));
+        }
+        for(Artista artista : artistiTrovati){
+          risultati.add(new RisultatoRicerca(artista));
+        }
+        tabellaBrani.getItems().setAll(risultati);
+        risultatoBraniLabel.setText("Brani:" + (brani.size()));
+        risultatoAlbumLabel.setText("Album:" + (albumTrovati.size()));
+        risultatoArtistiLabel.setText("Artisti:" + (artistiTrovati.size()));
+         risultatoLabel.setText(risultati.isEmpty() ? "Nessun risultato trovato con i criteri selezionati." : "Risultati trovati: " + risultati.size());
+        } catch (BusinessException e) {
+            risultatoLabel.setText("Errore nella ricerca: " + e.getMessage());
+        }
+    }
+  
