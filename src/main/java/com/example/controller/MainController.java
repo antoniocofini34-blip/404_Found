@@ -92,20 +92,17 @@ public class MainController {
   private boolean ripristinoNavigazione=false;
   private String ultimaVista=null;
   @FXML
-  private void initialize() {
-    titoloLabel.setText("UnivaqSound");
+  private void initialize() { titoloLabel.setText("UnivaqSound");
     selettoreTema.getItems().setAll("Tema chiaro", "Tema scuro");
     selettoreTema.setValue(TemaVisivo.isScuro() ? "Tema scuro" : "Tema chiaro");
     applicaTemaAllaHome();
     Brano brano=PlayerStato.getBranoCorrente();
     aggiornaInformazioniMiniPlayer(brano);
     aggiornaVisibilitaMiniPlayer();
-    if (brano!=null) {
-      titoloMiniPlayer.setText(brano.getTitolo());
+    if (brano!=null) { titoloMiniPlayer.setText(brano.getTitolo());
       barraMiniPlayer.setDisable(false); 
       barraMiniPlayer.setValue(PlayerStato.getProgressoCorrente()/brano.getDurata());  //Calcola e imposta la percentuale di avanzamento iniziale della barra
-      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) {
-        miniPlayPausa.setText("⏸️");
+      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) { miniPlayPausa.setText("⏸️");
         if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();  //Avvia il timer per far scorrere il tempo del brano in background
         avviaMiniTimer();
       } else miniPlayPausa.setText("▶️");
@@ -116,8 +113,7 @@ public class MainController {
            }
     barraMiniPlayer.valueProperty().addListener((obs, vecchioValore, nuovoValore) -> { aggiornaStileBarraMini(); });  //Quando la barra del mini player si muove, aggiorna visivamente il colore e stile dello slider
     avviaSincronizzazioneMiniPlayer();
-    Navigazione.impostaHome(() -> {  //Configura la logica di navigazione per il ritorno alla schermata Home
-      miniPlayerContenitore.setVisible(true);
+    Navigazione.impostaHome(() -> { miniPlayerContenitore.setVisible(true); //Configura la logica di navigazione per il ritorno alla schermata Home
       miniPlayerContenitore.setManaged(true);  //Indica a JavaFX di considerare lo spazio del mini player nel layout
       applicaTemaAllaHome();
       apriHome();
@@ -155,8 +151,7 @@ public class MainController {
     if (controllerUtenteCorrente !=null) controllerUtenteCorrente.aggiornaTemaUtente();
     aggiornaStileBarraMini();
   }
-  private void applicaTemaAllaHome() {
-    boolean scuro=TemaVisivo.isScuro(); 
+  private void applicaTemaAllaHome() { boolean scuro=TemaVisivo.isScuro(); 
     if (barraLaterale!=null) barraLaterale.setStyle("-fx-background-color: " + (scuro ? "#191414" : "#f5f5f5") + ";");
     if (titoloMiniPlayer!=null) titoloMiniPlayer.setStyle("-fx-font-size: 14px;" + "-fx-font-weight: bold;" + "-fx-text-fill: " + TemaVisivo.getColoreTesto() + ";" + "-fx-cursor: hand;");
     if (artistaMiniPlayer!=null) artistaMiniPlayer.setStyle("-fx-font-size: 12px;" + "-fx-text-fill: " + TemaVisivo.getColoreSecondario() + ";" + "-fx-cursor: hand;");
@@ -170,8 +165,7 @@ public class MainController {
     if (barraMiniPlayer!=null) TemaVisivo.applicaStileSlider(barraMiniPlayer);
   }
   @FXML
-  private void apriHome() {
-    controllerPlayerCorrente=null;
+  private void apriHome() { controllerPlayerCorrente=null;
     miniPlayerContenitore.setVisible(true);
     miniPlayerContenitore.setManaged(true);
     contenutoCentrale.setSpacing(22);  //Configura la spaziatura verticale interna
@@ -179,8 +173,7 @@ public class MainController {
     contenutoCentrale.getChildren().clear();  //Svuota tutti gli elementi grafici presenti nella schermata centrale per caricarne dei nuovi
     mostraConsigliati();
   }
-  private void mostraConsigliati() {
-    Label titoloSezione=new Label("Consigliati per te");  //Configurazione dei layout e contenitori grafici
+  private void mostraConsigliati() { Label titoloSezione=new Label("Consigliati per te");  //Configurazione dei layout e contenitori grafici
     titoloSezione.setTextFill(javafx.scene.paint.Color.web(TemaVisivo.getColoreTesto()));
     VBox intestazione= new VBox(6);
     intestazione.getChildren().add(titoloSezione);
@@ -214,8 +207,7 @@ public class MainController {
            if (preferenze!=null && !preferenze.isEmpty()) {  //Se l'utente ha espresso delle preferenze, tiene solo i brani che corrispondono ai suoi generi
              boolean corrisponde=false;
              for (GenereMusicale genere : brano.getGenereBrano()) {
-               if (preferenze.contains(genere)) {
-                 corrisponde=true;  
+               if (preferenze.contains(genere)) { corrisponde=true;  
                  break;
                }
              }
@@ -223,8 +215,7 @@ public class MainController {
            }
            consigliati.add(brano);
          }
-         if (consigliati.isEmpty()) {  //Se non ci sono brani consigliati, mostra un messaggio testuale di avviso
-           Label nessunBrano=new Label("Non ci sono ancora brani da consigliarti.");
+         if (consigliati.isEmpty()) { Label nessunBrano=new Label("Non ci sono ancora brani da consigliarti."); //Se non ci sono brani consigliati, mostra un messaggio testuale di avviso
            nessunBrano.setStyle("-fx-font-size: 15px;" + "-fx-text-fill: #b3b3b3;");
            grigliaBrani.getChildren().add(nessunBrano);
            return;
@@ -249,8 +240,7 @@ public class MainController {
              for (Album album : albumDisponibili) {
                if (album==null || album.getListaBrani()==null) continue;
                for (Brano branoAlbum : album.getListaBrani()) {
-                 if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
-                   albumBrano=album;
+                 if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) { albumBrano=album;
                    brano.setAlbumBrano(album);
                    break;
                  }
@@ -261,13 +251,11 @@ public class MainController {
            Image immagineCopertina=null;  //Carica la copertina dell'album
            if (albumBrano!=null && albumBrano.getCopertina()!=null && !albumBrano.getCopertina().trim().isEmpty()) {
              File fileCopertina=new File("src/main/resources/dati/" + albumBrano.getCopertina().trim());
-             if (fileCopertina.isFile()) {
-               Image immagine=new Image(fileCopertina.toURI().toString());
+             if (fileCopertina.isFile()) { Image immagine=new Image(fileCopertina.toURI().toString());
                if (!immagine.isError()) immagineCopertina=immagine;
              }
            }
-           if (immagineCopertina!=null) {  //Imposta la copertina come sfondo, mantenendo le proporzioni e ritagliando l'eventuale parte in eccesso
-             BackgroundImage sfondoCopertina=new BackgroundImage(immagineCopertina, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, true, true, false, true));
+           if (immagineCopertina!=null) { BackgroundImage sfondoCopertina=new BackgroundImage(immagineCopertina, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, true, true, false, true)); //Imposta la copertina come sfondo, mantenendo le proporzioni e ritagliando l'eventuale parte in eccesso
              scheda.setBackground(new Background(sfondoCopertina)); 
            } else scheda.setBackground(new Background(new BackgroundFill(Color.web("#242424"), new CornerRadii(12), Insets.EMPTY)));
            Region oscuramento=new Region();   //Oscura leggermente l'immagine per rendere leggibili i testi
@@ -305,8 +293,7 @@ public class MainController {
       }
   private void avviaBranoConsigliato(Brano brano) {
     if (brano==null) return;
-    try { if (miniTimeline!=null) {  //Ferma il timer grafico del mini player
-            miniTimeline.stop();
+    try { if (miniTimeline!=null) { miniTimeline.stop();  //Ferma il timer grafico del mini player           
             miniTimeline=null;
         }
       FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resorces/dati/album.txt");
@@ -314,8 +301,7 @@ public class MainController {
       brano.setAlbumBrano(null);
       for (Album a : album) {
         for (Brano branoAlbum : a.getListaBrani()) {
-          if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
-            brano.setAlbumBrano(a);
+          if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) { brano.setAlbumBrano(a);
             break;
           }
         }
@@ -330,32 +316,19 @@ public class MainController {
       } catch(Exception e) { e.getMessage(); }
   }
   @FXML
-  private void apriRicerca() throws IOException {
-    mostraVista("/viste/RicercaView.fxml");
-  }
+  private void apriRicerca() throws IOException { mostraVista("/viste/RicercaView.fxml"); }
   @FXML
-  private void apriLibreria() throws IOException {
-    mostraVista("/viste/LibreriaView.fxml");
-  }
+  private void apriLibreria() throws IOException { mostraVista("/viste/LibreriaView.fxml"); }
   @FXML
-  private void apriPlaylist() throws IOException {
-    mostraVista("/viste/PlaylistView.fxml");
-  }
+  private void apriPlaylist() throws IOException { mostraVista("/viste/PlaylistView.fxml"); }
   @FXML
-  private void apriArtisti() throws IOException {
-    mostraVista("/viste/ArtistaForm.fxml");
-  }
+  private void apriArtisti() throws IOException { mostraVista("/viste/ArtistaForm.fxml"); }
   @FXML
-  private void apriAlbum() throws IOException {
-    mostraVista("/viste/AlbumForm.fxml");
-  }
+  private void apriAlbum() throws IOException { mostraVista("/viste/AlbumForm.fxml"); }
   @FXML
-  private void apriBrani() throws IOException {
-    mostraVista("/viste/BranoForm.fxml");
-  }
+  private void apriBrani() throws IOException { mostraVista("/viste/BranoForm.fxml"); }
   @FXML
-  private void apriPlayer() throws IOException {
-    miniPlayerContenitore.setVisible(false);
+  private void apriPlayer() throws IOException { miniPlayerContenitore.setVisible(false);
     miniPlayerContenitore.setManaged(false);
     mostraVista("/viste/PlayerView.fxml");
   }
@@ -370,14 +343,12 @@ public class MainController {
         } catch(IOException e) { e.getMessage(); }
   }
   private void avviaMiniTimer() {
-    if (miniTimeline!=null) {  //Se c'è già un timer attivo, lo ferma e lo resetta per evitare che si sovrappongano più thread
-      miniTimeline.stop();
+    if (miniTimeline!=null) { miniTimeline.stop(); //Se c'è già un timer attivo, lo ferma e lo resetta per evitare che si sovrappongano più thread
       miniTimeline=null;
     }
     miniTimeline=new Timeline(new KeyFrame(Duration.seconds(1), e -> {  //Crea un nuovo ciclo temporale che esegue il codice ogni secondo
       Brano brano=PlayerStato.getBranoCorrente();
-      if (brano==null) {
-        miniTimeline.stop();
+      if (brano==null) { miniTimeline.stop();
         return;
       }
       double progresso=PlayerStato.getProgressoCorrente();
@@ -395,8 +366,7 @@ public class MainController {
          if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) {  //Se la musica è attiva, allora viene messa in pausa
            PlayerStato.getCodaService().pausa(PlayerStato.getCoda());
            PlayerStato.fermaTimerRiproduzione();
-           if (miniTimeline!=null) {  //Arresta e distrugge il timer grafico per fermare l'avanzamento della barra
-             miniTimeline.stop();
+           if (miniTimeline!=null) { miniTimeline.stop();  //Arresta e distrugge il timer grafico per fermare l'avanzamento della barra            
              miniTimeline=null;
            }
            miniPlayPausa.setText("▶️");  //Cambia l'icona mostrando il simbolo del Play
@@ -417,13 +387,11 @@ public class MainController {
       PlayerStato.setProgressoCorrente(0);  //Resetta i dati logici del brano e del tempo trascorso all'interno dello stato del player
       PlayerStato.setBranoCorrente(null);
       if (branoMiniPlayer!=null) branoMiniPlayer.setText("Nessun Brano in riproduzione");  //Ripristina i testi della UI allo stato iniziale predefinito
-      if (barraMiniPlayer!=null) {  //Azzera la barra di avanzamento e la blocca per impedire interazioni con il mouse
-        barraMiniPlayer.setValue(0);
+      if (barraMiniPlayer!=null) { barraMiniPlayer.setValue(0);  //Azzera la barra di avanzamento e la blocca per impedire interazioni con il mouse       
         barraMiniPlayer.setDisable(true);
       }
       if (miniPlayPausa!=null) miniPlayPausa.setText("▶");  //Imposta nuovamente il pulsante principale con l'icona del Play
-      if (miniTimeline!=null) {  //Ferma e distrugge la Timeline per bloccare definitivamente l'aggiornamento automatico della barra
-        miniTimeline.stop();
+      if (miniTimeline!=null) { miniTimeline.stop();  //Ferma e distrugge la Timeline per bloccare definitivamente l'aggiornamento automatico della barra       
         miniTimeline=null;
       }
     } catch (BusinessException e) { e.getMessage(); }
@@ -433,15 +401,13 @@ public class MainController {
     try {
       if (PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda())) return;
       //Ferma il timer grafico del mini-player
-      if (miniTimeline!=null) {
-        miniTimeline.stop();
+      if (miniTimeline!=null) { miniTimeline.stop();
         miniTimeline=null;
       }
       //Passa al brano successivo
       PlayerStato.getCodaService().avanti(PlayerStato.getCoda());
       Brano brano=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
-      if (brano!=null) {
-        PlayerStato.setBranoCorrente(brano);
+      if (brano!=null) { PlayerStato.setBranoCorrente(brano);
         PlayerStato.setProgressoCorrente(0);
         branoMiniPlayer.setText(brano.getTitolo());
         barraMiniPlayer.setValue(0);
@@ -466,25 +432,21 @@ public class MainController {
   }
   @FXML
   private void miniIndietro() {
-    try {
-      Brano branoCorrente=PlayerStato.getBranoCorrente();
+    try { Brano branoCorrente=PlayerStato.getBranoCorrente();
       if (branoCorrente==null) return;
       double progresso=PlayerStato.getProgressoCorrente();
       //Se sono trascorsi almeno 5 secondi, riavviamo il brano corrente
-      if (progresso>=5) {
-        riavviaBranoMiniPlayer();
+      if (progresso>=5) { riavviaBranoMiniPlayer();
         return;
       }
       //Nei primi 5 secondi torniamo al precedente se disponibile
       List<Brano> braniCoda=PlayerStato.getCodaService().getCoda(PlayerStato.getCoda());
       int indiceCorrente=braniCoda.indexOf(branoCorrente);
-      if (indiceCorrente<=0) {
-        //In questo caso non esiste un precedente quindi riavviamo il brano corrente
-        riavviaBranoMiniPlayer();
+      if (indiceCorrente<=0) { riavviaBranoMiniPlayer();
+        //In questo caso non esiste un precedente quindi riavviamo il brano corrente    
         return;
       }
-      if (miniTimeline!=null) {
-        miniTimeline.stop()
+      if (miniTimeline!=null) { miniTimeline.stop()
         miniTimeline=null;
       }
       PlayerStato.salvaSessioneCronologia();
@@ -497,8 +459,7 @@ public class MainController {
     } catch (BusinessException e) { e.getMessage(); }
   }
   private void riavviaBranoMiniPlayer() throws BusinessException {
-    if (miniTimeline!=null) {
-      miniTimeline.stop();
+    if (miniTimeline!=null) { miniTimeline.stop();
       miniTimeline=null;
     }
     PlayerStato.salvaSessioneCronologia();
@@ -515,36 +476,27 @@ public class MainController {
     if (miniIndietro!=null) miniIndietro.setDisable(PlayerStato.getBranoCorrente()==null);
   }
   @FXML
-  private void miniInizioTrascinamento() {
-    miniTrascinamento=true;
+  private void miniInizioTrascinamento() { miniTrascinamento=true;
     if (miniTimeline!=null) miniTimeline.pause();
   }
   @FXML
-  private void miniFineTrascinamento() {
-    miniTrascinamento=false;  //Segnala che l'utente ha terminato di spostare la abrra con il mouse
-    try {
-      Brano brano=PlayerStato.getBranoCorrente();
+  private void miniFineTrascinamento() { miniTrascinamento=false;  //Segnala che l'utente ha terminato di spostare la abrra con il mouse
+    try { Brano brano=PlayerStato.getBranoCorrente();
       if (brano==null) return;
       double durataSecondi=brano.getDurata();
       double nuovoProgresso=barraMiniPlayer.getValue()*durataSecondi;  //Calcola il punto esatto della canzone moltiplicando la percentuale dello slider per la durata totale 
       PlayerStato.setProgressoCorrente(nuovoProgresso);  //Aggiorna lo stato globale portando l'audio al secondo selezionato dall'utente
-      if (miniTimeline!=null) {  //Ferma temporaneamente il timer grafico per resettarlo senza problemi
-        miniTimeline.stop();
+      if (miniTimeline!=null) { miniTimeline.stop();  //Ferma temporaneamente il timer grafico per resettarlo senza problemi       
         miniTimeline=null;
       }
       if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) avviaMiniTimer();  //Se il brano era attivamente in riproduzione, fa ripartire subito il timer dei secondi
     } catch (Exception e) { e.getMessage(); }
   }
   @FXML
-  private void apriStatistiche() throws IOException {
-    mostraVista("/viste/StatisticheView.fxml");
-  }
+  private void apriStatistiche() throws IOException { mostraVista("/viste/StatisticheView.fxml"); }
   @FXML
-  private void apriUtente() throws IOException {
-    mostraVista("/viste/UtenteForm.fxml");
-  }
-  private void mostraVista(String percorso) throws IOException {
-    Navigazione.svuotaCronologia();
+  private void apriUtente() throws IOException { mostraVista("/viste/UtenteForm.fxml"); }
+  private void mostraVista(String percorso) throws IOException { Navigazione.svuotaCronologia();
     boolean mostraMiniPlayer=!percorso.equals("/viste/PlayerView.fxml");
     miniPlayerContenitore.setVisible(mostraMiniPlayer);
     miniPlayerContenitore.setManaged(mostraMiniPlayer);
@@ -556,26 +508,22 @@ public class MainController {
     else controllerPlayerCorrente=null;
     if (percorso.equals("/viste/UtenteForm.fxml")) controllerUtenteCorrente=loader.getController();
     else controllerUtenteCorrente=null;
-    if (percorso.equals("/viste/PlayerView.fxml")) {  //Rimuove i margini e gli spazi se siamo nel player a schermo intero, altrimenti imposta i margini standard della Home
-      contenutoCentrale.setPadding(Insets.EMPTY);
+    if (percorso.equals("/viste/PlayerView.fxml")) { contenutoCentrale.setPadding(Insets.EMPTY); //Rimuove i margini e gli spazi se siamo nel player a schermo intero, altrimenti imposta i margini standard della Home      
       contenutoCentrale.setSpacing(0);
-    } else {
-      contenutoCentrale.setPadding(new Insets(28,30,28,30));
+    } else { contenutoCentrale.setPadding(new Insets(28,30,28,30));
       contenutoCentrale.setSpacing(22);
     }
     contenutoCentrale.getChildren().setAll(vista);  //Inserisce la nuova interfaccia grafica nel pannello centrale sostituendo quella vecchia
     VBox.setVgrow(vista, Priority.ALWAYS);  //Fa in modo che la vista occupi tutto lo spazio verticale disponibile
     TemaVisivo.applicaTema(vista);  //Applica le regole CSS del tema corrente (chiaro/scuro) alla nuova finestra appena caricata
     if (vista instanceof Region) ((Region vista).setBackground(new Background(new BackgroundFill(Color.web(TemaVisivo.getColoreSfondo()), CornerRadii.EMPTY, Insets.EMPTY)));
-    if (percorso.equals("/viste/UtenteForm.fxml")) {  //Se è stata aperta la schermata utente, forza l'aggiornamento grafica del suo tema
-      UtenteController controllerUtente= loader.getController();
+    if (percorso.equals("/viste/UtenteForm.fxml")) { UtenteController controllerUtente= loader.getController();  //Se è stata aperta la schermata utente, forza l'aggiornamento grafica del suo tema   
       controllerUtente.aggiornaTemaUtente();
     }
     if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaPlayer();  //Allinea e aggiorna lo stile visivo dei singoli controller attivi (Player e Statistiche)
     if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaStatistiche();
   }
-  private void tornaAllaVistaPrecedente() {
-    boolean tornatoIndietro=Navigazione.indietro();
+  private void tornaAllaVistaPrecedente() { boolean tornatoIndietro=Navigazione.indietro();
     if (!tornatoIndietro) apriHome();
   }
   private String ottieniNomeArtistaMiniPlayer(Brano brano) {
@@ -586,8 +534,7 @@ public class MainController {
     return "";
   }
   private void aggiornaInformazioniMiniPlayer(Brano brano) {
-    if (brano==null) {  //Se nessun brano è in esecuzione, allora si svuotano tutti i campi del mini player
-      titoloMiniPlayer.setText("");
+    if (brano==null) { titoloMiniPlayer.setText("");  //Se nessun brano è in esecuzione, allora si svuotano tutti i campi del mini player
       artistaMiniPlayer.setText("");
       copertinaMiniPlayer.setImage(null);
       return;
@@ -600,13 +547,11 @@ public class MainController {
     if (nomeFile==null||nomeFile.trim().isEmpty()) return;
     nomeFile=nomeFile.trim();
     File file=new File("src/main/resources/dati/" + nomeFile.trim());  //Si cerca di caricare la copertina cercandola direttamente nel percorso della cartella
-    if (file.isFile()) {
-      Image immagine=new Image(file.toURI().toString());
+    if (file.isFile()) { Image immagine=new Image(file.toURI().toString());
       if(!immagine.isError()) copertinaMiniPlayer.setImage(immagine);  //Imposta la foto se non ci sono errori
     }
     var risorsa=getClass().getResource("/dati/" + nomeFile);  //Cerca l'immagine all'interno del file di build compilato per evitare errori 
-    if (risorsa!=null) {
-      Image immagine=new Image(risorsa.toExternalForm());
+    if (risorsa!=null) { Image immagine=new Image(risorsa.toExternalForm());
       if (!immagine.isError()) copertinaMiniPlayer.setImage(immagine);
     }
   }
@@ -615,14 +560,12 @@ public class MainController {
     try {miniAvanti.setDisable(PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda()));  //Viene chiesto al servizio della coda se il comando "Mini Avanti" deve essere disabilitato o meno
         } catch (BusinessException e) { e.getMessage(); }
   }
-  private void avviaSincronizzazioneMiniPlayer() {
-    sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {  //Inizializza una Timeline con polling a 250 millisecondi per sincronizzare costantemente la UI e verificare eventualmente nuovi dati o eventi
+  private void avviaSincronizzazioneMiniPlayer() { sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {  //Inizializza una Timeline con polling a 250 millisecondi per sincronizzare costantemente la UI e verificare eventualmente nuovi dati o eventi
       Brano brano=PlayerStato.getBranoCorrente();
       if (miniIndietro!=null) miniIndietro.setDisable(brano==null);
       aggiornaInformazioniMiniPlayer(brano);  //Aggiorna i dati del mini player
       aggiornaVisibilitaMiniPlayer();  //Controlla se mostrare o nascondere il pannello del player
-      if (brano==null) {  //Se la riproduzione è vuota, resetta i componenti grafici di default
-        titoloMiniPlayer.setText("Nessun brano in riproduzione");
+      if (brano==null) { titoloMiniPlayer.setText("Nessun brano in riproduzione"); //Se la riproduzione è vuota, resetta i componenti grafici di default    
         barraMiniPlayer.setValue(0);
         barraMiniPlayer.setDisable(true);
         miniPlayPausa.setText("▶");
@@ -632,8 +575,7 @@ public class MainController {
       aggiornaPulsanteMiniAvanti();  //Se è presente un brano attivo, aggiorna lo stato dei controlli e viene valutato se abilitare o meno il tasto "Avanti"
       titoloMiniPlayer.setText(brano.getTitolo());
       barraMiniPlayer.setDisable(false);  //Sblocca lo slider
-      if (brano.getDurata()>0) {
-        double progresso=PlayerStato.getProgressoCorrente()/brano.getDurata();
+      if (brano.getDurata()>0) { double progresso=PlayerStato.getProgressoCorrente()/brano.getDurata();
         barraMiniPlayer.setValue(Math.max(0, Math.min(1, progresso)));  //Assicura che la barra rimanga sempre entro i limiti corretti (tra lo 0% e il 100%)
       }
       if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) miniPlayPausa.setText("⏸");  //Cambia l'icona del pulsante (Play o Pausa) in base allo stato della musica
@@ -642,8 +584,7 @@ public class MainController {
     sincronizzazioneMiniPlayer.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer in modo che continui a ripetersi all'infinito
     sincronizzazioneMiniPlayer.play();  //Fa partire il timer per iniziare ad aggiornare la grafica
   }
-  private void aggiornaVisibilitaMiniPlayer() {
-    boolean branoPresente=PlayerStato.getBranoCorrente()!=null;
+  private void aggiornaVisibilitaMiniPlayer() { boolean branoPresente=PlayerStato.getBranoCorrente()!=null;
     contenitoreInformazioniMiniPlayer.setVisible(branoPresente);  //Mostra o nasconde il testo e la copertina del brano
     contenitoreInformazioniMiniPlayer.setManaged(branoPresente);  //Adatta il testo e la copertina del brano rispetto allo spazio nella schermata
     contenitoreControlliMiniPlayer.setVisible(branoPresente);  //Mostra o nasconde i pulsanti di controllo
