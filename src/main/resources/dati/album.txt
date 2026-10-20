@@ -1,1 +1,7 @@
-
+6
+Colpa Delle Favole,2019,Ultimo,POP|ROMANTICO,copertinaultimo.jpg,Piccola Stella|Ipocondria,2
+Comatose,2006,Skillet,ROCK,copertinaskillet.jpg,Whispers In The Dark|Comatose,2
+E poi siamo finiti nel vortice,2023,Annalisa,POP|ROMANTICO,copertinaannalisa1.jpeg,Sinceramente|Bellissima,2
+Pianeti,2017,Ultimo,POP|ROMANTICO,copertinaultimo1.jpg,Pianeti|Il capolavoro,2
+Unleashed,2016,Skillet,ROCK,copertinaskillet1.jpg,The Resistance|Feel Invincible,2
+Ma io sono fuoco,2025,Annalisa,POP|ROMANTICO,copertinaannalisa.jpg,Maschio|Esibizionista,2
