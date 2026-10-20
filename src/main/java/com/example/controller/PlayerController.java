@@ -471,7 +471,7 @@ public class PlayerController{
         if (timeline != null) { timeline.stop();
             timeline = null;
         }
-        Navigazione.indietroOHome();
+        Navigazione.indietroHome();
     }
     private void aggiornaCopertinaAlbum(Brano brano) { copertinaAlbum.setImage(null);
         if (brano == null || brano.getAlbumBrano() == null) { return; }
