@@ -392,7 +392,7 @@ public class MainController {
   private void miniPlayPausa() {
     try { Brano brano=PlayerStato.getBranoCorrente();
          if (brano==null) return;
-         if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) {  //Caso 1: se la musica è attiva, allora viene messa in pausa
+         if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) {  //Se la musica è attiva, allora viene messa in pausa
            PlayerStato.getCodaService().pausa(PlayerStato.getCoda());
            PlayerStato.fermaTimerRiproduzione();
            if (miniTimeline!=null) {  //Arresta e distrugge il timer grafico per fermare l'avanzamento della barra
@@ -400,7 +400,7 @@ public class MainController {
              miniTimeline=null;
            }
            miniPlayPausa.setText("▶️");  //Cambia l'icona mostrando il simbolo del Play
-         } else {  //Caso 2: se la musica è in pausa o ferma, allora si avvia la riproduzione 
+         } else {  //Se la musica è in pausa o ferma, allora si avvia la riproduzione 
            PlayerStato.getCodaService().play(PlayerStato.getCoda());
            if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();  //Riattiva i timer di sistema e quelli grafici per far muovere nuovamente la barra
            miniPlayPausa.setText("⏸️");  //Cambia l'icona mostrando il simbolo della Pausa
@@ -586,25 +586,25 @@ public class MainController {
     return "";
   }
   private void aggiornaInformazioniMiniPlayer(Brano brano) {
-    if (brano==null) {
+    if (brano==null) {  //Se nessun brano è in esecuzione, allora si svuotano tutti i campi del mini player
       titoloMiniPlayer.setText("");
       artistaMiniPlayer.setText("");
       copertinaMiniPlayer.setImage(null);
       return;
     }
-    titoloMiniPlayer.setText(brano.getTitolo());
+    titoloMiniPlayer.setText(brano.getTitolo());  //Se il brano è presente, allora nel mini player vengono mostrati il titolo e il nome dell'artista o del gruppo
     artistaMiniPlayer.setText(ottieniNomeArtistaMiniPlayer(brano));
-    copertinaMiniPlayer.setImage(null);
-    if (brano.getAlbumBrano()==null) return;
-    String nomeFile=brano.getAlbumBrano().getCopertina();
+    copertinaMiniPlayer.setImage(null);  //Reset preventivo della vecchia copertina
+    if (brano.getAlbumBrano()==null) return;  //Se il brano non appartiene a un album, interrompe il metodo
+    String nomeFile=brano.getAlbumBrano().getCopertina();  //Recupera il nome del file dell'immagine e verifica che non ci sia un testo vuoto
     if (nomeFile==null||nomeFile.trim().isEmpty()) return;
     nomeFile=nomeFile.trim();
-    File file=new File("src/main/resources/dati/" + nomeFile.trim());
+    File file=new File("src/main/resources/dati/" + nomeFile.trim());  //Si cerca di caricare la copertina cercandola direttamente nel percorso della cartella
     if (file.isFile()) {
       Image immagine=new Image(file.toURI().toString());
-      if(!immagine.isError()) copertinaMiniPlayer.setImage(immagine);
+      if(!immagine.isError()) copertinaMiniPlayer.setImage(immagine);  //Imposta la foto se non ci sono errori
     }
-    var risorsa=getClass().getResource("/dati/" + nomeFile);
+    var risorsa=getClass().getResource("/dati/" + nomeFile);  //Cerca l'immagine all'interno del file di build compilato per evitare errori 
     if (risorsa!=null) {
       Image immagine=new Image(risorsa.toExternalForm());
       if (!immagine.isError()) copertinaMiniPlayer.setImage(immagine);
@@ -612,16 +612,16 @@ public class MainController {
   }
   private void aggiornaPulsanteMiniAvanti() {
     if (miniAvanti==null) return;
-    try {miniAvanti.setDisable(PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda()));
+    try {miniAvanti.setDisable(PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda()));  //Viene chiesto al servizio della coda se il comando "Mini Avanti" deve essere disabilitato o meno
         } catch (BusinessException e) { e.getMessage(); }
   }
   private void avviaSincronizzazioneMiniPlayer() {
-    sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {
+    sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {  //Inizializza una Timeline con polling a 250 millisecondi per sincronizzare costantemente la UI e verificare eventualmente nuovi dati o eventi
       Brano brano=PlayerStato.getBranoCorrente();
       if (miniIndietro!=null) miniIndietro.setDisable(brano==null);
-      aggiornaInformazioniMiniPlayer(brano);
-      aggiornaVisibilitaMiniPlayer();
-      if (brano==null) {
+      aggiornaInformazioniMiniPlayer(brano);  //Aggiorna i dati del mini player
+      aggiornaVisibilitaMiniPlayer();  //Controlla se mostrare o nascondere il pannello del player
+      if (brano==null) {  //Se la riproduzione è vuota, resetta i componenti grafici di default
         titoloMiniPlayer.setText("Nessun brano in riproduzione");
         barraMiniPlayer.setValue(0);
         barraMiniPlayer.setDisable(true);
@@ -629,24 +629,24 @@ public class MainController {
         miniAvanti.setDisable(true);
         return;
       }
-      aggiornaPulsanteMiniAvanti();
+      aggiornaPulsanteMiniAvanti();  //Se è presente un brano attivo, aggiorna lo stato dei controlli e viene valutato se abilitare o meno il tasto "Avanti"
       titoloMiniPlayer.setText(brano.getTitolo());
-      barraMiniPlayer.setDisable(false);
+      barraMiniPlayer.setDisable(false);  //Sblocca lo slider
       if (brano.getDurata()>0) {
         double progresso=PlayerStato.getProgressoCorrente()/brano.getDurata();
-        barraMiniPlayer.setValue(Math.max(0, Math.min(1, progresso)));
+        barraMiniPlayer.setValue(Math.max(0, Math.min(1, progresso)));  //Assicura che la barra rimanga sempre entro i limiti corretti (tra lo 0% e il 100%)
       }
-      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) miniPlayPausa.setText("⏸");
+      if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) miniPlayPausa.setText("⏸");  //Cambia l'icona del pulsante (Play o Pausa) in base allo stato della musica
       else miniPlayPausa.setText("▶");
     }));
-    sincronizzazioneMiniPlayer.setCycleCount(Timeline.INDEFINITE);
-    sincronizzazioneMiniPlayer.play();
+    sincronizzazioneMiniPlayer.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer in modo che continui a ripetersi all'infinito
+    sincronizzazioneMiniPlayer.play();  //Fa partire il timer per iniziare ad aggiornare la grafica
   }
   private void aggiornaVisibilitaMiniPlayer() {
     boolean branoPresente=PlayerStato.getBranoCorrente()!=null;
-    contenitoreInformazioniMiniPlayer.setVisible(branoPresente);
-    contenitoreInformazioniMiniPlayer.setManaged(branoPresente);
-    contenitoreControlliMiniPlayer.setVisible(branoPresente);
+    contenitoreInformazioniMiniPlayer.setVisible(branoPresente);  //Mostra o nasconde il testo e la copertina del brano
+    contenitoreInformazioniMiniPlayer.setManaged(branoPresente);  //Adatta il testo e la copertina del brano rispetto allo spazio nella schermata
+    contenitoreControlliMiniPlayer.setVisible(branoPresente);  //Mostra o nasconde i pulsanti di controllo
     contenitoreControlliMiniPlayer.setManaged(branoPresente);
   }
 }
