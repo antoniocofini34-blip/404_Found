@@ -195,4 +195,36 @@ public class StatisticheController {
   private void applicaStileStatistiche() {
     boolean scuro=TemaVisivo.isScuro();
     String sfondo=scuro ? "#121212" : "#ffffff";
-    String sfondo
+    String sfondoIntestazione=scuro ? "#191414":"#ffffff";
+    String sfondoRiquadro=scuro ? "#242424":"#ffffff";
+    String coloreTesto=scuro ? "#ffffff":"#111111";
+    String sfondoLista=scuro ? "#242424":"#ffffff";
+    intestazioneStatistiche.setStyle("-fx-background-color: "+(scuro ? "#191414": "#ffffff")+";");
+    contenitoreStatistiche.setStyle("-fx-background-color: "+sfondo+";");
+    riquadroTempoTotale.setStyle("-fx-background-color: "+sfondoRiquadro+";"+"-fx-background-radius:10;");
+    String sfondoRiquadriClassifica=scuro ? "#242424":"#ffffff";
+    riquadroTopBrani.setStyle("-fx-background-color: "+sfondoRiquadriClassifica+";"+"-fx-background-radius:10;");
+    riquadroTopArtisti.setStyle("-fx-background-color: "+sfondoRiquadriClassifica+";"+"-fx-background-radius:10;");
+    titoloStatisticheLabel.setStyle("-fx-font-size:28px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+coloreTesto+";");
+    titoloTempoTotaleLabel.setStyle("-fx-font-size:18px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+coloreTesto+";");
+    tempoTotaleLabel.setStyle("-fx-font-size: 24px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+coloreTesto+";");
+    titoloTopBraniLabel.setStyle("-fx-font-size:18px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+coloreTesto+";");
+    titoloTopArtistiLabel.setStyle("-fx-font-size:18px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+coloreTesto+";");
+    messaggioLabel.setStyle("-fx-text-fill: "+coloreTesto+";");
+    applicaStileLista(braniListView, sfondoLista, coloreTesto);
+    applicaStileLista(artistiListView, sfondoLista, coloreTesto);
+  }
+  private void applicaStileLista(ListView<String> lista, String sfondo, String coloreTesto) {
+    lista.setStyle("-fx-control-inner-background: "+sfondo+";"+"-fx-background-color: "+sfondo+";"+"-fx-text-fill: "+coloreTesto+";");
+    lista.setCellFactory(lv->new ListCell<String>() {
+      @Override
+      protected void updateItem(String elemento, boolean vuoto) {
+        super.updateItem(String elemento, boolean vuoto);
+        if (vuoto||elemento==null) setText(null);
+        else setText(elemento);
+        setTextFill(Color.web(coloreTesto));
+        setStyle("-fx-background-color: "+sfondo+";"+"-fx-text-fill: "+coloreTesto+";");
+      }
+    });
+  }
+}
