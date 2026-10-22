@@ -19,7 +19,7 @@ import javafx.scene.control.TextView; //serve per creare la struttura principale
 import javafx.scene.control.TextField; //serve per creare una casella di testo in cui l'utente può digitare parole o numeri
 import javafx.util.StringConverter; //serve per convertire un oggetto in testo (e viceversa) dentro le ComboBox per esempio
 import java.time.Year;
-import java,util.*;
+import java.util.*;
 public class AlbumController {
   @FXML private TableView<Album> tabellaAlbum;
   @FXML private TableColumn<Album, String> colonnaTitolo;
