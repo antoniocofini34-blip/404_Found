@@ -4,34 +4,16 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/21"
-  xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="com.example.controller.AggiungiBranoPlaylistController"
-  alignment="CENTER"
-  spacing="15">
-<Label text="AGGIUNGI BRANO" 
-  style="-fx-font-size:28px; -fx-font-weight: bold;"/>
-<TableView fx:id="tabellaBrani"
-  prefWidth="700"
-  preHeight="400">
-  <columns>
-    <TableColumn fx:id=colonnaTitoloBrano"
-      text="Titolo"
-      prefWidth="300"/>
-    <TableColumn fx:id="colonnaDurataBrano"
-      text="Durata"
-      prefWidth="150"/>
-    <TableColumn fx:id="colonnaAlbumBrano" 
-      text="Album"
-      prefWidth="250"/>
-  </columns>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AggiungiBranoPlaylistController" alignment="CENTER" spacing="15">
+<Label text="AGGIUNGI BRANO" style="-fx-font-size:28px; -fx-font-weight: bold;"/>
+<TableView fx:id="tabellaBrani" prefWidth="700" preHeight="400">
+<columns>
+<TableColumn fx:id=colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
+<TableColumn fx:id="colonnaDurataBrano" text="Durata" prefWidth="150"/>
+<TableColumn fx:id="colonnaAlbumBrano" text="Album" prefWidth="250"/>
+</columns>
 </TableView>
-<Button fx:id="bottoneConferma"
-  text="Aggiungi brano"
-  onAction="#confermaAggiunta"/>
-<Button fx:id="bottoneAnnulla"
-  text="Annulla"
-  onAction="#annulla"/>
-<Label fx:id="messaggioLabel"
-  text=""/>
+<Button fx:id="bottoneConferma" text="Aggiungi brano" onAction="#confermaAggiunta"/>
+<Button fx:id="bottoneAnnulla" text="Annulla" onAction="#annulla"/>
+<Label fx:id="messaggioLabel" text=""/>
 </VBox>
