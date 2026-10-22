@@ -126,16 +126,20 @@ public class PlaylistDettaglioController{
         } catch (BusinessException | IOException e) { mostraMessaggio("Errore durante l'avvio della playlist: " + e.getMessage()); }
     }
     @FXML
-    private void riproduciSoloBranoSelezionato() { Brano selezionato = tabellaBrani.getSelectionModel().getSelectedItem();
-        if (selezionato == null) { mostraMessaggio("Seleziona un brano da riprodurre.");
-            return;
-        }
-        try { List<Brano> braniDaAssociare = new java.util.ArrayList<>();
-            braniDaAssociare.add(selezionato);
-            associaAlbumAiBrani(braniDaAssociare); // Recupera album e artista anche per il singolo brano.
-            PlayerStato.avviaSoloBrano(selezionato);
-            apriPlayer();
-        } catch (BusinessException | IOException e) { mostraMessaggio("Errore durante la riproduzione: " + e.getMessage()); }
+    private void avviaPlaylist() {
+      if (playlistSelezionato==null) {
+        mostraMessaggio("Nessuna playlist selezionata.");
+        return;
+      }
+      try { List<Brano> brani=playlistService.getBrani(playlistSelezionata);
+           if (brani.isEmpty()) {
+             mostraMessaggio("La playlist è vuota.");
+             return;
+           }
+           associaAlbum(brani);
+           PlayerStato.avviaPlaylist(brani, 0);
+           apriPlayer();
+          } catch(BusinessException | IOException e) { mostraMessaggio("Errore durante l'avvio della playlist: " + e.getMessage()); }
     }
   private void apriPlayer() throws IOException{ FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/PlayerView.fxml"));
     Parent root=loader.load();
