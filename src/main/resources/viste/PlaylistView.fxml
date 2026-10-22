@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.PlaylistController" alignment="CENTER" spacing="15">
+<Label text="PLAYLIST" style="-fx-font-size:32px; -fx-font-weight:bold;"/>
+<Button fx:id="bottoneNuovaPlaylist" text="Nuova playlist" onAction="#nuovaPlaylist"/>
+<Button fx:id="bottoneModificaPlaylist" text="Modifica playlist" onAction="#modificaPlaylist"/>
+<Button fx:id="bottoneEliminaPlaylist" text="Elimina playlist" onAction="#eliminaPlaylist"/>
+<Button fx:id="bottoneDettagliPlaylist" text="Visualizza brani" onAction="#visualizzabrani"/>
+<TableView fx:id="tabellaPlaylist" prefWidth="700" prefHeight="400">
+<columns>
+<TableColumn fx:id="colonnaNomePlaylist" text="Nome" prefWidth="250"/>
+<TableColumn fx:id="colonnaDescrizionePlaylist" text="Descrizione" prefWidth="300"/>
+<TableColumn fx:id="colonnaDataCreazionePlaylist" text="Data creazione" prefWidth="150"/>
+<TableColumn tx:id="colonnaDurataTotalePlaylist" text="Durata totale secondi)" prefWidth="200"/>
+</columns>
+</TableView>
+<Button fx:id="bottoneIndietro" text="Indietro" onAction="#tornaIndietro"/>
+</VBox>
