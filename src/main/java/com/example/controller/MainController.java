@@ -1,11 +1,11 @@
 package com.example.controller;
-import javafx.application.Platform;
+import javafx.application.Platform;  //Gestisce il ciclo di vita dell'applicazione e il thread grafico (per spostare pixel e aggiornare la schermata)
 import javafx.fxml.FXML;
 import javafx.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.geometry.Insets  //Serve per definire margini di un contenitore grafico
 import javafx.scene.layout.FlowPane;  //Layout che dispone gli elementi uno dopo l'altro in riga o colonna
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.Priority;  //Gestisce il ridimensionamento automatico dei componenti grafici all'ingrandimento o restringimento della finestra (usato principalmente dentro VBox o HBox)
 import javafx.scene.layout.VBox;  //Contenitore di layout che dispone i componenti in colonna, uno sotto l'altro
 import javafx.scene.layout.HBox;  //Contenitore di layout che dispone i componenti in riga, uno di fianco all'altro
 import javafx.scene.control.Label;
@@ -37,7 +37,7 @@ import java.util.*;
 import javafx.scene.Node;  //Superclasse di quasi tutti gli elementi visivi in JavaFX
 import javafx.scene.image.Image;  //Rappresenta il file dell'immagine 
 import javafx.scene.image.ImageView;  //Componente grafico che mostra l'oggetto Image sullo schermo
-import java.io.File;
+import java.io.File;  //Rappresenta un file o cartella fisica presente sul disco rigido del computer e si usa per verificare se un file esiste, per leggerne il percorso ecc
 import javafx.scene.layout.StackPane;  //Contenitore di layout che sovrappone gli elementi l'uno sopra l'altro
 import javafx.scene.layout.BackgroundImage;  //Definisce l'immagine da usare come sfondo
 import javafx.scene.layout.BackgroundPosition;  //Determina la posizione iniziale dell'immagine di sfondo all'interno del pannello
