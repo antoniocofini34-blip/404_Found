@@ -1,1 +1,36 @@
-
+<?ml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns="http://javafx.com/fxml/1 fx:controller="com.example.controller.LibreriaController" alignment="CENTER" spacing="15">
+<Label text="LIBRERIA" style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
+    <TextField fx:id="campoFiltro" promptText="Filtra..." prefWidth="400" maxWidth="400"/>
+    <Label text="ARTISTI" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TableView fx:id="tabellaArtisti" prefWidth="700" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="colonnaNome" text="Nome artista" prefWidth="300"/>
+            <TableColumn fx:id="colonnaGenere" text="Genere principale" prefWidth="200"/>
+            <TableColumn fx:id="colonnaTipo" text="Tipo" prefWidth="200"/>
+        </columns>
+    </TableView>
+    <Label text="ALBUM" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TableView fx:id="tabellaAlbum" prefWidth="700" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="colonnaTitoloAlbum" text="Titolo" prefWidth="300"/>
+            <TableColumn fx:id="colonnaAnnoAlbum" text="Anno" prefWidth="150"/>
+            <TableColumn fx:id="colonnaArtistaAlbum" text="Artista" prefWidth="250"/>
+        </columns>
+    </TableView>
+    <Label text="BRANI" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TableView fx:id="tabellaBrani" prefWidth="700" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
+            <TableColumn fx:id="colonnaDurataBrano" text="Durata (secondi)" prefWidth="200"/>
+            <TableColumn fx:id="colonnaAlbumBrano" text="Album" prefWidth="200"/>
+        </columns>
+    </TableView>
+    <Button fx:id="bottoneIndietro" text="Indietro" onAction="#tornaIndietro"/>
+</VBox>
