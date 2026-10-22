@@ -9,7 +9,7 @@
 <import javafx.scene.layout.HBox?>
 <import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/21"
-  xmlns:"http://javafx.com/fxml/1"
+  xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.example.controller.AlbumController"
   spacing="12"
   fillWidth="true">
