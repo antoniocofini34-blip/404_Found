@@ -1,1 +1,46 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="hhtp://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.StatisticheController">
+<top>
+<HBox fx:id="intestazioneStatistiche" alignment="CENTER_LEFT" spacing="15">
+<padding>
+<Insets top="20" right="25" bottom="20" left="25"/>
+</padding>
+<Button text="← Home" onAction="#tornaHome"/>
+<Label fx:id="titoloStatisticheLabel" text="Statistiche" style="-fx-font-size:28px; -fx-font-weight: bold;"/>
+</HBox>
+</top>
+<center>
+<VBox fx:id="contenitoreStatistiche" spacing="20" alignment="TOP_CENTER">
+<padding>
+<Insets top="25" right="25" bottom="25" left="25"/>
+</padding>
+<HBox spacing="15" alignment="CENTER" prefWidth="700">
+<VBox fx:id="riquadroTempoTotale" alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+<padding>
+<Insets top="20" right="20" bottom="20" left="20"/>
+</padding>
+<Label fx:id="titoloTempoTotaleLabel" text=Tempo totale di ascolto" style="-fx-font-size:18px; -fx-font-weight: bold;"/>
+<Label fx:id="tempoTotaleLabel" text="0 secondi" style="-fx-font-size:24px; -fx-font-weight: bold;"/>
+</VBox>
+</HBox>
+<HBox spacing="20" alignment="TOP_CENTER">
+<VBox fx:id="riquadroTopBrani" spacing="10" HBox.hgrow="ALWAYS">
+<Label fx:id="titoloTopBraniLabel" text="Top 10 brani più ascoltati" style="-fx-font-size:18px; -fx-font-weight: bold;"/>
+<ListView fx:id="braniListView" prefHeight="350" VBox.vgrow="ALWAYS"/>
+</VBox>
+<VBox fx:id="riquadroTopArtisti" spacing="10" HBox.hgrow="ALWAYS">
+<Label fx:id="titoloTopArtistiLabel" text="Artisti più ascoltati" style="-fx-font-size:18px; -fx-font-weight: bold;"/>
+<ListView fx:id="artistiListView" prefHeight="350" VBox.vgrow="ALWAYS"/>
+</VBox>
+</HBox>
+<Label fx:id="messaggioLabel" text="Le statistiche saranno caricate qui." wrapText="true"/>
+</VBox>
+</center>
+</BorderPane>
