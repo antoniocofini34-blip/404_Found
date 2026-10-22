@@ -147,7 +147,10 @@ public class UtenteController {
     if(selezionato==null) return;
     try{
       utenteSelezionato=utenteService.findUtenteByEmail(selezionato.getEmail());
-      UtenteAttivo.setUtente(utenteSelezionato);
+      Utente utentePrecedente=UtenteAttivo.getUtente();
+      boolean cambioUtente=utentePrecedente!=null && !utentePrecedente.getEmail().equalsIgnoreCase(utenteSelezionato.getEmail());
+      if (cambioUtente) PlayerStato.fermaRiproduzionePerCambioUtente();
+      UtenteAttivo.setUtente(utenteSelezionato);      
       nomeField.setText(utenteSelezionato.getNome());
       cognomeField.setText(utenteSelezionato.getCognome());
       emailField.setText(utenteSelezionato.getEmail());
