@@ -8,7 +8,7 @@
 <Label text="AGGIUNGI BRANO" style="-fx-font-size:28px; -fx-font-weight: bold;"/>
 <TableView fx:id="tabellaBrani" prefWidth="700" preHeight="400">
 <columns>
-<TableColumn fx:id=colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
+<TableColumn fx:id="colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
 <TableColumn fx:id="colonnaDurataBrano" text="Durata" prefWidth="150"/>
 <TableColumn fx:id="colonnaAlbumBrano" text="Album" prefWidth="250"/>
 </columns>
