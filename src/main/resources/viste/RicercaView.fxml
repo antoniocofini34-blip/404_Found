@@ -1,1 +1,46 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene..control.TableColumn?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pirority?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cntroller.RicercaController" alignment="CENTER" spacing="10" fillWidth="true" prefWidth="900" prefHeight="850" style="-fx-padding:15;">
+<Label text="RICERCA" style="-fx-font-size:32px; -fx-font-weight:bold;"/>
+<HBox alignment="CENTER" spacing=10">
+<TextField fx:id="campoRicerca" promptText="Cerca brano album o artista..." prefWidthh="400" maxWidth="400"/>
+<Button text="Cerca" onAction="#cerca"/>
+</HBox>
+<HBox alignment="CENTER" spacing="10"> 
+<ComboBox fx:id="filtroGenere" promptText="Tutti i generi" prefWidth="180"/>
+</HBox>
+<HBox alignment="CENTER" spacing="35">
+<Label fx:id="risultatoBraniLabel" text="Brani: 0" style="-fx-font-size:16px; -fx-font-weight:bold;"/>
+<Label fx:id="risultatoAlbumLabel" text="Album: 0" style="-fx-font-size:16px; -fx-font-weight:bold;"/>
+<Label fx:id="risultatoArtistiLabel" text="Artisti: 0" style="-fx-font-size:16; -fx-font-weight:bold"/>
+</HBox>
+<Label fx:id="risultatoLabel" text="Inserisci qualcosa da cercare"/>
+<TableView fx:id="tabellaBrani" prefHeight="180.0" minHeight="100.0" prefWidth="700.0">
+<columns>
+<TableColumn fx:id="colonnaTipo" text="Tipo" prefWidth="90.0"/>
+<TableColumn fx:id="colonnaTitolo" text="Titolo" prefWidth="220.0"/>
+<TableColumn fx:id="colonnaDurata" text="Durata (secondi)" prefWidth="110.0"/>
+<TableColumn fx:id="colonnaGenere" text="Genere" prefWidth="200.0"/>
+<TableColumn fx:id="colonnaRiproduci" text="Azione" prefWidth="160.0"/>
+<TableColumn fx:id="colonnaDataPubblicazione" text="Data di pubblicazione" sortable="true"/>
+<TableColumn fx:id="colonnaNumeroAscolti" text="Numero di ascolti" prefWidth="140.0" sortable="true"/>
+</columns>
+</TableView>
+<Label text="CRONOLOGIA ASCOLTI" style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+<Label fx:id="utenteCronologiaLabel" text="Nessun utente selezionato"/>
+<ListView fx:id="cronologiaListView" prefHeight="200.0" minHeight="120.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
+<placeholder>
+<Label text="Nessun ascolto registrato"/>
+</placeholder>
+</ListView>
+<Button text="<- Indietro" onAction="#tornaIndietro"/>
+</VBox>
