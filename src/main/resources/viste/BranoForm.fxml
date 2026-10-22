@@ -19,7 +19,7 @@
 <TableColumn fx:id="colonnaTitolo" text="Titolo" prefWidth="190"/>
 <TableColumn fx:id="colonnaDurata" text="Durata (secondi)" prefWidth="120"/>
 <TableColumn fx:id="colonnaGeneri" text="Generi" prefWidth="160"/>
-<TableColumn fx:id=""colonnaAlbum" text="Album" prefWidth="180"/>
+<TableColumn fx:id="colonnaAlbum" text="Album" prefWidth="180"/>
 <TableColumn fx:id="colonnaAscolti" text="Ascolti" prefWidth="90"/>
 </columns>
 </TableView>
