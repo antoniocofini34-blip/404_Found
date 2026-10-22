@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/21" xmlns="http://javafx.com/fxml/1 fx:controller="com.example.controller.LibreriaController" alignment="CENTER" spacing="15">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LibreriaController" alignment="CENTER" spacing="15">
 <Label text="LIBRERIA" style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
 <TextField fx:id="campoFiltro" promptText="Filtra..." prefWidth="400" maxWidth="400"/>
 <Label text="ARTISTI" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
