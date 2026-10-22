@@ -404,11 +404,13 @@ public class PlayerController{
             if (branoCorrente == null) { timeline.stop();
                 return;
             }
-            // Se è iniziato un brano diverso, azzera il conteggio.
-            if (branoMonitorato == null || !branoMonitorato.getTitolo().equalsIgnoreCase(branoCorrente.getTitolo())) { branoMonitorato = branoCorrente;
-                secondiAscoltoCorrente = 0;
-                branoAscoltoRegistrato = null;
-            }
+            // Se è iniziato un brano diverso, azzera il conteggio e aggiorna la copertina.
+            if (branoMonitorato==null || !branoMonitorato.getTitolo().equalsIgnoreCase(branoCorrente.getTitolo()) || !Objects.equals(branoMonitorato.getAlbumBrano()!=null ? branoMonitorato.getAlbumBrano().getTitolo() : null, branoCorrente.getAlbumBrano()!=null ? branoCorrente.getAlbumBrano().getTitolo() : null)) {
+              aggiornaCopertinaAlbum(branoCorrente);
+              branoMonitorato=branoCorrente;
+              secondiAscoltoCorrente=0;
+              branoAscoltoRegistrato=null;
+            }                                                        
             double durata = branoCorrente.getDurata();
             double progresso = PlayerStato.getProgressoCorrente();
             progressoCorrente = progresso;
