@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextArea;  //Rappresenta un'area di testo multilinea, permettendo di gestire grandi blocchi di testo su più righe (a differenza di TextField che invece permette l'inserimento di una sola riga)
 import javafx.scene.control.TextField;
 import javafx.beans.property.SimpleStringProperty;
 import java.util.*;
