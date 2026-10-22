@@ -1,1 +1,61 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.ScrollPane?>
+<BorderPane fx:id="rootPrincipale" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.MainController">
+    <!-- MENU LATERALE --> <left>
+        <VBox fx:id="barraLaterale" spacing="15" prefWidth="220" style="-fx-background-color: #191414;">
+            <Label fx:id="nomeProgettoLabel" text="UnivaqSound" style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;" wrapText="true"/>
+            <Label fx:id="nomeGruppoLabel" text="404_Found" style="-fx-text-fill: #aaaaaa; -fx-font-size: 14px;"/>
+            <ComboBox fx:id="selettoreTema" promptText="Seleziona tema" maxWidth="Infinity" onAction="#cambiaTema"/>
+            <VBox spacing="8" VBox.vgrow="ALWAYS">
+                <Button text="Home" maxWidth="Infinity" onAction="#apriHome" style="-fx-font-size: 15px;"/>
+                <Button text="Libreria" maxWidth="Infinity" onAction="#apriLibreria" style="-fx-font-size: 15px;"/>
+                <Button text="Ricerca" maxWidth="Infinity" onAction="#apriRicerca" style="-fx-font-size: 15px;"/>
+                <Button text="Playlist" maxWidth="Infinity" onAction="#apriPlaylist" style="-fx-font-size: 15px;"/>
+                <Button text="Player" maxWidth="Infinity" onAction="#apriPlayer" style="-fx-font-size: 15px;"/>
+                <Button text="Artisti" maxWidth="Infinity" onAction="#apriArtisti" style="-fx-font-size: 15px;"/>
+                <Button text="Album" maxWidth="Infinity" onAction="#apriAlbum" style="-fx-font-size: 15px;"/>
+                <Button text="Brani" maxWidth="Infinity" onAction="#apriBrani" style="-fx-font-size: 15px;"/>
+                <Button text="Statistiche" maxWidth="Infinity" onAction="#apriStatistiche" style="-fx-font-size: 15px;"/>
+                <Button text="Utente" maxWidth="Infinity" onAction="#apriUtente" style="-fx-font-size: 15px;"/>
+            </VBox> 
+        </VBox>
+    </left>
+    <!-- CONTENUTO CENTRALE -->
+    <center>
+        <VBox fx:id="contenutoCentrale" alignment="CENTER" spacing="20" style="-fx-background-color: #f5f5f5;" fillWidth="true">
+            <Label fx:id="titoloLabel" text="UnivaqSound" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <Label text="Piattaforma di Streaming Musicale" style="-fx-font-size: 20px;"/>
+            <Label text="Benvenuto in UnivaqSound!" style="-fx-font-size: 16px;"/>
+        </VBox>
+    </center>
+    <!-- PLAYER IN BASSO --><bottom>
+        <HBox fx:id="miniPlayerContenitore" alignment="CENTER_LEFT" spacing="0" prefHeight="110" minHeight="110" style="-fx-background-color: #191919;">
+            <HBox fx:id="contenitoreInformazioniMiniPlayer" spacing="12" alignment="CENTER_LEFT"  prefWidth="300" minWidth="300" style="-fx-padding: 5 15 0 15;">
+                <ImageView fx:id="copertinaMiniPlayer" fitWidth="65" fitHeight="65" preserveRatio="false" smooth="true"/>
+                <VBox spacing="4" alignment="CENTER_LEFT">
+                    <Label fx:id="titoloMiniPlayer" text="Nessun brano in riproduzione" wrapText="false" maxWidth="250" onMouseClicked="#apriPlayerDaTitolo" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                    <Label fx:id="artistaMiniPlayer" text="" wrapText="false" maxWidth="250" onMouseClicked="#apriPlayerDaArtista" style="-fx-text-fill: #bbbbbb; -fx-font-size: 12px; -fx-cursor: hand;"/>
+                </VBox>
+            </HBox>
+            <VBox fx:id="contenitoreControlliMiniPlayer" alignment="CENTER" spacing="8" HBox.hgrow="ALWAYS">
+                <Slider fx:id="barraMiniPlayer" min="0" max="1" value="0" prefWidth="700" maxWidth="700" disable="true" onMousePressed="#miniInizioTrascinamento" onMouseReleased="#miniFineTrascinamento"/>
+                <HBox spacing="15" alignment="CENTER">
+                    <Button fx:id="miniIndietro" text="⏮️" onAction="#miniIndietro" style="-fx-font-size: 18px;"/>
+                    <Button fx:id="miniPlayPausa" text="▶️" onAction="#miniPlayPausa" style="-fx-font-size: 18px;"/>
+                    <Button fx:id="miniStop" text="⏹️" onAction="#miniStop" style="-fx-font-size: 18px;"/>
+                    <Button fx:id="miniAvanti" text="⏭️" onAction="#miniAvanti" style="-fx-font-size: 18px;"/>
+                </HBox>
+            </VBox>
+        <Region prefWidth="300" minWidth="300"/>
+    </HBox>
+</bottom>
+</BorderPane>
