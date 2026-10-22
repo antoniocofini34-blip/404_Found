@@ -15,7 +15,7 @@ import javafx.fxml.FXMLLoader;  //Serve a importare la classe FXMLLoader che vie
 import javafx.scene.Parent;  //Superclasse di tutti i nodi di JavaFX che possono contenere elementi figli, rappresentando quindi la root
 import javafx.scene.Scene;  //Rappresenta il contenitore finale di tutti i contenuti visivi della finestra
 import javafx.stage.Stage;  //Importa la classe Stage che rappresenta la finestra principale dell'applicazione
-import java.io.IOException;
+import java.io.IOException;  //Rappresenta eventuali eccezioni di Input/Output che potrebbero verificarsi durante le operazioni di lettura o scrittura dei dati
 import java.util.*; 
 public class AggiungiBranoPlaylistController {
   @FXML
