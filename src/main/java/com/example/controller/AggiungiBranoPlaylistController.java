@@ -7,14 +7,14 @@ import com.example.domain.Playlist;
 import javafx.beans.property.SimpleStringProperty //Gestisce stringhe reattive per il Data Binding
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Button;  //Importa la classe Button che rappresenta un pulsante cliccabile all'interno dell'interfaccia grafica
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;  //Serve a importare la classe FXMLLoader che viene usata per leggere file FXML
+import javafx.scene.Parent;  //Superclasse di tutti i nodi di JavaFX che possono contenere elementi figli, rappresentando quindi la root
+import javafx.scene.Scene;  //Rappresenta il contenitore finale di tutti i contenuti visivi della finestra
+import javafx.stage.Stage;  //Importa la classe Stage che rappresenta la finestra principale dell'applicazione
 import java.io.IOException;
 import java.util.*; 
 public class AggiungiBranoPlaylistController {
