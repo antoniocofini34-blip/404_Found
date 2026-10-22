@@ -14,7 +14,7 @@
         </columns>
     </TableView>
     <Button text="▶️ Riproduci playlist da qui" onAction="#riproduciPlaylistDaSelezionato"/>
-    <Button text="▶️ Riproduci solo questo brano" onAction="#riproduciSoloBranoSelezionato"/>
+    <Button text="▶️ Avvia playlist" onAction="#avviaPlaylist"/>
     <Button fx:id="bottoneAggiungiBrano" text="Aggiungi brano" onAction="#aggiungiBrano"/>
     <Button fx:id="bottoneRimuoviBrano" text="Rimuovi brano" onAction="#rimuoviBrano"/>
     <Button fx:id="bottoneSpostaSu" text="↑ Sposta su" onAction="#spostaSu"/>
