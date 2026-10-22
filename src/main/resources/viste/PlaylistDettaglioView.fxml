@@ -5,19 +5,19 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.PlaylistDettaglioController" alignment="CENTER" spacing="15">
-    <Label fx:id="titoloPlaylist" text="PLAYLIST" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
-    <Label fx:id="descrizionePlaylist" text=""/>
-    <TableView fx:id="tabellaBrani" prefWidth="700" prefHeight="400">
-        <columns>
-            <TableColumn fx:id="colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
-            <TableColumn fx:id="colonnaDurataBrano" text="Durata" prefWidth="150"/>
-        </columns>
-    </TableView>
-    <Button text="▶️ Riproduci playlist da qui" onAction="#riproduciPlaylistDaSelezionato"/>
-    <Button text="▶️ Avvia playlist" onAction="#avviaPlaylist"/>
-    <Button fx:id="bottoneAggiungiBrano" text="Aggiungi brano" onAction="#aggiungiBrano"/>
-    <Button fx:id="bottoneRimuoviBrano" text="Rimuovi brano" onAction="#rimuoviBrano"/>
-    <Button fx:id="bottoneSpostaSu" text="↑ Sposta su" onAction="#spostaSu"/>
-    <Button fx:id="bottoneSpostaGiu" text="↓ Sposta giù" onAction="#spostaGiu"/>
-    <Button fx:id="bottoneIndietro" text="Indietro" onAction="#tornaIndietro"/>
+<Label fx:id="titoloPlaylist" text="PLAYLIST" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+<Label fx:id="descrizionePlaylist" text=""/>
+<TableView fx:id="tabellaBrani" prefWidth="700" prefHeight="400">
+<columns>
+<TableColumn fx:id="colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
+<TableColumn fx:id="colonnaDurataBrano" text="Durata" prefWidth="150"/>
+</columns>
+</TableView>
+<Button text="▶️ Riproduci playlist da qui" onAction="#riproduciPlaylistDaSelezionato"/>
+<Button text="▶️ Avvia playlist" onAction="#avviaPlaylist"/>
+<Button fx:id="bottoneAggiungiBrano" text="Aggiungi brano" onAction="#aggiungiBrano"/>
+<Button fx:id="bottoneRimuoviBrano" text="Rimuovi brano" onAction="#rimuoviBrano"/>
+<Button fx:id="bottoneSpostaSu" text="↑ Sposta su" onAction="#spostaSu"/>
+<Button fx:id="bottoneSpostaGiu" text="↓ Sposta giù" onAction="#spostaGiu"/>
+<Button fx:id="bottoneIndietro" text="Indietro" onAction="#tornaIndietro"/>
 </VBox>
