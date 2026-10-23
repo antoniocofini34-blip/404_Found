@@ -17,7 +17,7 @@ import java.nio.file.*;
 import java.util.Properties;
 import java.util.*;
 public class PlayerStato {
-  private static final RAMCodaRiproduzioneService codaService=new RAMCodaRiproduzioneServiceImpl();
+  private static final RAMCodaRiproduzioneServiceImpl codaService=new RAMCodaRiproduzioneServiceImpl();
   private static final FileBranoServiceImpl branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
   private static final CodaRiproduzione coda=new CodaRiproduzione(new ArrayList<>(), false, ModalitaRepeat.NESSUNA, StatoRiproduzione.FERMO);
   private static Brano branoCorrente;
@@ -91,7 +91,7 @@ public class PlayerStato {
         secondiAscoltoCorrente++;
         if (secondiAscoltoCorrente >= 30) registraAscolto(branoCorrente);
       }
-      registraSecondoAscolto(branoCorrente);  //Salva i secondi totali nel file delle impostazioni
+      registraSecondoAscoltato(branoCorrente);  //Salva i secondi totali nel file delle impostazioni
       int durata=branoCorrente.getDurata();  //Fino a quando la canzone non è finita, sposta in avanti di 1 secondo la barra del tempo
       if (progressoCorrente < durata) progressoCorrente++;
       if (progressoCorrente >= durata) {
@@ -213,7 +213,7 @@ public class PlayerStato {
   }
   private static void avviaRiproduzione(List<Brano> brani,int indiceIniziale, boolean registraCronologia) throws BusinessException {
     if (brani==null || brani.isEmpty()) throw new BusinessException("La playlist è vuota");
-    if (indiceIniziale <0 || inidiceIniziale >= brani.size()) throw new BusinessException("Seleziona un brano valido");
+    if (indiceIniziale <0 || indiceIniziale >= brani.size()) throw new BusinessException("Seleziona un brano valido");
     List<Brano> braniPlaylist=new ArrayList<>(brani);
     for (Brano brano : braniPlaylist) {
       if (brano==null) throw new BusinessException("La playlist contiene un brano non valido");
@@ -227,7 +227,7 @@ public class PlayerStato {
     codaService.impostaIndiceCorrente(coda, indiceIniziale);
     branoCorrente=braniPlaylist.get(indiceIniziale);
     progressoCorrente=0;
-    iniziaNuovoAscoltoì();
+    iniziaNuovoAscolto();
     codaService.play(coda);
     avviaTimerRiproduzione();
   }
