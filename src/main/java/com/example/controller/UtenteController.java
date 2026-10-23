@@ -80,8 +80,8 @@ public class UtenteController {
   }
   private void aggiornaColoriEtichette(Parent parent, String testo, String secondario) {
     //iteriamo su tutti i nodi figli del parent in modalità di sola lettura per sicurezza
-    for (Node nodo:parent.getChildrenUnmodifiable() {
-      if (nodo instaceof Label) {
+    for (Node nodo:parent.getChildrenUnmodifiable()) {
+      if (nodo instanceof Label) {
         Label label=(Label) nodo;
         String contenuto=label.getText();
         if (contenuto==null) continue;
@@ -93,7 +93,7 @@ public class UtenteController {
           label.setStyle("-fx-font-size:24px;"+"-fx-font-weight:bold;"+"-fx-text-fill: "+testo+";");
         } else if (contenuto.equals("Nome")||contenuto.equals("Cognome")||contenuto.equals("Email")||contenuto.equals("Data di nascita")||contenuto.equals("Utente salvato:")) {
           label.setTextFill(Color.web(testo));
-          label.setStyle("-fx-text-fill: "+testo+";" + (conteuto.equals(Utente salvato: ")? "-fx-font-weight:bold;":""));
+          label.setStyle("-fx-text-fill: " + testo + ";" + (contenuto.equals("Utente salvato: ")? "-fx-font-weight:bold;":""));
         }
       }
       if (nodo instanceof Parent) aggiornaColoriEtichette((Parent) nodo,testo,secondario);
