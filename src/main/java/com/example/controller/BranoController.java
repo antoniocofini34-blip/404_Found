@@ -33,14 +33,12 @@ public class BranoController {
   @FXML private TextArea campoTesto;
   @FXML private Label messaggio;
   private FileBranoServiceImpl branoService;
-  private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
   private Brano branoSelezionato;
   private Album albumOriginale;
   @FXML
   private void initialize() { //inizializziamo i servizi indicando i file di testo da cui leggere e su cui salvare album e artisti
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
-    artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     configuraTabella();
     configuraComboAlbum();
     caricaAlbum();
