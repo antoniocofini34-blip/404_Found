@@ -296,7 +296,7 @@ public class MainController {
     try { if (miniTimeline!=null) { miniTimeline.stop();  //Ferma il timer grafico del mini player           
             miniTimeline=null;
         }
-      FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resorces/dati/album.txt");
+      FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
       List<Album> album=albumService.findAllAlbum();
       brano.setAlbumBrano(null);
       for (Album a : album) {
