@@ -110,7 +110,7 @@ public class FileAlbumServiceImpl implements AlbumService {
     modificaAlbum(albumFile); 
   }
   @Override 
-  public void riordinaBrani(Album album, int indiceVecchio, int indiceNuovo) throw BusinessException {
+  public void riordinaBrani(Album album, int indiceVecchio, int indiceNuovo) throws BusinessException {
     if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
     Album albumFile=findAlbumByTitolo(album.getTitolo()); 
     List<Brano> brani=albumFile.getListaBrani(); 
@@ -142,7 +142,7 @@ public class FileAlbumServiceImpl implements AlbumService {
     }
     return Utility.readAllRows(this.filename); 
   }
-  private List<Album> convertiRighe(FileData data) throws BusinessException { List<Album> album new ArrayList<>(); 
+  private List<Album> convertiRighe(FileData data) throws BusinessException { List<Album> album=new ArrayList<>(); 
       for (String[] riga : data.getRighe()) {
       Album a=creaAlbumDaRiga(riga); 
       if (a!=null) album.add(a); 
