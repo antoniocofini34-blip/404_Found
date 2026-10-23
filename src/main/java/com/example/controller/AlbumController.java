@@ -86,7 +86,7 @@ public class AlbumController {
     campoTitolo.setText(album.getTitolo());
     //ora andiamo a bloccare la modifica del titolo durante l'aggiornamento, lasciando invariato il criterio identificativo dell'album
     campoTitolo.setEditable(false);
-    campoAnno.setText(String.valueOf(album.getAnnoPubblicazione())));
+    campoAnno.setText(String.valueOf(album.getAnnoPubblicazione()));
     campoCopertina.setText(album.getCopertina()==null ? "":album.getCopertina());
     StringBuilder generi=new StringBuilder();
     //costruiamo una stringa con tutti i generi dell'album separandoli con una virgola così da mostrarli nel campo di testo
