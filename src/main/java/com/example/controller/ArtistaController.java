@@ -154,7 +154,8 @@ public class ArtistaController {
       try { generi.add(GenereMusicale.valueOf(nomeGenere.toUpperCase()));
           } catch(IllegalArgumentException e) { throw new IllegalArgumentException("Genere secondario non valido:" + nomeGenere + ". Usa i nomi dell'elenco dei generi.");
                 }
-          }
+            }
+          return generi;
       }
   private String ottieniNome(Artista artista) {
     if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
