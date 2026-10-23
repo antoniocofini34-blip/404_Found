@@ -5,7 +5,7 @@ public abstract class Artista {
   private GenereMusicale genere_principale; 
   private Set<GenereMusicale> generi_secondari; 
   private List<Album> discografia; 
-  public Artista (String biografia, GenereMusicale genere_pricipale, Set<GenereMusicale> generi_secondari, List<Album> discografia) {
+  public Artista (String biografia, GenereMusicale genere_principale, Set<GenereMusicale> generi_secondari, List<Album> discografia) {
     this.biografia=biografia; 
     this.genere_principale=genere_principale;  
     if (generi_secondari!=null) this.generi_secondari=new HashSet<>(generi_secondari); 
