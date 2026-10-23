@@ -10,9 +10,7 @@ public class Playlist implements Riproducibile{
   private int indice_nuovo; 
   private int indice_vecchio; 
   private String proprietarioEmail; 
-  public Playlist(List<Brano> lista_brani, String nome, String descrizione, LocalDate data_creazione, int indice_corrente, int indice_nuovo, int indice_vecchio, String proprietarioEmail){
-    if (lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
-    else this.lista_brani=new ArrayList<>(); 
+  public Playlist(String nome, String descrizione, LocalDate data_creazione, int indice_corrente, int indice_nuovo, int indice_vecchio, String proprietarioEmail){
     this.nome=nome;
     this.descrizione=descrizione;
     this.data_creazione=data_creazione;
