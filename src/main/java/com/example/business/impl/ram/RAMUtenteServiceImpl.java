@@ -4,7 +4,7 @@ import com.example.business.exception.BusinessException;
 import com.example.business.UtenteService;
 import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
-import com.example.business.exception..UtenteNonTrovatoException;
+import com.example.business.exception.UtenteNonTrovatoException;
 import com.example.domain.GenereMusicale;
 import com.example.domain.Playlist;
 import com.example.domain.Utente;
@@ -18,8 +18,8 @@ public class RAMUtenteServiceImpl implements UtenteService{ private List<Utente>
     if (utente.getCognome() == null || utente.getCognome().trim().isEmpty()) throw new OperazioneNonValidaException("Il cognome dell'utente non può essere vuoto"); 
     if (utente.getEmail() == null || utente.getEmail().trim().isEmpty()) throw new OperazioneNonValidaException("L'email dell'utente non può essere vuota"); 
     if (utente.getDataDiNascita() == null) throw new OperazioneNonValidaException("La data di nascita dell'utente non può essere vuota");
-    for (Utente u: this.utenti) {
-      if(u.getEmail().equalsIgnoreCase(utente.getEmail().trim()) throw new DuplicatoException("Esiste già un utente con l'email: " + utente.getEmail());
+    for (Utente u : this.utenti) {
+      if(u.getEmail().equalsIgnoreCase(utente.getEmail().trim())) throw new DuplicatoException("Esiste già un utente con l'email: " + utente.getEmail());
     }
     this.utenti.add(utente);
   }
@@ -90,11 +90,11 @@ public class RAMUtenteServiceImpl implements UtenteService{ private List<Utente>
     utente.setPreferenzeMusicali(preferenze);
   }
   @Override
-  public void rimuoviPreferenza(Utenter utente, GenereMusicale genere) throws BusinessException {
+  public void rimuoviPreferenza(Utente utente, GenereMusicale genere) throws BusinessException {
     if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
     if (genere==null) throw new OperazioneNonValidaException("Il genere musicale non può essere vuoto");
     if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    Set<GeenereMusicale> preferenze=utente.getPreferenzeMusicali();
+    Set<GenereMusicale> preferenze=utente.getPreferenzeMusicali();
     if(!preferenze.remove(genere)) throw new OperazioneNonValidaException("Il genere non è presente nelle preferenze");
     utente.setPreferenzeMusicali(preferenze);
   }
