@@ -1,7 +1,7 @@
 package com.example.controller;
 import javafx.application.Platform;  //Gestisce il ciclo di vita dell'applicazione e il thread grafico (per spostare pixel e aggiornare la schermata)
 import javafx.fxml.FXML;
-import javafx.FXMLLoader;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.geometry.Insets  //Serve per definire margini di un contenitore grafico
 import javafx.scene.layout.FlowPane;  //Layout che dispone gli elementi uno dopo l'altro in riga o colonna
@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;  //Classe base di JavaFX per tutti i nodi di layout che hanno una larghezza e altezza impostabili
 import javafx.scene.paint.Color;  //Classe usata per definire i colori
 import javafx.scene.layout.Background;  //Classe che gestisce lo sfondo dei vari pannelli di layout
-import javafx.scene.layout.BackGroundFill;  //Definisce come riempire lo sfondo di un pannello
+import javafx.scene.layout.BackgroundFill;  //Definisce come riempire lo sfondo di un pannello
 import javafx.scene.layout.CornerRadii;  //Specifica il raggio di curvatura degli angoli di un componente
 import java.io.IOException;
 import javafx.scene.control.Button;
