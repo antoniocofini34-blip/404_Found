@@ -152,7 +152,7 @@ public class LibreriaController {
   }
   private void configuraSelezioneAlbum() {
     //qui il listener aggiorna la tabella dei brani ogni volta che cambia l'album selezionato
-    tabellaAlbum.getSelectionModel().selectedItemProperty.addListener((observable, vecchioAlbum, nuovoAlbum) -> {
+    tabellaAlbum.getSelectionModel().selectedItemProperty().addListener((observable, vecchioAlbum, nuovoAlbum) -> {
       if (nuovoAlbum==null) {
         tabellaBrani.getItems().clear();
         return;
