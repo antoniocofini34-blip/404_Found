@@ -257,7 +257,7 @@ public class LibreriaController {
     tabellaBrani.setItems(FXCollections.observableArrayList(braniFiltrati));
   }
   @FXML
-  private void tornaIndidetro() throws IOException { //qui carichiamo il file FXML della schermata principale per poter tornare alla vista iniziale dell'applicazione
+  private void tornaIndietro() throws IOException { //qui carichiamo il file FXML della schermata principale per poter tornare alla vista iniziale dell'applicazione
     FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
     Parent root=loader.load();
     //qui invece recuperiamo la finestra attuale dal pulsante premuto per poi sostituire la scena con quella principale
