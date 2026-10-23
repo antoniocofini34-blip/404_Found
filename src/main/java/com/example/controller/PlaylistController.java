@@ -86,7 +86,7 @@ public class PlaylistController {
     stage.setScene(new Scene(root, 1000, 700));
   }
   @FXML
-  private void modificaPLaylist() throws IOException {
+  private void modificaPlaylist() throws IOException {
     Playlist playlistSelezionata=tabellaPlaylist.getSelectionModel().getSelectedItem();
     if (playlistSelezionata==null) {
       System.out.println("Seleziona una playlist da modificare.");
