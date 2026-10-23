@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class PlaylistFormController {
   private Label messaggioLabel;
   private FilePlaylistServiceImpl playlistService;
   private Playlist playlistDaModificare;
+  private String nomeVecchio;
   @FXML
   private void initialize() {
     playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
@@ -35,19 +37,20 @@ public class PlaylistFormController {
   @FXML
   private void salva() throws IOException {
     String nome=campoNome.getText();
+    String descrizione=campoDescrizione.getText();
     if (nome==null || nome.trim().isEmpty()) {
       messaggioLabel.setText("Inserisci il nome della playlist.");
       return;
     }
     if (descrizione==null) descrizione="";
     try {
-      if (playistDaModificare==null) {
+      if (playlistDaModificare==null) {
         Utente utente=UtenteAttivo.getUtente();
         if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
           messaggioLabel.setText("Devi essere autenticato per creare una playlist.");
           return;
         }
-        Playlist playlist=new Playlist(nome.trim(), descrizione.trim(), LocalDate(), -1, 0, 0, utente.getEmail().trim());
+        Playlist playlist=new Playlist(nome.trim(), descrizione.trim(), LocalDate.now(), -1, 0, 0, utente.getEmail().trim());
         playlistService.creaPlaylist(playlist);
       } else {
         playlistDaModificare.setNome(nome.trim());
