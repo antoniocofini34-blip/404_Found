@@ -22,6 +22,7 @@ public class RAMCronologiaAscoltiServiceImpl implements CronologiaAscoltiService
      if (ascolto == null) throw new OperazioneNonValidaException("L'ascolto non può essere vuoto");
      List<Ascolto> ascolti=cronologia.getRegistroAscolti();
      if(!ascolti.remove(ascolto)) throw new OperazioneNonValidaException("L'ascolto non è presente nella cronologia");
+  }
     @Override
     public void svuotaCronologia(CronologiaAscolti cronologia) throws BusinessException{
        if (cronologia == null) throw new OperazioneNonValidaException("La cronologia non può essere vuoto");
@@ -35,7 +36,7 @@ public class RAMCronologiaAscoltiServiceImpl implements CronologiaAscoltiService
     @Override
     public int calcolaTempoTotaleAscolto(CronologiaAscolti cronologia) throws BusinessException{
      if (cronologia == null) throw new OperazioneNonValidaException("La cronologia non può essere vuota");
-     int tempoTotale=0
+     int tempoTotale=0;
      for(Ascolto ascolto: cronologia.getRegistroAscolti()){
        if(ascolto!=null) tempoTotale+=ascolto.getTempoBranoAscoltato();
      }
@@ -45,7 +46,7 @@ public class RAMCronologiaAscoltiServiceImpl implements CronologiaAscoltiService
     public int contaAscolti(CronologiaAscolti cronologia, Brano brano) throws BusinessException{
       if (cronologia == null) throw new OperazioneNonValidaException("La cronologia non può essere vuota");
       if(brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
-      int conteggio=0
+      int conteggio=0;
       for(Ascolto ascolto : cronologia.getRegistroAscolti()) {
         if(ascolto!=null && ascolto.getBrano().equals(brano)) conteggio++;
       }
