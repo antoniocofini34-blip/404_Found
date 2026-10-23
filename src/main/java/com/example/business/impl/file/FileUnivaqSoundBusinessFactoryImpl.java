@@ -13,7 +13,7 @@ import com.example.business.UnivaqSoundBusinessFactory;
 import com.example.business.impl.ram.RAMCatalogoServiceImpl;
 import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
 import com.example.business.impl.ram.RAMCronologiaAscoltiServiceImpl;
-public class FileUnivaqSoundBusinessFactoryImpl() implements UnivaqSoundBusinessFactory {
+public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFactory {
   private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
   private FileBranoServiceImpl branoService;
