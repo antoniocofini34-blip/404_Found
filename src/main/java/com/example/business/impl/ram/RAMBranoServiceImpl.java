@@ -11,22 +11,19 @@ import com.example.domain.GenereMusicale;
 public class RAMBranoServiceImpl implements BranoService { private List<Brano> brani; 
   public RAMBranoServiceImpl() { this.brani=new ArrayList<>(); }
   @Override
-  public List<Brano> findAllBrani() throws Business Exception { return new ArrayList<>(this.brani); }
+  public List<Brano> findAllBrani() throws BusinessException { return new ArrayList<>(this.brani); }
   @Override 
   public Brano findBranoByTitolo(String titolo) throws BusinessException {
     if (titolo==null || titolo.trim().isEmpty()) throw new OperazioneNonValidaException("Il titolo del brano non è valido"); 
     for (Brano brano : this.brani) {
       if (brano.getTitolo().equalsIgnoreCase(titolo.trim())) return brano;
-      for(Brano brano : this.brani){
-        if(brano.getTitolo().equalsIgnoreCase(titolo.tirm())){ return brano; }
-      }
     }
-    throw new BranoNonTrovatoException("Il brano non è stato trovato:" + titolo); 
+    throw new BranoNonTrovatoException("Il brano non è stato trovato: " + titolo); 
   }
   @Override 
   public void creaBrano(Brano brano) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
-    if (brano.getTitolo()==null || brano.getTitolo().trim().isEmpty()) throw new OperazioneNOnValidaException("Il titolo del brano non può essere vuoto"); 
+    if (brano.getTitolo()==null || brano.getTitolo().trim().isEmpty()) throw new OperazioneNonValidaException("Il titolo del brano non può essere vuoto"); 
     if (brano.getDurata()<=0) throw new OperazioneNonValidaException("La durata del brano deve essere maggiore di zero"); 
     if (brano.getAlbumBrano()==null) throw new OperazioneNonValidaException("Ogni brano deve appartenere a un album"); 
     for (Brano b : this.brani) {
@@ -56,7 +53,7 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
   }
   @Override 
   public void assegnaAlbum(Album album, Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNOnValidaException("Il brano non può essere vuoto"); 
+    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
     if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
     if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Brano non trovato"); 
     brano.setAlbumBrano(album); 
