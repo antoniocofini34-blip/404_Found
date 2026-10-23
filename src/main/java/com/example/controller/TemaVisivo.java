@@ -52,11 +52,11 @@ public final class TemaVisivo {
       TextArea area=(TextArea) nodo;
       String sfondoCampo=isScuro() ? "#242424" : "#ffffff";
       String bordoCampo=isScuro() ? "#454545" : "#cccccc";
-      area.setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " - bordoCampo + ";");
+      area.setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
       area.applyCss();
       Node contenuto=area.lookup(".content");
       if (contenuto!=null) contenuto.setStyle("-fx-background-color: " + sfondoCampo + ";");
-      Node viewport=arealookup(".viewport");
+      Node viewport=area.lookup(".viewport");
       if (viewport!=null) viewport.setStyle("-fx-background-color: " + sfondoCampo + ";");
     }
     if (nodo instanceof TableView<?>) {
