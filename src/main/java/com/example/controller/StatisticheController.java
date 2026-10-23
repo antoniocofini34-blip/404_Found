@@ -86,7 +86,7 @@ public class StatisticheController {
           caricaTopBraniUtente(brani, utente.getEmail());
           caricaTopArtistiUtente(brani, album, artisti, utente.getEmail());
           aggiornaTempoTotaleUtente(utente.getEmail());
-          messaggioLabel.setText("Statistiche di " + utente.getNome() + " " + "utente.getCognome());
+          messaggioLabel.setText("Statistiche di " + utente.getNome() + " " + "utente.getCognome()");
         } catch(BusinessException e) { messaggioLabel.setText("Errore nel caricamento delle statistiche: " + e.getMessage()); }
   }
   private int calcolaTempoTotale(List<Brano> brani) {
@@ -143,7 +143,7 @@ public class StatisticheController {
   }
   private String ottieniNomeArtista(Artista artista) {
     if (artista instanceof ArtistaSolista) return ((ArtistaSolista) artista).getNomeArte();
-    if (artista instanceofArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
+    if (artista instanceof ArtistaGruppo) return ((ArtistaGruppo) artista).getNomeGruppo();
     return "Artista sconosciuto";
   }
   private String formattaTempo(int secondi) {
@@ -219,7 +219,7 @@ public class StatisticheController {
     lista.setCellFactory(lv->new ListCell<String>() {
       @Override
       protected void updateItem(String elemento, boolean vuoto) {
-        super.updateItem(String elemento, boolean vuoto);
+        super.updateItem(elemento, boolean vuoto);
         if (vuoto||elemento==null) setText(null);
         else setText(elemento);
         setTextFill(Color.web(coloreTesto));
