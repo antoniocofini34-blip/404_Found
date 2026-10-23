@@ -70,7 +70,7 @@ public class AlbumController {
       //convertiamo la lista ottenuta dal servizio in una raccolta osservabil e utilizzabile dalla ComboBox di JavaFX
       campoArtista.setItems(FXCollections.observableArrayList(artisti));
       messaggio.setText("Artisti disponibili: " + artisti.size());
-    } catch (BusinessException e) { mostraErrore)"Errore nel caricamento degli artisti: " + e.getMessage()); }
+    } catch (BusinessException e) { mostraErrore("Errore nel caricamento degli artisti: " + e.getMessage()); }
   }
   private void caricaAlbum() {
     try {
