@@ -50,7 +50,7 @@ public class PlaylistDettaglioController{
     Platform.runLater(this::aggiornaTemaPlaylist);  //Sincronizza l'aggiornamento grafico del tema sul thread principale di JavaFX per evitare errori
   }
     private void configuraTabella(){ colonnaTitoloBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
-      colonnaDurataBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getTitolo())));
+      colonnaDurataBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getDurata())));
     }
     public void impostaPlaylist(Playlist playlist){ playlistSelezionata=playlist;
       titoloPlaylist.setText(playlist.getNome());
