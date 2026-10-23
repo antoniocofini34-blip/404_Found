@@ -87,7 +87,7 @@ public class StatisticheController {
           caricaTopBraniUtente(brani, utente.getEmail());
           caricaTopArtistiUtente(brani, album, artisti, utente.getEmail());
           aggiornaTempoTotaleUtente(utente.getEmail());
-          messaggioLabel.setText("Statistiche di " + utente.getNome() + " " + "utente.getCognome()");
+          messaggioLabel.setText("Statistiche di " + utente.getNome() + " " + utente.getCognome());
         } catch(BusinessException e) { messaggioLabel.setText("Errore nel caricamento delle statistiche: " + e.getMessage()); }
   }
   private int calcolaTempoTotale(List<Brano> brani) {
