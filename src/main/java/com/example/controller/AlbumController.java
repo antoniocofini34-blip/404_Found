@@ -40,7 +40,7 @@ public class AlbumController {
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
     artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     configuraTabella();
-    configuraCmboArtisti();
+    configuraComboArtisti();
     caricaArtisti();
     caricaAlbum();
   }
@@ -61,7 +61,7 @@ public class AlbumController {
     @Override
     public String toString(Artista artista) { return artista==null ? "": ottieniNomeArtista(artista); }
     @Override
-    public String fromString(String testo) { return null; } //è null perchè la ComboBox utilizza gli oggetti già caricati
+    public Artista fromString(String testo) { return null; } //è null perchè la ComboBox utilizza gli oggetti già caricati
   });
   }
   private void caricaArtisti() {
@@ -86,7 +86,7 @@ public class AlbumController {
     campoTitolo.setText(album.getTitolo());
     //ora andiamo a bloccare la modifica del titolo durante l'aggiornamento, lasciando invariato il criterio identificativo dell'album
     campoTitolo.setEditable(false);
-    campoAnno(setText(String.valueOf(album.getAnnoPubblicazione())));
+    campoAnno.setText(String.valueOf(album.getAnnoPubblicazione())));
     campoCopertina.setText(album.getCopertina()==null ? "":album.getCopertina());
     StringBuilder generi=new StringBuilder();
     //costruiamo una stringa con tutti i generi dell'album separandoli con una virgola così da mostrarli nel campo di testo
