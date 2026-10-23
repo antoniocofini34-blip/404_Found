@@ -42,5 +42,5 @@
 <Label text="Nessun ascolto registrato"/>
 </placeholder>
 </ListView>
-<Button text="<- Indietro" onAction="#tornaIndietro"/>
+<Button text="Indietro" onAction="#tornaIndietro"/>
 </VBox>
