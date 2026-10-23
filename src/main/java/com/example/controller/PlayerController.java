@@ -47,7 +47,7 @@ public class PlayerController{
   @FXML
   private  Region overlayCopertina;
   @FXML
-  private Label tempoTrascorso
+  private Label tempoTrascorso;
   @FXML
   private Label tempoRimanente;
   @FXML
@@ -441,6 +441,7 @@ public class PlayerController{
             }
             System.out.println("Brano non trovato nel file: " + brano.getTitolo());
         } catch (BusinessException e) { System.out.println("Errore durante la registrazione dell'ascolto: " + e.getMessage()); }
+    }
     private String ottieniNomeArtista(Artista artista) {
         if (artista instanceof ArtistaSolista) { ArtistaSolista solista = (ArtistaSolista) artista;
             return solista.getNomeArte();
