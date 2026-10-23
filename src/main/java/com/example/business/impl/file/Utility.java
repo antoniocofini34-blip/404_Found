@@ -16,7 +16,7 @@ public class Utility {
       long contatore=Long.parseLong(in.readLine());
       result.setContatore(contatore);
       String linea=null;
-      while ((linea=in.readLine())!=null) { righe.add(trim(linea.split(SEPARATORE_COLONNA))); }
+      while ((linea=in.readLine())!=null) { righe.add(trim(linea.split(SEPARATORE_COLONNA, -1))); }
       result.setRighe(righe);
     }
     return result;
