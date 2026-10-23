@@ -41,7 +41,7 @@ public final class TemaVisivo {
       DatePicker picker=(DatePicker) nodo;
       String sfondoCampo=isScuro() ? "#242424" : "#ffffff";
       String bordoCampo=isScuro() ? "#454545" : "#cccccc";
-      picker.setStyle("-fx-background-color: " + sfondoCampo + ";" + "-fx-control-inner-background: " + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
+      picker.setStyle("-fx-background-color: " + sfondoCampo + ";" + "-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
       picker.applyCss();
       Node editor=picker.lookup(".text-field");
       if (editor instanceof TextField) ((TextField) editor).setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: transparent;");
@@ -52,7 +52,7 @@ public final class TemaVisivo {
       TextArea area=(TextArea) nodo;
       String sfondoCampo=isScuro() ? "#242424" : "#ffffff";
       String bordoCampo=isScuro() ? "#454545" : "#cccccc";
-      area.setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
+      area.setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
       area.applyCss();
       Node contenuto=area.lookup(".content");
       if (contenuto!=null) contenuto.setStyle("-fx-background-color: " + sfondoCampo + ";");
