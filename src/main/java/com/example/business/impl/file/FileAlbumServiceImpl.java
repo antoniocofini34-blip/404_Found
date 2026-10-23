@@ -154,7 +154,7 @@ public class FileAlbumServiceImpl implements AlbumService {
     String titolo=riga[0]; 
     int annoPubblicazione; 
     try { annoPubblicazione=Integer.parseInt(riga[1].trim()); }
-    catch (NunmberFormatException e) { throw new BusinessException("Anno di pubblicazione non valido:" + riga[1]); }
+    catch (NumberFormatException e) { throw new BusinessException("Anno di pubblicazione non valido:" + riga[1]); }
     String nomeArtista=riga[2]; 
     Artista artista=trovaArtista(nomeArtista); 
     if (artista==null) throw new BusinessException("Artista non trovato:" + nomeArtista); 
