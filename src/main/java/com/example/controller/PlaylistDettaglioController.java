@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Tableview;
-import javafx.stage.Stage
+import javafx.stage.Stage;
 import javafx.application.Platform;
 import com.example.controller.Naavigazione;
 import java.io.IOException;
@@ -111,6 +111,7 @@ public class PlaylistDettaglioController{
         if(brano.getAlbumBrano()!=null) break;
       }
   }
+}
   @FXML
   private void riproduciPlaylistDaSelezionato() {
         Brano selezionato = tabellaBrani.getSelectionModel().getSelectedItem();
@@ -147,7 +148,7 @@ public class PlaylistDettaglioController{
     root.setStyle("-fx.backgr-color:" + TemaVisivo.getColoreSfondo() + ";");
     PlayerController controller = loader.getController();
     Stage stage = (Stage) bottoneIndietro.getScene().getWindow();
-    Scene scenaPrecedente = stage.getScene();ù
+    Scene scenaPrecedente = stage.getScene();
     Navigazione.salvaSchermataPrecedente(() -> stage.setScene(scenaPrecedente));
     stage.setScene(new Scene(root, 1000, 700));
     controller.impostaAperturaDaPlaylist(true);
