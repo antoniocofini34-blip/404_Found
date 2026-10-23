@@ -13,7 +13,7 @@ import com.example.domain.*;
 public class FileAlbumServiceImpl implements AlbumService { 
   private String filename; 
   private FileBranoServiceImpl branoService;
-  public FileAlbumService(String filename) { 
+  public FileAlbumServiceImpl(String filename) { 
     this.filename=filename; 
     this.branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
   }
