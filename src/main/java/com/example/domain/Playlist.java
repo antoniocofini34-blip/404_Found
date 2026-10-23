@@ -28,7 +28,7 @@ public class Playlist implements Riproducibile{
   public int getIndiceCorrente() { return indice_corrente; }
   public int getIndiceNuovo() { return indice_nuovo; }
   public int getIndiceVecchio() { return indice_vecchio; }
-  public int getProprietarioEmail() { return proprietarioEmail; }
+  public String getProprietarioEmail() { return proprietarioEmail; }
   public void setListaBrani(List<Brano> lista_brani) {
     if(lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
     else this.lista_brani=new ArrayList<>();
@@ -37,7 +37,7 @@ public class Playlist implements Riproducibile{
   public void setDescrizione(String descrizione) { this.descrizione=descrizione; }
   public void setDataCreazione(LocalDate data_creazione) { this.data_creazione=data_creazione; }
   public void setIndiceCorrente(int indice_corrente) {
-    if(indiceCorrente < -1 || indice_corrente >= lista_brani.size()) throw new IllegalArgumentException("Indice corrente non valido:" + indice_corrente);
+    if(indice_corrente < -1 || indice_corrente >= lista_brani.size()) throw new IllegalArgumentException("Indice corrente non valido:" + indice_corrente);
     this.indice_corrente=indice_corrente; 
   }
   public void setIndiceNuovo(int indice_nuovo) { this.indice_nuovo=indice_nuovo; }
