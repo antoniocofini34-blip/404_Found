@@ -119,7 +119,7 @@ public class ArtistaController {
     conferma.setTitle("Conferma eliminazione");
     conferma.setHeaderText("Eliminare l'artista?");
     conferma.setContentText("Vuoi eliminare " + ottieniNome(artistaSelezionato) + "?");
-    Optional<ButtonType> rispostaconferma.showAndWait();
+    Optional<ButtonType> risposta=conferma.showAndWait();
     if (risposta.isPresent() && risposta.get()==ButtonType.OK) {
       try { artistaService.eliminaArtista(artistaSelezionato);
            caricaArtisti();
@@ -129,19 +129,19 @@ public class ArtistaController {
                 }
           }
       }
-  privateb costruisciArtista() {
+  private Artista costruisciArtista() {
     String nome=campoNome.getText()==null ? "" : campoNome.getText().trim();
     String biografia=campoBiografia.getText()==null ? "" : campoBiografia.getText().trim();
     String tipo=campoTipo.getValue();
-    GenereMusicalePrincipale genere=campoGenerePrincipale.getValue();
+    GenereMusicale genere=campoGenerePrincipale.getValue();
     if (nome.isEmpty()) throw new IllegalArgumentException("Inserire il nome dell'artista.");
     if (tipo==null) throw new IllegalArgumentException("Selezionare la tipologia dell'artista.");
     if (genere==null) throw new IllegalArgumentException("Selezionare il genere principale.");
     Set<GenereMusicale> generiSecondari=leggiGeneriSecondari(campoGeneriSecondari.getText());
-    if (genereSecondari.contains(genere)) throw new IllegalArgumentException("Errore: non si può ripetere il genere principale tra i generi secondati.");
+    if (generiSecondari.contains(genere)) throw new IllegalArgumentException("Errore: non si può ripetere il genere principale tra i generi secondati.");
     if (tipo.equals("SOLISTA")) return new ArtistaSolista(biografia, genere, generiSecondari, artistaSelezionato==null ? new ArrayList<>() : artistaSelezionato.getDiscografia(), nome);
     List<Artista> membri=new ArrayList<>();
-    if (artistaSelezionato instanceof Artista Gruppo) membri=((ArtistaGruppo) artistaSelezionato).getListaMembri();
+    if (artistaSelezionato instanceof ArtistaGruppo) membri=((ArtistaGruppo) artistaSelezionato).getListaMembri();
     return new ArtistaGruppo(biografia, genere, generiSecondari, artistaSelezionato==null ? new ArrayList<>() : artistaSelezionato.getDiscografia(), nome, membri);
   }
   private Set<GenereMusicale> leggiGeneriSecondari(String testo) {
@@ -163,7 +163,7 @@ public class ArtistaController {
   }
   @FXML
   private void pulisciCampi() {
-    artistaSelezionato==null;
+    artistaSelezionato=null;
     tabellaArtisti.getSelectionModel().clearSelection();  //Deseleziona la riga nella tabella
     campoNome.clear();
     campoNome.setEditable(true);  //Riabilita la modifica del nome per i nuovi inserimenti
