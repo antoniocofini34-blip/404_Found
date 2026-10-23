@@ -114,8 +114,8 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     if (branoCorrente!=null) this.indiciCorrenti.put(coda, brani.indexOf(branoCorrente));
   }
   @Override
-  public void ripristinaOrdine(CodaRiproduzione coda, List<Brano> ordineOriginale) throw BusinessException { verificaCoda(coda);
-  if (ordineOriginale==null||ordineOriginale.isEmpty()) throw new OperazionenonValidaException("L'ordine originale non è vuoto");
+  public void ripristinaOrdine(CodaRiproduzione coda, List<Brano> ordineOriginale) throws BusinessException { verificaCoda(coda);
+  if (ordineOriginale==null||ordineOriginale.isEmpty()) throw new OperazioneNonValidaException("L'ordine originale non è vuoto");
   Brano branoCorrente=getBranoCorrente(coda);
   coda.setListaCodaBrani(new ArrayList<>(ordineOriginale));
   if (branoCorrente!=null) {
