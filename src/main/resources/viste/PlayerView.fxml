@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="rootPlayer" xmlns="http://javafx.com/javafx/21 xmlns:fx="http://javafx.com/fxml/1 fx:controller="com.example.controller.PlayerController" stylesheets="@../player.css">
-<ImageView fx:id="copertinaAlbum" managed="false" mouseTransparent="true" fitWidth="0" fitHeight="0" preserveRatio="false" smooth"true"/>
+<StackPane fx:id="rootPlayer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.PlayerController" stylesheets="@../player.css">
+<ImageView fx:id="copertinaAlbum" managed="false" mouseTransparent="true" fitWidth="0" fitHeight="0" preserveRatio="false" smooth="true"/>
 <Region fx:id="overlayCopertina" mouseTransparent="true" minWidth="0" minHeight="0" maxWidth="Infinity" maxHeight="Infinity" style="-fx-background-color: rgba(0, 0, 0, 0.62);"/>
 <VBox fx:id="contenitoreControlli" alignment="TOP_CENTER" spacing="12" maxWidth="Infinity" maxHeight="Infinity">
 <padding> 
