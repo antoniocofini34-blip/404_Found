@@ -1,9 +1,9 @@
 package com.example.controller;
 import com.example.business.exception.BusinessException;
-import com.example.business.impl.file.FilePlaylistService;
+import com.example.business.impl.file.FilePlaylistServiceImpl;
 import com.example.domain.Brano;
 import com.example.domain.Playlist;
-import com.example.business.impl.file.FileAlbumService;
+import com.example.business.impl.file.FileAlbumServiceImpl;
 import com.example.domain.Album;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -13,10 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.Tableview;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.application.Platform;
-import com.example.controller.Naavigazione;
+import com.example.controller.Navigazione;
 import java.io.IOException;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -52,9 +52,9 @@ public class PlaylistDettaglioController{
     private void configuraTabella(){ colonnaTitoloBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitolo()));
       colonnaDurataBrano.setCellValueFactory(cellData->new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getTitolo())));
     }
-    public void ImpostaPlaylist(Playlist playlist){ playlistSelezionata=playlist;
+    public void impostaPlaylist(Playlist playlist){ playlistSelezionata=playlist;
       titoloPlaylist.setText(playlist.getNome());
-      descrizionePlaylist.setText(playlist.getDescriziono());
+      descrizionePlaylist.setText(playlist.getDescrizione());
       try{ List<Brano> brani= playlistService.getBrani(playlist);
         tabellaBrani.setItems(FXCollections.observableArrayList(brani));
       } catch(BusinessException e){ e.getMessage(); }
@@ -101,10 +101,10 @@ public class PlaylistDettaglioController{
     for(Brano brano : brani){
       if(brano==null || brano.getTitolo()==null) continue;
       brano.setAlbumBrano(null);  //Elimina eventuali associazioni mancanti o obsolete.
-      for(Album album : albumDisponibile){
+      for(Album album : albumDisponibili){
         if(album==null) continue;
         for(Brano branoAlbum : album.getListaBrani()){
-          if(branoAlbum!=null && branoAlbum.getTitolo()!=null && branoAlbum.getTitolo.trim().equalsIgnoreCase(brano.getTitolo().trim())){ brano.setAlbumBrano(album);
+          if(branoAlbum!=null && branoAlbum.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())){ brano.setAlbumBrano(album);
           break;
           } 
         }
@@ -128,7 +128,7 @@ public class PlaylistDettaglioController{
     }
     @FXML
     private void avviaPlaylist() {
-      if (playlistSelezionato==null) {
+      if (playlistSelezionata==null) {
         mostraMessaggio("Nessuna playlist selezionata.");
         return;
       }
@@ -137,7 +137,7 @@ public class PlaylistDettaglioController{
              mostraMessaggio("La playlist è vuota.");
              return;
            }
-           associaAlbum(brani);
+           associaAlbumAiBrani(brani);
            PlayerStato.avviaPlaylist(brani, 0);
            apriPlayer();
           } catch(BusinessException | IOException e) { mostraMessaggio("Errore durante l'avvio della playlist: " + e.getMessage()); }
