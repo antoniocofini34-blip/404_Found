@@ -59,7 +59,6 @@ public class FileAlbumServiceImpl implements AlbumService {
       }
     }
     if (!trovato) throw new AlbumNonTrovatoException("Errore: album non trovato"); 
-    }
     scriviAlbum(albumEsistenti); 
   }
   @Override
