@@ -64,7 +64,7 @@ public class PlaylistController {
   }
   private void caricaPlaylist() {
     try {  Utente utente=UtenteAttivo.getUtente();
-           if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty() {
+           if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
              tabellaPlaylist.setItems(FXCollections.observableArrayList());
              return;
            }
