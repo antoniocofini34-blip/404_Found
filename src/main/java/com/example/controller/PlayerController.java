@@ -84,7 +84,7 @@ public class PlayerController{
   private Label titoloFinestraTesto;
   private Label messaggioTesto;
   private VBox contenitoreRigheTesto;
-  private ScrollPanel scorrimentoTesto;
+  private ScrollPane scorrimentoTesto;
   private String titoloTestoCercato; 
   @FXML
   private void initialize() { codaService = PlayerStato.getCodaService();
