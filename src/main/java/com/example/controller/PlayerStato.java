@@ -237,12 +237,12 @@ public class PlayerStato {
     cronologiaAbilitata=false;  //Ora disabilitiamo la registrazione della cronologia della vecchia sessione 
     try{  //Andiamo ad azzerare lo stato della coda condivisa
       codaService.stop(coda);
-      codaService.suotaCoda(coda);
+      codaService.svuotaCoda(coda);
     } catch(BusinessException e) { e.getMessage(); }
     branoCorrente=null;  //Adesso azzeriamo il brano e il progresso globali
     progressoCorrente=0;
     titoloBranoConteggiato=null;  //Successivamente azzeriamo i dati dell'ascolto in corso
-    secondiAscoltoCorrente00;
+    secondiAscoltoCorrente=0;
     ascoltoRegistrato=false;
     emailUtenteSessione=null;  //Infine azzeriamo i dati della sessione di cronologia
     titoloSessione=null;
