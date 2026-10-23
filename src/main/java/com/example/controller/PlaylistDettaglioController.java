@@ -45,7 +45,7 @@ public class PlaylistDettaglioController{
   private FilePlaylistServiceImpl playlistService;
   private Playlist playlistSelezionata;
   @FXML
-  private void inizialize(){ playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
+  private void initialize(){ playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
     configuraTabella();
     Platform.runLater(this::aggiornaTemaPlaylist);  //Sincronizza l'aggiornamento grafico del tema sul thread principale di JavaFX per evitare errori
   }
