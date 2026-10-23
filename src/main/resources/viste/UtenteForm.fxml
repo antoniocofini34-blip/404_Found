@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane fx:id="rootUtente" xmlns="hhtp://javafx.com/javafx" xmlns:fx "http://javafx.com/fxml/1" fx:controller="com.example.controller.UtenteController" perfWidth="850.0" prefHeight="720.0" style="-fx-background-color: #151515;">
+<BorderPane fx:id="rootUtente" xmlns="hhtp://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.UtenteController" prefWidth="850.0" prefHeight="720.0" style="-fx-background-color: #151515;">
 <top>
 <VBox spacing="6.0">
 <padding>
@@ -27,7 +27,7 @@
 <padding>
 <Insets top="8.0" right="22.0" bottom="18.0" left="22.0"/>
 </padding>
-<HBox spacing="10.0 alignment="CENTER_LEFT">
+<HBox spacing="10.0" alignment="CENTER_LEFT">
 <Label text="Utente salvato:" style="-fx-text-fill:white; -fx-font-weight:bold;"/>
 <ComboBox fx:id="utenteComboBox" promptText="Seleziona un utente" prefWidth="270.0" onAction="#selezionaUtente"/>
 </HBox>
@@ -38,14 +38,14 @@
 <ColumnConstraints minWidth="115.0"/>
 <ColumnConstraints hgrow="ALWAYS"/>
 <ColumnConstraints minWidth="115.0"/>
-<ColumnConstraints minWidth="ALWAYS"/>
+<ColumnConstraints hgrow="ALWAYS"/>
 </columnConstraints>
 <Label text="Nome" style="-fx-text-fill: #dddddd;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 <TextField fx:id="nomeField" promptText="Nome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 <Label text="Cognome" style="-fx-text-fill: #dddddd;" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
 <TextField fx:id="cognomeField" promptText="Cognome" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
 <Label text="Email" style="-fx-text-fill: #dddddd;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-<TextField fx:id="emailField" promptText="nome#@esempio.it" GridPane.rowIndex="1" GridPane.columnIndex=1"/>
+<TextField fx:id="emailField" promptText="nome#@esempio.it" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 <Label text="Data di nascita" style="-fx-text-fill: #dddddd;" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
 <DatePicker fx:id="dataNascitaPicker" promptText="Seleziona la data" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
 </GridPane>
