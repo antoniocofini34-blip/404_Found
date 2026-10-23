@@ -46,9 +46,9 @@ public class UtenteController {
     boolean scuro=TemaVisivo.isScuro();
     String sfondo=scuro? "#151515" : "#ffffff";
     String testo=scuro? "#ffffff" : "#111111";
-    String sfondo=scuro? "#bbbbbb" : "#111111";
-    String sfondo=scuro? "#242424" : "#ffffff";
-    String sfondo=scuro? "#454545" : "#cccccc";
+    String secondario=scuro? "#bbbbbb" : "#111111";
+    String sfondoCampo=scuro? "#242424" : "#ffffff";
+    String bordoCampo=scuro? "#454545" : "#cccccc";
     rootUtente.setStyle("-fx-background-color: " +sfondo+";");
     //verifichiamo che il componente centrale del BorderPane è un'istanza di VBox
     if (rootUtente.getCenter() instanceof VBox) {
@@ -113,7 +113,7 @@ public class UtenteController {
     else nuovoUtente();
     aggiornaTemaUtente();
   }
-  private void creaCkeckboxGeneri() { //qui andiamo a creare le CheckBox per ogni genere musicale disponibile
+  private void creaCheckboxGeneri() { //qui andiamo a creare le CheckBox per ogni genere musicale disponibile
     preferenzeBox.getChildren().clear(); //dopo svuotiamo i contenitori precedenti per poi andare ad applicare lo stile visivo corrente del testo
     genereCheckBoxes.clear();
     String testo=TemaVisivo.getColoreTesto(); //recuperiamo il colore dle testo corrente dal tema visivo impostato
@@ -155,7 +155,7 @@ public class UtenteController {
       cognomeField.setText(utenteSelezionato.getCognome());
       emailField.setText(utenteSelezionato.getEmail());
       dataNascitaPicker.setValue(utenteSelezionato.getDataDiNascita());
-      aggiornaCheckboxPreferenze();      
+      aggiornaCheckBoxPreferenze();      
       mostraMessaggio("Utente caricato");
     } catch(BusinessException e) {mostraErrore("Impossibile selezionare l'utente", e.getMessage());}
   }
@@ -237,7 +237,7 @@ public class UtenteController {
   }
   private void aggiornaCheckBoxPreferenze() {
     Set<GenereMusicale> preferenze=utenteSelezionato.getPreferenzeMusicali();
-    for (CheckBox checkBox:genereCheckBoxes) checkBox.setSelected(preferenze.contains(GenereMusicale.valueOf(ckeckBox.getText())));
+    for (CheckBox checkBox:genereCheckBoxes) checkBox.setSelected(preferenze.contains(GenereMusicale.valueOf(checkBox.getText())));
   }
   private Set<GenereMusicale> generaPreferenzeSelezionate() {
     Set<GenereMusicale> preferenze=new HashSet<>();
@@ -289,6 +289,6 @@ public class UtenteController {
     alert.setTitle(titolo);
     alert.setHeaderText(titolo);
     alert.setContentText(messaggio);
-    alter.showAndWait();
+    alert.showAndWait();
   }
 }
