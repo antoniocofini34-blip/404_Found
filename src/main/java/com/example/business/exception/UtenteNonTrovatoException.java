@@ -1,5 +1,5 @@
 package com.example.business.exception;
-import com.example.business.BusinessException;
+import com.example.business.exception.BusinessException;
 @SuppressWarnings("serial")
 public class UtenteNonTrovatoException extends BusinessException {
   public UtenteNonTrovatoException() { super(); }
