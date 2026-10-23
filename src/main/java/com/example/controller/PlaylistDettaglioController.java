@@ -145,7 +145,7 @@ public class PlaylistDettaglioController{
   private void apriPlayer() throws IOException{ FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/PlayerView.fxml"));
     Parent root=loader.load();
     TemaVisivo.applicaTema(root);
-    root.setStyle("-fx.backgr-color:" + TemaVisivo.getColoreSfondo() + ";");
+    root.setStyle("-fx.background-color:" + TemaVisivo.getColoreSfondo() + ";");
     PlayerController controller = loader.getController();
     Stage stage = (Stage) bottoneIndietro.getScene().getWindow();
     Scene scenaPrecedente = stage.getScene();
