@@ -20,7 +20,7 @@ public class FileUtenteServiceImpl implements UtenteService{
   private FilePlaylistServiceImpl playlistService;
   public FileUtenteServiceImpl(String filename){
     this.filename=filename;
-    this.playlistService=new FilePlaylistServiceImpl("src/main/resource/dati/playlist.txt");
+    this.playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
   }
   @Override
   public void creaUtente(Utente utente) throws BusinessException{
