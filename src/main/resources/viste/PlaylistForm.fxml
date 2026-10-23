@@ -10,5 +10,5 @@
 <TextArea fx:id="campoDescrizione" promptText="Nome playlist" prefWidth="400" maxWidth="400" prefHeight="100"/>
 <Button text="Salva" onAction="#salva"/>
 <Button text="Annulla" onAction="#annulla"/>
-<Label tx:id="messaggioLabel" text=""/>
+<Label fx:id="messaggioLabel" text=""/>
 </VBox>
