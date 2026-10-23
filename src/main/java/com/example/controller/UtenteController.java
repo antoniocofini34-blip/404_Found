@@ -64,7 +64,7 @@ public class UtenteController {
     applicaStileCampo(cognomeField,testo,secondario,sfondoCampo,bordoCampo);
     applicaStileCampo(emailField,testo,secondario,sfondoCampo,bordoCampo);
     //successivamente aggiorniamo il DatePicker senza perdere il suo valore
-    if (dataNascitaPicker!=null) dataNascitaPicker.setStyle("-fx-background-color "+sfondoCampo+";" + "-fx-control-inner-background: "+sfondoCampo+";" + "-fx-text-fill: "+testo+";" + "-fx-border-color: "+bordoCampo+";");
+    if (dataNascitaPicker!=null) dataNascitaPicker.setStyle("-fx-background-color: "+sfondoCampo+";" + "-fx-control-inner-background: "+sfondoCampo+";" + "-fx-text-fill: "+testo+";" + "-fx-border-color: "+bordoCampo+";");
     //dopo andiamo ad aggiornare i testi delle caselle dei generi
     for (CheckBox checkBox:genereCheckBoxes) checkBox.setStyle("-fx-text-fill: "+testo+";");
     //ripristiniamo colore e grassetto del messaggio di stato
@@ -74,7 +74,7 @@ public class UtenteController {
         boolean errore=messaggio.contains("Errore")||messaggio.contains("non valida")||messaggio.contains("Dati mancanti")||messaggio.contains("Nessun utente");
         String colore=errore ?"#ff8585":(TemaVisivo.isScuro() ?"#ffffff":"#111111");
         messaggioLabel.setTextFill(Color.web(colore));
-        messaggioLabel.setStyle("-fx-text-fill "+colore+";" + "-fx-font-weight:bold;");
+        messaggioLabel.setStyle("-fx-text-fill: " + colore + ";" + "-fx-font-weight:bold;");
       }
     }
   }
@@ -278,7 +278,7 @@ public class UtenteController {
     if (messaggioLabel==null) return;
     String colore=TemaVisivo.isScuro()?"#ffffff":"#111111";
     messaggioLabel.setTextFill(Color.web(colore));
-    messaggioLabel.setStyle("-fx-text-fill: "+colore+";"+"-fx-font-weight:bold;");
+    messaggioLabel.setStyle("-fx-text-fill: " + colore + ";" + "-fx-font-weight:bold;");
   }
   private void mostraErrore(String titolo, String messaggio) {
     String testoErrore=titolo+": "+messaggio;
