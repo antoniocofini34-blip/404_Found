@@ -24,8 +24,8 @@ public class Album implements Ricercabile {
   public Set<GenereMusicale> getGenere() { return new HashSet<>(this.genere); }
   public String getCopertina() { return copertina; }
   public void setBrano(List<Brano> lista_brani) {
-    if (lista_brani!=null) this.lista_brani=newArrayList<>(lista_brani); 
-    else this.lista_brani=newArrayList<>(); 
+    if (lista_brani!=null) this.lista_brani=new ArrayList<>(lista_brani); 
+    else this.lista_brani=new ArrayList<>(); 
   }
   public void setArtista(Artista artista) { this.artista=artista; }
   public void setTitolo(String titolo) { this.titolo=titolo; }
