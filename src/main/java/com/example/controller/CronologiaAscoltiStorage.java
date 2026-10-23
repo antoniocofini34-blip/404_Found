@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;  //Permette di codificare e decodificare dati in formato Base64
 import java.util.*;
-public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=Path.get("src/main/resources/dati/cronologia_ascolti.txt").toAbsolutePath().normalize();
-  private static final DataTimeFormatter FORMATO_DATA=DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");    //Definisce il formato standard per mostrare o leggere data e ora
+public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=Paths.get("src/main/resources/dati/cronologia_ascolti.txt").toAbsolutePath().normalize();
+  private static final DateTimeFormatter FORMATO_DATA=DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");    //Definisce il formato standard per mostrare o leggere data e ora
   private CronologiaAscoltiStorage(){}
   public static synchronized void salva(String email, String titolo, LocalDateTime dataOra, int secondiAscoltati){
     if(email==null || email.trim().isEmpty() || dataOra==null || secondiAscoltati<=0){ System.out.println("CRONOLOGIA: sessione non salvata");
@@ -18,26 +18,26 @@ public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=P
     }
     String emailPulita=email.trim();
     String titoloPulito=titolo.trim();
-    try{ Path cartella=PERCORSO_FILE.getPattern();
+    try{ Path cartella=PERCORSO_FILE.getParent();
       if(cartella!=null){ Files.createDirectories(cartella); }
       //Ogni sessione crea una nuova voce.
       // Non sommiamo la durata alle sessioni precedenti,
       // neppure quando il titolo del brano è lo stesso.
       String nuovaRiga=codifica(emailPulita) + "|" + codifica(titoloPulito) + "|" + dataOra + "|" + secondiAscoltati;
-      Files.write(PERCORSO_FILE, java.util.Collections.singletonList(nuovaRiga), StandardCharsets.UTF_8, StandardOpenOption.Create, StandardOpenOption.APPEND);  //Scriviamo sul file il percorso del file su disco. Trasforma la singola riga in una lista compatibile. Applica la codifica per lettere accentate e speciali. Crea il file da 0, se non esiste ancora. Aggiunge il testo in fondo (in coda) se esiste già
-      RicaricaController.aggiornaCronologiaVisibile();
+      Files.write(PERCORSO_FILE, java.util.Collections.singletonList(nuovaRiga), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);  //Scriviamo sul file il percorso del file su disco. Trasforma la singola riga in una lista compatibile. Applica la codifica per lettere accentate e speciali. Crea il file da 0, se non esiste ancora. Aggiunge il testo in fondo (in coda) se esiste già
+      RicercaController.aggiornaCronologiaVisibile();
     } catch(IOException e){ e.getMessage(); }
   }
   public static synchronized List<String> leggi(String email){ List<String>risultati=new ArrayList<>();
     if(email==null || email.trim().isEmpty()){ return risultati;
     } try{
-      if(!File.exists(PERCORSO_FILE)){ return risultati; }
+      if(!Files.exists(PERCORSO_FILE)){ return risultati; }
       List<String>righe=Files.readAllLines(PERCORSO_FILE, StandardCharsets.UTF_8);
       for(String riga : righe){
         String[] campi=riga.split("\\|",-1);
         if(campi.length!=4){ continue;
         } try{ String emailSalvata=decodifica(campi[0]);
-          if(!email.Salvata.equalsIgnoreCase(email.trim())){ continue; }
+          if(!emailSalvata.equalsIgnoreCase(email.trim())){ continue; }
           String titolo=decodifica(campi[1]);
           LocalDateTime dataOra=LocalDateTime.parse(campi[2]);
           int secondi=Integer.parseInt(campi[3]);
@@ -50,7 +50,7 @@ public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=P
     }catch(IOException e){ e.getMessage(); }
     return risultati;
   }
-  private static String codifica(String testo){ return Base64.getEncoder().encoderToString(testo.getBytes(StandardCharsets.UTF_8)); }  //Converte un testo normale in una stringa codificata in Base64 sicura per il trasferimento dati
+  private static String codifica(String testo){ return Base64.getEncoder().encodeToString(testo.getBytes(StandardCharsets.UTF_8)); }  //Converte un testo normale in una stringa codificata in Base64 sicura per il trasferimento dati
   private static String decodifica(String testo){ return new String(Base64.getDecoder().decode(testo), StandardCharsets.UTF_8); }  //Converte una stringa in Base64 nel suo testo originale leggibile
   private static String formattaDurata(int secondi) { int minuti = secondi / 60;
         int secondiRimanenti = secondi % 60;
