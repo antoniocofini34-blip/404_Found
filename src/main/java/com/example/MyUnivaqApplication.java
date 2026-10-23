@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-public class MyUnivaqApplication etends Application {
+public class MyUnivaqApplication extends Application {
   @Override
     //Questo metodo l'abbiamo definito per far inizializzare ed eseguire automaticamente da JavaFX la finestra principale della nostra applicazione
     public void start(Stage stage) throws Exception {
@@ -16,4 +16,5 @@ public class MyUnivaqApplication etends Application {
     //rendiamo visibile la finestra principale all'utente
     stage.show();
   }
-  public static void main(String[] args) { launch(args); } //infine avviamo l'applicazione JavaFX che richiama il metodo start per inizializzare l'interfaccia
+  public static void main(String[] args) { launch(args); }  //infine avviamo l'applicazione JavaFX che richiama il metodo start per inizializzare l'interfaccia
+} 
