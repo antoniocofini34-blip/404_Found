@@ -1,4 +1,4 @@
-package com.example.business;
+package com.example.business.exception;
 @SuppressWarnings("serial")
   public class BusinessException extends Exception {
     public BusinessException() {
