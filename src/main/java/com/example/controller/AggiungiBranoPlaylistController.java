@@ -4,7 +4,7 @@ import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FilePlaylistServiceImpl;
 import com.example.domain.Brano;
 import com.example.domain.Playlist; 
-import javafx.beans.property.SimpleStringProperty //Gestisce stringhe reattive per il Data Binding
+import javafx.beans.property.SimpleStringProperty; //Gestisce stringhe reattive per il Data Binding
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;  //Importa la classe Button che rappresenta un pulsante cliccabile all'interno dell'interfaccia grafica
