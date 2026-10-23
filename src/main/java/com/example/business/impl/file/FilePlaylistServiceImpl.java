@@ -196,7 +196,7 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
       if (!brani.isEmpty()) brani +="|"; 
       brani +=brano.getTitolo(); 
     }
-    riga.append(brani); 
+    riga.append(brani).append(","); 
     riga.append(playlist.getProprietarioEmail()==null ? "" : playlist.getProprietarioEmail());                                                            
     return riga.toString(); 
   }
