@@ -13,9 +13,9 @@ public class RAMPlaylistServiceImpl implements PlaylistService { private List<Pl
   @Override
   public void creaPlaylist(Playlist playlist) throws BusinessException {
     if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
-    if(playlist.getNome()==null||playlist.getNome().trim.isEmpty()) throw new OperazioneNonValidaException("il nome della playlist non può essere vuoto");
+    if(playlist.getNome()==null||playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("il nome della playlist non può essere vuoto");
     for(Playlist p: this.playlist) {
-      if(p.getNome().equalsIgnoreCase(playlist.getNome().trim())) throw new DuplicatoExceptiom("Errore: esiste già una playlist con il nome:" + playlist.getNome());
+      if(p.getNome().equalsIgnoreCase(playlist.getNome().trim())) throw new DuplicatoException("Errore: esiste già una playlist con il nome:" + playlist.getNome());
     }
     this.playlist.add(playlist);
   }
@@ -35,8 +35,8 @@ public class RAMPlaylistServiceImpl implements PlaylistService { private List<Pl
     if(!trovata) throw new OperazioneNonValidaException("Errore: playlist non trovata");
   }
   @Override
-  public void eliminaPlaylist(Playlist playlist) throwe BusinessException {
-    if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota")
+  public void eliminaPlaylist(Playlist playlist) throws BusinessException {
+    if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
     if (!this.playlist.remove(playlist)) throw new OperazioneNonValidaException("Errore: playlist non trovata");
   }
   @Override
@@ -79,15 +79,15 @@ public class RAMPlaylistServiceImpl implements PlaylistService { private List<Pl
         if (indiceNuovo < 0|| indiceNuovo >= brani.size()) throw new OperazioneNonValidaException("Indice nuovo non valido: " + indiceNuovo);
        Brano brano=brani.remove(indiceVecchio);
        brani.add(indiceNuovo, brano);
-       playlist.setListBrani(brani);
+       playlist.setListaBrani(brani);
        playlist.setIndiceVecchio(indiceVecchio);
-       playlist setIndiceNuovo(indiceNuovo);
+       playlist.setIndiceNuovo(indiceNuovo);
      }
   @Override
-  public List<Brano> getBrani(Playlist playlist) throws BusinessExceptions {
+  public List<Brano> getBrani(Playlist playlist) throws BusinessException {
     if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
     if(!this.playlist.contains(playlist)) throw new OperazioneNonValidaException("Errore: playlist non trovata");
-    return new ArrayList<>(playlist.getListaBrani);
+    return new ArrayList<>(playlist.getListaBrani());
   }
   @Override
   public int calcolaDurataTotale(Playlist playlist) throws BusinessException {
