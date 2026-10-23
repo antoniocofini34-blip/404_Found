@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com.javafx/21" xmlns:fx="http://javafx.com/fxml/1"fx:controller="com.example.controller.ArtistaController" spacing="12" fillWidth="true">
+<VBox xmlns="http://javafx.com.javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.ArtistaController" spacing="12" fillWidth="true">
 <padding> 
 <Insets top="20" right="25" bottom="20" left="25"/>
 </padding>
@@ -34,7 +34,7 @@
 </HBox>
 <VBox spacing="5">
 <Label text="Biografia"/>
-<TextArea fx:id="campoBiografia" promptText="Inserisci la biografia" prefRowCounts="3" wrapText="true"/>
+<TextArea fx:id="campoBiografia" promptText="Inserisci la biografia" prefRowCount="3" wrapText="true"/>
 </VBox>
 <VBox spacing="5">
 <Label text="Genere principale"/>
