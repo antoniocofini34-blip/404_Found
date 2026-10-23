@@ -68,6 +68,7 @@ public class PlayerController{
   private ToggleButton bottoneShuffle;
   @FXML
   private ToggleButton bottoneRepeat;
+  private RAMCodaRiproduzioneServiceImpl codaService;
   private RAMCodaRiproduzioneServiceImpl CodaRiproduzione;
   private CodaRiproduzione coda;
   private FileBranoServiceImpl branoService;
@@ -75,17 +76,17 @@ public class PlayerController{
   private double progressoCorrente;
   private List<Brano> ordineOriginale;
   private boolean trascinamentoBarra;
-  private Brano branoAscoltatoRegistrato;
+  private Brano branoAscoltoRegistrato;
   private Brano branoMonitorato;
   private int secondiAscoltoCorrente=0;
-  private boolean riproduzioneIniziale=false;
+  private boolean riproduzioneIniziata=false;
   private boolean apertoDaPlaylist=false;
   private Stage finestraTesto;
   private Label titoloFinestraTesto;
   private Label messaggioTesto;
   private VBox contenitoreRigheTesto;
   private ScrollPane scorrimentoTesto;
-  private String titoloTestoCercato; 
+  private String titoloTestoCaricato; 
   @FXML
   private void initialize() { codaService = PlayerStato.getCodaService();
    branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
