@@ -3,7 +3,7 @@ import javafx.application.Platform;  //Gestisce il ciclo di vita dell'applicazio
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.geometry.Insets  //Serve per definire margini di un contenitore grafico
+import javafx.geometry.Insets; //Serve per definire margini di un contenitore grafico
 import javafx.scene.layout.FlowPane;  //Layout che dispone gli elementi uno dopo l'altro in riga o colonna
 import javafx.scene.layout.Priority;  //Gestisce il ridimensionamento automatico dei componenti grafici all'ingrandimento o restringimento della finestra (usato principalmente dentro VBox o HBox)
 import javafx.scene.layout.VBox;  //Contenitore di layout che dispone i componenti in colonna, uno sotto l'altro
@@ -159,7 +159,7 @@ public class MainController {
     if (nomeGruppoLabel!=null) nomeGruppoLabel.setStyle("-fx-text-fill: " + (scuro ? "#aaaaaa" : "#111111") + ";" + "-fx-font-size: 26px" + ";");
     if (rootPrincipale!=null) rootPrincipale.setStyle("-fx-background-color: " + TemaVisivo.getColoreSfondo() + ";");
     if (contenutoCentrale!=null) contenutoCentrale.setStyle("-fx-background-color: " + TemaVisivo.getColoreSfondo() + ";");
-    if (miniPlayerContenitore!=null) miniPlayerContenitore.setStyle("-fx-background-color: " + (scuro ? #191919" : "#e5e5e5") + ";");
+    if (miniPlayerContenitore!=null) miniPlayerContenitore.setStyle("-fx-background-color: " + (scuro ? "#191919" : "#e5e5e5") + ";");
     if (titoloLabel!=null) titoloLabel.setStyle("-fx-font-size: 36px;" + "-fx-font-weight: bold;" + "-fx-text-fill: " + TemaVisivo.getColoreTesto() + ";");
     if (branoMiniPlayer!=null) branoMiniPlayer.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: " + TemaVisivo.getColoreTesto() + ";");
     if (barraMiniPlayer!=null) TemaVisivo.applicaStileSlider(barraMiniPlayer);
@@ -446,7 +446,7 @@ public class MainController {
         //In questo caso non esiste un precedente quindi riavviamo il brano corrente    
         return;
       }
-      if (miniTimeline!=null) { miniTimeline.stop()
+      if (miniTimeline!=null) { miniTimeline.stop();
         miniTimeline=null;
       }
       PlayerStato.salvaSessioneCronologia();
@@ -500,7 +500,7 @@ public class MainController {
     boolean mostraMiniPlayer=!percorso.equals("/viste/PlayerView.fxml");
     miniPlayerContenitore.setVisible(mostraMiniPlayer);
     miniPlayerContenitore.setManaged(mostraMiniPlayer);
-    FXMLLoader loader=new FXMLLoader(getClass().get(Resource(percorso));  //Inizializza il caricatore FXML puntando al percorso della risorsa passata come parametro
+    FXMLLoader loader=new FXMLLoader(getClass().getResource(percorso));  //Inizializza il caricatore FXML puntando al percorso della risorsa passata come parametro
     Parent vista=loader.load();  //Carica l'interfaccia grafica
     if (percorso.equals("/viste/StatisticheView.fxml")) controllerStatisticheCorrente=loader.getController();  //Associa il controller corretto in base alla schermata aperta e azzera gli altri per liberare memoria
     else controllerStatisticheCorrente=null;
@@ -516,7 +516,7 @@ public class MainController {
     contenutoCentrale.getChildren().setAll(vista);  //Inserisce la nuova interfaccia grafica nel pannello centrale sostituendo quella vecchia
     VBox.setVgrow(vista, Priority.ALWAYS);  //Fa in modo che la vista occupi tutto lo spazio verticale disponibile
     TemaVisivo.applicaTema(vista);  //Applica le regole CSS del tema corrente (chiaro/scuro) alla nuova finestra appena caricata
-    if (vista instanceof Region) ((Region vista).setBackground(new Background(new BackgroundFill(Color.web(TemaVisivo.getColoreSfondo()), CornerRadii.EMPTY, Insets.EMPTY)));
+    if (vista instanceof Region) ((Region) vista).setBackground(new Background(new BackgroundFill(Color.web(TemaVisivo.getColoreSfondo()), CornerRadii.EMPTY, Insets.EMPTY)));
     if (percorso.equals("/viste/UtenteForm.fxml")) { UtenteController controllerUtente= loader.getController();  //Se è stata aperta la schermata utente, forza l'aggiornamento grafica del suo tema   
       controllerUtente.aggiornaTemaUtente();
     }
