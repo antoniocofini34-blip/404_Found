@@ -161,7 +161,7 @@ public class BranoController {
     }
     return generi;
   }
-  private String formattaGeneri(Set<Generemusicale> generi) {
+  private String formattaGeneri(Set<GenereMusicale> generi) {
     if(generi==null||generi.isEmpty()) return "";
     StringBuilder risultato=new StringBuilder();
     for (GenereMusicale genere:generi) {
