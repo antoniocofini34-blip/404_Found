@@ -24,7 +24,7 @@ public class BranoController {
   @FXML private TableColumn<Brano, String> colonnaDurata;
   @FXML private TableColumn<Brano, String> colonnaGeneri;
   @FXML private TableColumn<Brano, String> colonnaAlbum;
-  @FXML private TableColumn<Brano, StringZ colonnaAscolti;
+  @FXML private TableColumn<Brano, String> colonnaAscolti;
   @FXML private TextField campoTitolo;
   @FXML private TextField campoDurata;
   @FXML private TextField campoGeneri;
@@ -40,7 +40,7 @@ public class BranoController {
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
     artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     configuraTabella();
-    configuraComboALbum();
+    configuraComboAlbum();
     caricaAlbum();
     caricaBrani();
   }
@@ -48,7 +48,7 @@ public class BranoController {
     colonnaTitolo.setCellValueFactory(cella->new SimpleStringProperty(cella.getValue().getTitolo()));
     colonnaDurata.setCellValueFactory(cella->new SimpleStringProperty(String.valueOf(cella.getValue().getDurata())));
     colonnaGeneri.setCellValueFactory(cella->new SimpleStringProperty(formattaGeneri(cella.getValue().getGenereBrano())));
-    colonnaAlbum.setCellValueFactory(cella->new SimpleStringProperty(trovaAlbumDelBrano(cell.getValue()==null? "Non assegnato" : trovaAlbumDelBrano(cell.getValue()).getTitolo()));
+    colonnaAlbum.setCellValueFactory(cella->new SimpleStringProperty(trovaAlbumDelBrano(cella.getValue()==null? "Non assegnato" : trovaAlbumDelBrano(cella.getValue()).getTitolo())));
     colonnaAscolti.setCellValueFactory(cella->new SimpleStringProperty(String.valueOf(cella.getValue().getNumeroAscolti())));
     tabellaBrani.getSelectionModel().selectedItemProperty().addListener((osservabile, precedente, selezionato)->{
       if(selezionato!=null) mostraDatiBrano(selezionato);
@@ -74,7 +74,7 @@ public class BranoController {
   private void mostraDatiBrano(Brano brano) {
     branoSelezionato=brano;
     albumOriginale=trovaAlbumDelBrano(brano);
-    campoTitolo.setText(brano,getTitolo());
+    campoTitolo.setText(brano.getTitolo());
     campoTitolo.setEditable(false);
     campoDurata.setText(String.valueOf(brano.getDurata()));
     campoDurata.setText(brano.getTesto()==null? "": brano.getTesto());
@@ -109,7 +109,7 @@ public class BranoController {
       branoService.modificaBrano(aggiornato);
       if (albumOriginale==null||!albumOriginale.getTitolo().equalsIgnoreCase(nuovoAlbum.getTitolo())) albumService.aggiungiBrano(nuovoAlbum, aggiornato);
       caricaAlbum();
-      7caricaBrani();
+      caricaBrani();
       pulisciCampi();
       mostraMessaggio("Brano modificato correttamente");
     } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }
@@ -146,7 +146,7 @@ public class BranoController {
     Album album=campoAlbum.getValue();
     if (album==null) throw new IllegalArgumentException("Seleziona l'album a cui associare il brano");
     Set<GenereMusicale> generi=leggiGeneri(campoGeneri.getText());
-    String testo=campoTesto.get:text()==null?"": campoTesto.getText();
+    String testo=campoTesto.getText()==null?"": campoTesto.getText();
     int ascolti=branoSelezionato==null?0: branoSelezionato.getNumeroAscolti();
     return new Brano(titolo, durata, testo, generi, album, artisti);
   }
@@ -198,7 +198,7 @@ public class BranoController {
   private void mostraMessaggio(String testo) {
     messaggio.setText(testo);
     Alert alert=new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("UnivaqSound);
+    alert.setTitle("UnivaqSound");
     alert.setHeaderText(null);
     alert.setContentText(testo);
     alert.showAndWait();
