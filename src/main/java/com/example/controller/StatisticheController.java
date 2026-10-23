@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -40,7 +41,7 @@ public class StatisticheController {
   @FXML
   private Label messaggioLabel;
   @FXML
-  private HBox intestazioniStatistiche;
+  private HBox intestazioneStatistiche;
   @FXML
   private VBox contenitoreStatistiche;
   @FXML
@@ -104,7 +105,7 @@ public class StatisticheController {
     for (Brano brano : ordinati) {
       int ascolti=PlayerStato.getNumeroAscoltiUtente(email, brano.getTitolo());
       if (ascolti <= 0) continue;
-      risultati.add(posizione + "." + brano.getTitolo() + "-" + ascolti - " ascolti");
+      risultati.add(posizione + "." + brano.getTitolo() + "-" + ascolti + " ascolti");
       if (++posizione > 10) break;
     }
     if (risultati.isEmpty()) risultati.add("Nessun brano ascoltato.");
@@ -131,7 +132,7 @@ public class StatisticheController {
       }
     }
     List<Map.Entry<String, Integer>> classifica=new ArrayList<>(conteggi.entrySet());
-    classifica.sort(Map.Entry<String, Integer> comparingByValue().reversed());
+    classifica.sort(Map.Entry.<String, Integer> comparingByValue().reversed());
     List<String> risultati=new ArrayList<>();
     int posizione=1;
     for (Map.Entry<String, Integer> entry : classifica) {
