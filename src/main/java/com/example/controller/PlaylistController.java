@@ -1,5 +1,5 @@
 package com.example.controller; 
-import com.example.business.BusinessException; 
+import com.example.business.exception.BusinessException; 
 import com.example.business.impl.file.FilePlaylistServiceImpl; 
 import com.example.domain.Playlist; 
 import com.example.domain.Brano;
@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
-import java.scene.control.TableView;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage; 
 import com.example.controller.Navigazione;
 import java.io.IOException; 
