@@ -27,7 +27,7 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     scriviPlaylist(playlistEsistenti); 
   }
   @Override 
-  public void modificaPlaylistpublic(String nomeVecchio, Playlist playlist) throws BusinessException {
+  public void modificaPlaylist (String nomeVecchio, Playlist playlist) throws BusinessException {
     if (nomeVecchio==null || nomeVecchio.trim().isEmpty()) throw new OperazioneNonValidaException("Il vecchio nome della playlist non può essere vuoto"); 
     if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
     if (playlist.getNome()==null || playlist.getNome().trim().isEmpty()) throw new OperazioneNonValidaException("Il nuovo nome della playlist non può essere vuoto"); 
