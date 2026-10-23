@@ -15,7 +15,7 @@ import javafx.scene.control.ButtonType; //serve per definire i tipi di pulsanti 
 import javafx.scene.control.ComboBox; //serve per creare menu a tendina con una lista di opzioni selezionabili
 import javafx.scene.control.Label; //serve per visualizzare un semplice testo fisso o un'etichetta deescrittiva sulla User Interface 
 import javafx.scene.control.TableColumn; //serve per definire e gestire una colonna all'interno di una tabella
-import javafx.scene.control.TextView; //serve per creare la struttura principale di una tabella
+import javafx.scene.control.TableView; //serve per creare la struttura principale di una tabella
 import javafx.scene.control.TextField; //serve per creare una casella di testo in cui l'utente può digitare parole o numeri
 import javafx.util.StringConverter; //serve per convertire un oggetto in testo (e viceversa) dentro le ComboBox per esempio
 import java.time.Year;
