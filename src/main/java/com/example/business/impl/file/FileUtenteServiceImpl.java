@@ -28,7 +28,7 @@ public class FileUtenteServiceImpl implements UtenteService{
     if(utente.getEmail()==null||utente.getEmail().trim().isEmpty()) throw new OperazioneNonValidaException("L'email dell'utente non può essere vuota");
     List<Utente>utenti=findAllUtenti();
     for(Utente u : utenti){
-      if(u.getEmail()!=null && u.getEmail.equalsIgnoreCasa(utente.getEmail().trim())) throw new DuplicatoException("Utente già esistente con la seguente email:" + utente.getEmail());
+      if(u.getEmail()!=null && u.getEmail().equalsIgnoreCase(utente.getEmail().trim())) throw new DuplicatoException("Utente già esistente con la seguente email:" + utente.getEmail());
     }
     utenti.add(utente);
     scriviUtenti(utenti);
@@ -42,7 +42,7 @@ public class FileUtenteServiceImpl implements UtenteService{
     for(int i=0; i<utenti.size(); i++){
       Utente utenteEsistente=utenti.get(i);
       if(utenteEsistente.getEmail()!=null && utenteEsistente.getEmail().equalsIgnoreCase(utente.getEmail().trim())){
-        utente.set(i, utente);
+        utenti.set(i, utente);
         trovato=true;
         break;
       }
@@ -59,7 +59,7 @@ public class FileUtenteServiceImpl implements UtenteService{
     for(int i=0; i<utenti.size(); i++){
       Utente utenteEsistente=utenti.get(i);
       if(utenteEsistente.getEmail()!=null && utenteEsistente.getEmail().equalsIgnoreCase(utente.getEmail().trim())){
-        utente.remove(i);
+        utenti.remove(i);
         rimosso=true;
         break;
       }
@@ -72,7 +72,7 @@ public class FileUtenteServiceImpl implements UtenteService{
     try{
       FileData data=leggiDati();
       return convertiRighe(data);
-    } catch(IOException e) throw new BusinessException("Errore durante la lettura degli utenti", e);
+    } catch(IOException e) { throw new BusinessException("Errore durante la lettura degli utenti", e); }
   }
   @Override
   public Utente findUtenteByEmail(String email) throws BusinessException{
@@ -182,7 +182,7 @@ public class FileUtenteServiceImpl implements UtenteService{
         String cognome=riga[1];
         String email=riga[2];
         LocalDate dataNascita;
-        try {dataNascita =LocalDate.parse(riga[3].trim()); } catch (Exception e) throw new BusinessException("Data di nascita non valida: " + riga[3]);
+        try {dataNascita =LocalDate.parse(riga[3].trim()); } catch (Exception e) { throw new BusinessException("Data di nascita non valida: " + riga[3]); }
         List<Playlist> playlist =new ArrayList<>();
         if (!riga[4].trim().isEmpty()) {
             String[] nomiPlaylist=riga[4].split("\\|");
@@ -196,7 +196,7 @@ public class FileUtenteServiceImpl implements UtenteService{
             String[] generi=riga[5].split("\\|");
             for (String genere:generi) {
                 if (!genere.trim().isEmpty()) {
-                    try { preferenze.add(GenereMusicale.valueOf(genere.trim().toUpperCase())); } catch (IllegalArgumentException e) throw new BusinessException("Genere musicale non valido: " + genere);
+                    try { preferenze.add(GenereMusicale.valueOf(genere.trim().toUpperCase())); } catch (IllegalArgumentException e) { throw new BusinessException("Genere musicale non valido: " + genere); }
                 }
             }
         }
@@ -212,7 +212,7 @@ public class FileUtenteServiceImpl implements UtenteService{
             for (Utente utente : utenti) {
                 out.println(convertiUtenteInRiga(utente));
             }
-        } catch (IOException e) throw new BusinessException("Errore durante il salvataggio degli utenti", e);
+        } catch (IOException e) { throw new BusinessException("Errore durante il salvataggio degli utenti", e); }
     }
     private String convertiUtenteInRiga(Utente utente) { StringBuilder riga=new StringBuilder();
         riga.append(utente.getNome());
