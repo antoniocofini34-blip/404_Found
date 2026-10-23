@@ -189,9 +189,9 @@ public class MainController {
     ScrollPane scrollHome=new ScrollPane(contenutoHome);  //Inserisce tutto in un pannello a scorrimento per gestre gli elenchi lunghi
     scrollHome.setFitToWidth(true);
     scrollHome.setFitToHeight(false);
-    scrollHome.setHBarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  //Nasconde la barra orizzontale 
-    scrollHome.setVBarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);  //Mostra la barra verticale solo se serve 
-    ScrollHome.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
+    scrollHome.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  //Nasconde la barra orizzontale 
+    scrollHome.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);  //Mostra la barra verticale solo se serve 
+    scrollHome.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
     VBox.setVgrow(grigliaBrani, Priority.ALWAYS);
     contenutoCentrale.getChildren().add(scrollHome);  //Inserisce il pannello di scorrimento nella UI
     try { FileBranoServiceImpl branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");  //Caricamento dati da file 
@@ -521,7 +521,7 @@ public class MainController {
       controllerUtente.aggiornaTemaUtente();
     }
     if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaPlayer();  //Allinea e aggiorna lo stile visivo dei singoli controller attivi (Player e Statistiche)
-    if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaStatistiche();
+    if (controllerStatisticheCorrente!=null) controllerStatisticheCorrente.aggiornaTemaStatistiche();
   }
   private void tornaAllaVistaPrecedente() { boolean tornatoIndietro=Navigazione.indietro();
     if (!tornatoIndietro) apriHome();
@@ -560,7 +560,7 @@ public class MainController {
     try {miniAvanti.setDisable(PlayerStato.getCodaService().isAvantiDisabilitato(PlayerStato.getCoda()));  //Viene chiesto al servizio della coda se il comando "Mini Avanti" deve essere disabilitato o meno
         } catch (BusinessException e) { e.getMessage(); }
   }
-  private void avviaSincronizzazioneMiniPlayer() { sincronizzazioneMiniPlayer=new Timeline(new Keyframe(Duration.millis(250), evento -> {  //Inizializza una Timeline con polling a 250 millisecondi per sincronizzare costantemente la UI e verificare eventualmente nuovi dati o eventi
+  private void avviaSincronizzazioneMiniPlayer() { sincronizzazioneMiniPlayer=new Timeline(new KeyFrame(Duration.millis(250), evento -> {  //Inizializza una Timeline con polling a 250 millisecondi per sincronizzare costantemente la UI e verificare eventualmente nuovi dati o eventi
       Brano brano=PlayerStato.getBranoCorrente();
       if (miniIndietro!=null) miniIndietro.setDisable(brano==null);
       aggiornaInformazioniMiniPlayer(brano);  //Aggiorna i dati del mini player
