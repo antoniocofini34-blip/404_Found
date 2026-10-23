@@ -28,7 +28,7 @@ public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=P
       RicaricaController.aggiornaCronologiaVisibile();
     } catch(IOException e){ e.getMessage(); }
   }
-  public Static synchronized List<String> leggi(String email){ List<String>risultati=new ArrayList<>();
+  public static synchronized List<String> leggi(String email){ List<String>risultati=new ArrayList<>();
     if(email==null || email.trim().isEmpty()){ return risultati;
     } try{
       if(!File.exists(PERCORSO_FILE)){ return risultati; }
