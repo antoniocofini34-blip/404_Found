@@ -2,6 +2,7 @@ package com.example.controller;
 import com.example.business.exception.BusinessException;
 import com.example.business.impl.file.FileAlbumServiceImpl;
 import com.example.business.impl.file.FileBranoServiceImpl;
+import com.example.business.impl.file.FileArtistaServiceImpl;
 import com.example.domain.Album;
 import com.example.domain.Brano;
 import com.example.domain.GenereMusicale;
@@ -32,6 +33,7 @@ public class BranoController {
   @FXML private TextArea campoTesto;
   @FXML private Label messaggio;
   private FileBranoServiceImpl branoService;
+  private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
   private Brano branoSelezionato;
   private Album albumOriginale;
@@ -48,7 +50,7 @@ public class BranoController {
     colonnaTitolo.setCellValueFactory(cella->new SimpleStringProperty(cella.getValue().getTitolo()));
     colonnaDurata.setCellValueFactory(cella->new SimpleStringProperty(String.valueOf(cella.getValue().getDurata())));
     colonnaGeneri.setCellValueFactory(cella->new SimpleStringProperty(formattaGeneri(cella.getValue().getGenereBrano())));
-    colonnaAlbum.setCellValueFactory(cella->new SimpleStringProperty(trovaAlbumDelBrano(cella.getValue()==null? "Non assegnato" : trovaAlbumDelBrano(cella.getValue()).getTitolo())));
+    colonnaAlbum.setCellValueFactory(cella->new SimpleStringProperty(trovaAlbumDelBrano(cella.getValue())==null ? "Non assegnato" : trovaAlbumDelBrano(cella.getValue()).getTitolo()));
     colonnaAscolti.setCellValueFactory(cella->new SimpleStringProperty(String.valueOf(cella.getValue().getNumeroAscolti())));
     tabellaBrani.getSelectionModel().selectedItemProperty().addListener((osservabile, precedente, selezionato)->{
       if(selezionato!=null) mostraDatiBrano(selezionato);
@@ -68,7 +70,7 @@ public class BranoController {
   }
   private void caricaBrani() {
     try {tabellaBrani.setItems(FXCollections.observableArrayList(branoService.findAllBrani()));
-         messaggio.setText("Brani caricati: " + tabellaBrani.getItems.size());
+         messaggio.setText("Brani caricati: " + tabellaBrani.getItems().size());
         } catch (BusinessException e) { mostraErrore("Impossibile caricare i brani: " + e.getMessage()); }
   }
   private void mostraDatiBrano(Brano brano) {
@@ -94,7 +96,7 @@ public class BranoController {
       caricaBrani();
       pulisciCampi();
       mostraMessaggio("Brano creato e associato all'album");
-    } catch (BusinessException | IllegalArgumentException e) { mostraEerrore(e.getMessage()); }
+    } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }
   }
   @FXML
   private void modificaBrano() {
@@ -146,9 +148,9 @@ public class BranoController {
     Album album=campoAlbum.getValue();
     if (album==null) throw new IllegalArgumentException("Seleziona l'album a cui associare il brano");
     Set<GenereMusicale> generi=leggiGeneri(campoGeneri.getText());
-    String testo=campoTesto.getText()==null?"": campoTesto.getText();
-    int ascolti=branoSelezionato==null?0: branoSelezionato.getNumeroAscolti();
-    return new Brano(titolo, durata, testo, generi, album, artisti);
+    String testo=campoTesto.getText()==null ? "" : campoTesto.getText();
+    int ascolti=branoSelezionato==null ? 0 : branoSelezionato.getNumeroAscolti();
+    return new Brano(titolo, durata, testo, generi, album, ascolti);
   }
   private Set<GenereMusicale> leggiGeneri(String testo) {
     Set<GenereMusicale> generi=new HashSet<>();
@@ -203,7 +205,7 @@ public class BranoController {
     alert.setContentText(testo);
     alert.showAndWait();
   }
-  private void moostraErrore(String testo) {
+  private void mostraErrore(String testo) {
     messaggio.setText("Errore: " + testo);
     Alert alert=new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Errore");
