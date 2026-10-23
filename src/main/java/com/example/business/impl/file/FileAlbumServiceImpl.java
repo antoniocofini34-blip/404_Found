@@ -28,7 +28,7 @@ public class FileAlbumServiceImpl implements AlbumService {
   public Album findAlbumByTitolo(String titolo) throws BusinessException {
     if (titolo==null || titolo.isEmpty()) throw new OperazioneNonValidaException("Titolo dell'album non valido"); 
     List<Album> album=findAllAlbum(); 
-    for (ALbum a : album) {
+    for (Album a : album) {
       if (a.getTitolo()!=null && a.getTitolo().equalsIgnoreCase(titolo.trim())) { return a; }
     }
     throw new AlbumNonTrovatoException("Album non trovato:" + titolo); 
