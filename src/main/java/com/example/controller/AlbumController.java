@@ -59,7 +59,7 @@ public class AlbumController {
     //definiamo come convertire gli oggetti Artista in testo da mostrare poi nella ComboBox
   campoArtista.setConverter(new StringConverter<Artista>() {
     @Override
-    public String toString(Artista artista) { return artista==null ? "": ottienoNomeArtista(artista); }
+    public String toString(Artista artista) { return artista==null ? "": ottieniNomeArtista(artista); }
     @Override
     public String fromString(String testo) { return null; } //è null perchè la ComboBox utilizza gli oggetti già caricati
   });
@@ -85,8 +85,8 @@ public class AlbumController {
     albumSelezionato=album;
     campoTitolo.setText(album.getTitolo());
     //ora andiamo a bloccare la modifica del titolo durante l'aggiornamento, lasciando invariato il criterio identificativo dell'album
-    capoTitolo.setEditable(false);
-    campoAnno(setText(String.valueOf(album.getAnnoPubblicazione()));
+    campoTitolo.setEditable(false);
+    campoAnno(setText(String.valueOf(album.getAnnoPubblicazione())));
     campoCopertina.setText(album.getCopertina()==null ? "":album.getCopertina());
     StringBuilder generi=new StringBuilder();
     //costruiamo una stringa con tutti i generi dell'album separandoli con una virgola così da mostrarli nel campo di testo
@@ -94,7 +94,7 @@ public class AlbumController {
       if(generi.length()>0) generi.append(",");
       generi.append(genere.name());
     }
-    campoGeneri.setText(generi.toDtring());
+    campoGeneri.setText(generi.toString());
     String nomeArtista=ottieniNomeArtista(album.getArtista());
     //ora andiamo a cercare nella ComboBox l'oggetto artista corrispondente al nome dell'album e lo selezioniamo senza distinzione tra maiuscole e minuscole
     for (Artista artista:campoArtista.getItems()) {
@@ -114,14 +114,12 @@ public class AlbumController {
       caricaAlbum();
       pulisciCampi();
       mostraMessaggio("Album creato e salvato correttamente");
-    } catch (Business Exception | IllegalArgumentException e) { //gestiamo sia errori di servizio sia dati errati forniti dall'utente
-      mostraErrore(e.getMessage());
-    }
+    } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }  //gestiamo sia errori di servizio sia dati errati forniti dall'utente
   }
   @FXML
   private void modificaAlbum() {
     if (albumSelezionato==null) {
-      mostrErrore("Seleziona prima un album dalla tabella");
+      mostraErrore("Seleziona prima un album dalla tabella");
       return;
     }
     try {
