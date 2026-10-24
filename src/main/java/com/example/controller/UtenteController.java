@@ -133,7 +133,7 @@ public class UtenteController {
         @Override
         public String toString(Utente utente) {
           if (utente==null) return "";
-          return utente.getNome()+""+utente.getCognome()+"(" +utente.getEmail()+")";
+          return utente.getNome()+" "+utente.getCognome()+" (" +utente.getEmail()+")";
         }
         @Override
         public Utente fromString(String string) {return null;}
