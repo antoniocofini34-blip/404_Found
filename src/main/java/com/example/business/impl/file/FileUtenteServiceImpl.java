@@ -136,7 +136,7 @@ public class FileUtenteServiceImpl implements UtenteService{
                 }
             }
         }
-        Utente utente= new Utente(nome,cognome,email, dataNascita, playlist, null, preferenze, null);
+        Utente utente= new Utente(nome,cognome,email, dataNascita, null, preferenze, null);
         utente.setPreferenzeMusicali(preferenze);
         return utente;
     }
