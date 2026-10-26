@@ -7,7 +7,6 @@ import com.example.business.CodaRiproduzioneService;
 import com.example.business.CronologiaAscoltiService;
 import com.example.business.PlaylistService;
 import com.example.business.RicercaService;
-import com.example.business.StatisticheService;
 import com.example.business.UtenteService;
 import com.example.business.UnivaqSoundBusinessFactory;
 import com.example.business.impl.ram.RAMCatalogoServiceImpl;
@@ -22,7 +21,6 @@ public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFa
   private RAMCronologiaAscoltiServiceImpl cronologiaAscoltiService;
   private FilePlaylistServiceImpl playlistService;
   private FileRicercaServiceImpl ricercaService;
-  private FileStatisticheServiceImpl statisticheService;
   private FileUtenteServiceImpl utenteService;
   public FileUnivaqSoundBusinessFactoryImpl() {
     this.artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
@@ -34,7 +32,6 @@ public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFa
     this.codaRiproduzioneService=new RAMCodaRiproduzioneServiceImpl();
     this.cronologiaAscoltiService=new RAMCronologiaAscoltiServiceImpl();
     this.ricercaService=new FileRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
-    this.statisticheService=new FileStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
   }
   @Override
   public ArtistaService getArtistaService() { return this.artistaService; }
@@ -52,8 +49,6 @@ public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFa
   public PlaylistService getPlaylistService() { return this.playlistService; }
   @Override
   public RicercaService getRicercaService() { return this.ricercaService; }
-  @Override
-  public StatisticheService getStatisticheService() { return this.statisticheService; }
   @Override
   public UtenteService getUtenteService() { return this.utenteService; }
 }
