@@ -90,13 +90,6 @@ public class StatisticheController {
           messaggioLabel.setText("Statistiche di " + utente.getNome() + " " + utente.getCognome());
         } catch(BusinessException e) { messaggioLabel.setText("Errore nel caricamento delle statistiche: " + e.getMessage()); }
   }
-  private int calcolaTempoTotale(List<Brano> brani) {
-    int tempoTotale=0;
-    for (Brano brano : brani) {
-      if (brano!=null) tempoTotale +=brano.getDurata() * brano.getNumeroAscolti();
-    }
-    return tempoTotale;
-  }
   private void caricaTopBraniUtente(List<Brano> brani, String email) {
     List<Brano> ordinati=new ArrayList<>(brani);
     ordinati.sort(Comparator.comparingInt((Brano b) -> PlayerStato.getNumeroAscoltiUtente(email, b.getTitolo())).reversed());
@@ -155,21 +148,6 @@ public class StatisticheController {
     if (minuti > 0) return minuti + " minuti e " + secondiRimanenti + " secondi";
     return secondiRimanenti + " secondi";
   }
-  private int calcolaTempoTotaleAscoltato() {
-    Properties tempi=new Properties(); 
-    Path percorso=Paths.get("src/main/resources/dati/tempi_ascolto.properties");
-    if (!Files.exists(percorso)) return 0;
-    try(InputStream input=Files.newInputStream(percorso)) {
-      tempi.load(input);
-      int totale=0;
-      for (String valore : tempi.stringPropertyNames()) {
-        totale +=Integer.parseInt(tempi.getProperty(valore, "0"));
-      }
-      return totale;
-    } catch(IOException | NumberFormatException e) { e.getMessage();
-            return 0;
-           }
-  }
   private void aggiornaTempoTotaleUtente(String email) {
     int totale=0;
     try { List<Brano> brani=branoService.findAllBrani();
@@ -196,7 +174,6 @@ public class StatisticheController {
   private void applicaStileStatistiche() {
     boolean scuro=TemaVisivo.isScuro();
     String sfondo=scuro ? "#121212" : "#ffffff";
-    String sfondoIntestazione=scuro ? "#191414":"#ffffff";
     String sfondoRiquadro=scuro ? "#242424":"#ffffff";
     String coloreTesto=scuro ? "#ffffff":"#111111";
     String sfondoLista=scuro ? "#242424":"#ffffff";
