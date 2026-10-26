@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import com.example.controller.Navigazione;
 import java.io.IOException; 
 import java.util.*; 
-
 public class PlaylistController {
   @FXML
   private TableView<Playlist> tabellaPlaylist; 
