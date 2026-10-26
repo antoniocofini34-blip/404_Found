@@ -109,31 +109,6 @@ public class FileAlbumServiceImpl implements AlbumService {
     albumFile.setBrano(brani); 
     modificaAlbum(albumFile); 
   }
-  @Override 
-  public void riordinaBrani(Album album, int indiceVecchio, int indiceNuovo) throws BusinessException {
-    if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
-    Album albumFile=findAlbumByTitolo(album.getTitolo()); 
-    List<Brano> brani=albumFile.getListaBrani(); 
-    if (indiceVecchio < 0 || indiceVecchio >= brani.size() || indiceNuovo < 0 || indiceNuovo >= brani.size()) throw new OperazioneNonValidaException("Errore: gli indici specificati non sono validi"); 
-    Brano brano=brani.remove(indiceVecchio); 
-    brani.add(indiceNuovo, brano); 
-    albumFile.setBrano(brani); 
-    modificaAlbum(albumFile); 
-  }
-  @Override 
-  public List<Brano> findBrani(Album album) throws BusinessException {
-    if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
-    Album albumFile=findAlbumByTitolo(album.getTitolo()); 
-    return new ArrayList<>(albumFile.getListaBrani()); 
-  }
-  @Override 
-  public int calcolaDurataTotale(Album album) throws BusinessException {
-    if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto"); 
-    Album albumFile=findAlbumByTitolo(album.getTitolo()); 
-    int totale=0; 
-    for (Brano brano : albumFile.getListaBrani()) { totale += brano.getDurata(); }
-    return totale; 
-  }
   private FileData leggiDati() throws IOException { File file=new File(this.filename); 
     if (!file.exists()) { FileData data=new FileData(); 
       data.setContatore(0); 
