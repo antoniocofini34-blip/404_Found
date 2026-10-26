@@ -8,12 +8,10 @@ import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
 import com.example.domain.Brano;
-import com.example.domain.CriterioFiltro;
-public class FileRicercaServiceImpl implements RicercaService { private FileBranoServiceImpl branoService;
+public class FileRicercaServiceImpl implements RicercaService { 
   private FileAlbumServiceImpl albumService;
   private FileArtistaServiceImpl artistaService;
-  public FileRicercaServiceImpl(FileBranoServiceImpl branoService, FileAlbumServiceImpl albumService, FileArtistaServiceImpl artistaService) {
-    if (branoService==null) throw new IllegalArgumentException("Il servizio dei brani non può essere null");
+  public FileRicercaServiceImpl(FileAlbumServiceImpl albumService, FileArtistaServiceImpl artistaService) {
     if (albumService==null) throw new IllegalArgumentException("Il servizio dei album non può essere null");
     if (artistaService==null) throw new IllegalArgumentException("Il servizio dei artisti non può essere null");
     this.branoService=branoService;
