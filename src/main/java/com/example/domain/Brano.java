@@ -27,6 +27,4 @@ public class Brano implements Ricercabile, Riproducibile { private String titolo
   }
   public void setAlbumBrano(Album album_brano) { this.album_brano=album_brano; }
   public void setNumeroAscolti(int numero_ascolti) { this.numero_ascolti=numero_ascolti; }
-  @Override
-  public boolean contieneTesto(String testo) { return false; }
 }    
