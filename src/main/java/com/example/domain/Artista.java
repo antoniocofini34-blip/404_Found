@@ -17,14 +17,4 @@ public abstract class Artista {
   public GenereMusicale getGenerePrincipale() { return genere_principale; }
   public Set<GenereMusicale> getGeneriSecondari() { return new HashSet<>(this.generi_secondari); }
   public List<Album> getDiscografia() { return new ArrayList<>(this.discografia); }
-  public void setBiografia(String biografia) { this.biografia=biografia; }
-  public void setGenerePrincipale(GenereMusicale genere_principale) { this.genere_principale=genere_principale; }
-  public void setGeneriSecondari(Set<GenereMusicale> generi_secondari) {
-    if (generi_secondari!=null) this.generi_secondari=new HashSet<>(generi_secondari);
-    else this.generi_secondari=new HashSet<>(); 
-  }
-  public void setDiscografia(List<Album> discografia) {
-    if (discografia!=null) this.discografia=new ArrayList<>(discografia); 
-    else this.discografia=new ArrayList<>(); 
-  }
 } 
