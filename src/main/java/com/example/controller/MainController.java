@@ -1,5 +1,4 @@
 package com.example.controller;
-import javafx.application.Platform;  //Gestisce il ciclo di vita dell'applicazione e il thread grafico (per spostare pixel e aggiornare la schermata)
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,13 +51,9 @@ public class MainController {
   @FXML
   private HBox miniPlayerContenitore;
   @FXML
-  private Label branoMiniPlayer;
-  @FXML
   private Slider barraMiniPlayer;
   @FXML
   private Button miniPlayPausa;
-  @FXML
-  private Button miniStop;
   @FXML
   private Button miniAvanti;
   @FXML
@@ -89,8 +84,6 @@ public class MainController {
   private StatisticheController controllerStatisticheCorrente;
   private PlayerController controllerPlayerCorrente;
   private UtenteController controllerUtenteCorrente;
-  private boolean ripristinoNavigazione=false;
-  private String ultimaVista=null;
   @FXML
   private void initialize() { titoloLabel.setText("UnivaqSound");
     selettoreTema.getItems().setAll("Tema chiaro", "Tema scuro");
@@ -161,7 +154,6 @@ public class MainController {
     if (contenutoCentrale!=null) contenutoCentrale.setStyle("-fx-background-color: " + TemaVisivo.getColoreSfondo() + ";");
     if (miniPlayerContenitore!=null) miniPlayerContenitore.setStyle("-fx-background-color: " + (scuro ? "#191919" : "#e5e5e5") + ";");
     if (titoloLabel!=null) titoloLabel.setStyle("-fx-font-size: 36px;" + "-fx-font-weight: bold;" + "-fx-text-fill: " + TemaVisivo.getColoreTesto() + ";");
-    if (branoMiniPlayer!=null) branoMiniPlayer.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: " + TemaVisivo.getColoreTesto() + ";");
     if (barraMiniPlayer!=null) TemaVisivo.applicaStileSlider(barraMiniPlayer);
   }
   @FXML
@@ -386,7 +378,6 @@ public class MainController {
       PlayerStato.getCodaService().stop(PlayerStato.getCoda());  //Invia il comando di interruzione definitiva al motore audio di background
       PlayerStato.setProgressoCorrente(0);  //Resetta i dati logici del brano e del tempo trascorso all'interno dello stato del player
       PlayerStato.setBranoCorrente(null);
-      if (branoMiniPlayer!=null) branoMiniPlayer.setText("Nessun Brano in riproduzione");  //Ripristina i testi della UI allo stato iniziale predefinito
       if (barraMiniPlayer!=null) { barraMiniPlayer.setValue(0);  //Azzera la barra di avanzamento e la blocca per impedire interazioni con il mouse       
         barraMiniPlayer.setDisable(true);
       }
@@ -409,7 +400,6 @@ public class MainController {
       Brano brano=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
       if (brano!=null) { PlayerStato.setBranoCorrente(brano);
         PlayerStato.setProgressoCorrente(0);
-        branoMiniPlayer.setText(brano.getTitolo());
         barraMiniPlayer.setValue(0);
         barraMiniPlayer.setDisable(false);
         PlayerStato.getCodaService().play(PlayerStato.getCoda());
