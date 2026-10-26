@@ -44,5 +44,8 @@
 <Label text="Nessun ascolto registrato"/>
 </placeholder>
 </ListView>
+<HBox alignment="CENTER" spacing="10">
+<Button text="Svuota cronologia" onAction="#svuotaCronologia"/>
 <Button text="Indietro" onAction="#tornaIndietro"/>
+</HBox>
 </VBox>
