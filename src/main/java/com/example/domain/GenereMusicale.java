@@ -1,16 +1,2 @@
 package com.example.domain;
-public enum GenereMusicale{
-  ROCK,
-  POP,
-  JAZZ,
-  CLASSICA,
-  BLUES,
-  ELETTRONICA,
-  COUNTRY,
-  REGGAETON,
-  METAL,
-  RAP,
-  ROMANTICO,
-  LATINA,
-  TRAP
-}
+public enum GenereMusicale{ ROCK, POP, JAZZ, CLASSICA, BLUES, ELETTRONICA, COUNTRY, REGGAETON, METAL, RAP, ROMANTICO, LATINA, TRAP }
