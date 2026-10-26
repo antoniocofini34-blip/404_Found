@@ -29,8 +29,6 @@ public class AggiungiBranoPlaylistController {
   @FXML
   private Button bottoneConferma;
   @FXML
-  private Button bottoneAnnulla;
-  @FXML
   private Label messaggioLabel;
   private FileBranoServiceImpl branoService;
   private FilePlaylistServiceImpl playlistService;
