@@ -49,7 +49,7 @@ public class PlaylistFormController {
           messaggioLabel.setText("Devi essere autenticato per creare una playlist.");
           return;
         }
-        Playlist playlist=new Playlist(nome.trim(), descrizione.trim(), LocalDate.now(), -1, 0, 0, utente.getEmail().trim());
+        Playlist playlist=new Playlist(nome.trim(), descrizione.trim(), LocalDate.now(), utente.getEmail().trim());
         playlistService.creaPlaylist(playlist);
       } else {
         playlistDaModificare.setNome(nome.trim());
