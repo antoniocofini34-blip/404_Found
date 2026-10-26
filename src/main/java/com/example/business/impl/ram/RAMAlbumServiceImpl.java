@@ -63,31 +63,4 @@ public class RAMAlbumServiceImpl implements AlbumService{ private List<Album> al
     if(!this.album.contains(album)){ throw new AlbumNonTrovatoException("L'album non è stato trovato"); }
     if(!album.getListaBrani().remove(brano)){ throw new OperazioneNonValidaException("Il brano non è presente nell'album"); }
   }
-  @Override
-  public void riordinaBrani(Album album, int indiceVecchio, int indiceNuovo) throws BusinessException{
-    if(album==null){ throw new OperazioneNonValidaException("L'album non può essere vuoto"); }
-    if(!this.album.contains(album)){ throw new AlbumNonTrovatoException("L'album non è stato trovato"); }
-    List<Brano> brani=album.getListaBrani();
-    if(indiceVecchio>=brani.size()){ throw new OperazioneNonValidaException("L'indice vecchio non è valido"); }
-    if(indiceNuovo<0||indiceNuovo>=brani.size()){ throw new OperazioneNonValidaException("L'indicenuovo non è valido"); }
-    Brano brano=brani.remove(indiceVecchio);
-    brani.add(indiceNuovo, brano);
-    album.setBrano(brani);
-  }
-  @Override
-  public List<Brano> findBrani(Album album) throws BusinessException{
-    if(album==null){ throw new OperazioneNonValidaException("L'album non può essere vuoto"); }
-    if(!this.album.contains(album)){ throw new AlbumNonTrovatoException("L'album non è stato trovato"); }
-    return new ArrayList<>(album.getListaBrani());
-  }
-  @Override
-  public int calcolaDurataTotale(Album album) throws BusinessException{
-    if(album==null){ throw new OperazioneNonValidaException("L'album non può essere vuoto"); }
-  if(!this.album.contains(album)){ throw new AlbumNonTrovatoException("L'album non è stato trovato"); }
-  int durataTotale=0;
-  for(Brano brano: album.getListaBrani()){
-    durataTotale+=brano.getDurata();
-  }
-  return durataTotale;
-}
 }
