@@ -156,7 +156,7 @@ public class UtenteController {
   private void creaUtente() {
     try {
       if (!datiAnagraficiValidi()) return;
-      Utente nuovo=new Utente(nomeField.getText().trim(), cognomeField.getText().trim(), emailField.getText().trim(), dataNascitaPicker.getValue(), null, generaPreferenzeSelezionate(), null);
+      Utente nuovo=new Utente(nomeField.getText().trim(), cognomeField.getText().trim(), emailField.getText().trim(), dataNascitaPicker.getValue(), new ArrayList<>(), generaPreferenzeSelezionate(), null);
       utenteService.creaUtente(nuovo);
       aggiornaElencoUtenti();
       selezionaUtenteNellElenco(nuovo.getEmail());
