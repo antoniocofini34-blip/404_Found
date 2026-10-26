@@ -81,6 +81,8 @@ public class PlaylistController {
     FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/PlaylistForm.fxml"));
     Parent root=loader.load();
     Stage stage=(Stage) bottoneNuovaPlaylist.getScene().getWindow();
+    Scene scenaPrecedente=stage.getScene();
+    Navigazione.salvaSchermataPrecedente(() -> stage.setScene(scenaPrecedente));
     stage.setScene(new Scene(root, 1000, 700));
   }
   @FXML
