@@ -73,20 +73,6 @@ public class FileBranoServiceImpl implements BranoService { private String filen
     scriviBrani(brani);
   }
   @Override
-  public void assegnaAlbum(Album album, Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
-    if (album==null) throw new OperazioneNonValidaException("L'album non può essere vuoto");
-    brano.setAlbumBrano(album);
-    modificaBrano(brano);
-  }
-  @Override
-  public void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
-    if (generi==null) throw new OperazioneNonValidaException("I generi non possono essere vuoto");
-    brano.setGenereBrano(generi);
-    modificaBrano(brano);
-  }
-  @Override
   public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
     brano.setNumeroAscolti(brano.getNumeroAscolti() +1);
