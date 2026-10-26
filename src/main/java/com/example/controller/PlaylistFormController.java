@@ -65,7 +65,7 @@ public class PlaylistFormController {
     tornaAllaPlaylist();
   }
   private void tornaAllaPlaylist() throws IOException {
-    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/PlaylistView.fxml"));
+    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
     Parent root=loader.load();
     Stage stage=(Stage) campoNome.getScene().getWindow();
     stage.setScene(new Scene(root, 1000, 700));
