@@ -1,5 +1,4 @@
 package com.example.business.exception;
-import com.example.business.exception.BusinessException;
 @SuppressWarnings("serial")
 public class DuplicatoException extends BusinessException {
   public DuplicatoException() { super(); }
