@@ -10,7 +10,5 @@ public interface BranoService{
   void creaBrano (Brano brano) throws BusinessException;
   void modificaBrano(Brano brano) throws BusinessException;
   void eliminaBrano(Brano brano) throws BusinessException;
-  void assegnaAlbum(Album album, Brano brano) throws BusinessException;
-  void modificaGenere(Brano brano, Set<GenereMusicale> generi) throws BusinessException;
   void aggiornaNumeroAscolti(Brano brano) throws BusinessException;
 }
