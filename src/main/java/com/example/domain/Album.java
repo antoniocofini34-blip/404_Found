@@ -29,6 +29,4 @@ public class Album implements Ricercabile {
   }
   public void setArtista(Artista artista) { this.artista=artista; }
   public void setTitolo(String titolo) { this.titolo=titolo; }
-  @Override
-  public boolean contieneTesto(String testo) { return false; }
 }
