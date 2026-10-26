@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage; 
-import com.example.controller.Navigazione;
 import java.io.IOException; 
 import java.util.*; 
 public class PlaylistController {
