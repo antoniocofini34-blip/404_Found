@@ -50,6 +50,28 @@ public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=P
     }catch(IOException e){ e.getMessage(); }
     return risultati;
   }
+  public static synchronized boolean svuota(String email) {
+    if (email==null || email.trim().isEmpty()) return false;
+    try { if (!Files.exists(PERCORSO_FILE)) return true;
+          List<String> righe=Files.readAllLines(PERCORSO_FILE, StandardCharsets.UTF_8);
+          List<String> righeDaConservare=new ArrayList<>();
+          for (String riga : righe) {
+            String[] campi=riga.split("\\|", -1);  
+            if (campi.length!=4) {  //Conserva le righe che non hanno il formato atteso
+              righeDaConservare.add(riga);
+              continue;
+            }
+            try { String emailSalvata=decodifica(campi[0]);
+                  if (!emailSalvata.equalsIgnoreCase(email.trim())) righeDaConservare.add(riga);  //Conserva tutti gli ascolti degli altri utenti
+                }  catch(IllegalArgumentExceptione e) { righedaConservare.add(riga); }  //Non elimina righe che non riesce a interpretare
+          }
+         //Scrive una collezione di righe in un file, gestendo la codifica dei caratteri in UTF_8 e la modalità di apertura. CREATE: crea il file se non esiste già; TRUNCATE_EXISTING: se il file esiste già, azzera il suo contenuto; WRITE: apre il file in modalità di scrittura
+         Files.write(PERCORSO_FILE, righeDaConservare, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+         return true;
+        } catch(IOException e) { e.getMessage(); 
+                return false;
+          }
+  }    
   private static String codifica(String testo){ return Base64.getEncoder().encodeToString(testo.getBytes(StandardCharsets.UTF_8)); }  //Converte un testo normale in una stringa codificata in Base64 sicura per il trasferimento dati
   private static String decodifica(String testo){ return new String(Base64.getDecoder().decode(testo), StandardCharsets.UTF_8); }  //Converte una stringa in Base64 nel suo testo originale leggibile
   private static String formattaDurata(int secondi) { int minuti = secondi / 60;
