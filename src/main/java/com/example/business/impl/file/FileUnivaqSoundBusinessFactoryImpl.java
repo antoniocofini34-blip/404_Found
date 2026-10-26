@@ -39,16 +39,4 @@ public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFa
   public AlbumService getAlbumService() { return this.albumService; }
   @Override
   public BranoService getBranoService() { return this.branoService; }
-  @Override
-  public CatalogoService getCatalogoService() { return this.catalogoService; }
-  @Override
-  public CodaRiproduzioneService getCodaRiproduzioneService() { return this.codaRiproduzioneService; }
-  @Override
-  public CronologiaAscoltiService getCronologiaAscoltiService() { return this.cronologiaAscoltiService; }
-  @Override
-  public PlaylistService getPlaylistService() { return this.playlistService; }
-  @Override
-  public RicercaService getRicercaService() { return this.ricercaService; }
-  @Override
-  public UtenteService getUtenteService() { return this.utenteService; }
 }
