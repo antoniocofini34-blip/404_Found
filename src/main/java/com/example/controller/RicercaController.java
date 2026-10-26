@@ -65,7 +65,7 @@ public class RicercaController{
     colonnaTitolo.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getTitolo()));
     colonnaDurata.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getDurata()));
     colonnaGenere.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getGenere()));
-    colonnaRiproduci.setCellFactory(colonna -> new TableCell<RisultatoRicerca, Void>() {
+    colonnaRiproduci.setCellFactory(colonna -> new TableCell<>() {
       private final Button bottone=new Button("Riproduci");
       private final Button bottonePlaylist=new Button("+ Playlist");
       private final HBox contenitore=new HBox(5, bottone, bottonePlaylist); //Mette i due buttoni vicini
