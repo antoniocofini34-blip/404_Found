@@ -367,3 +367,38 @@ public class RicercaController{
     if (ascolti.isEmpty()) utenteCronologiaLabel.setText("Nessun ascolto registrato per " + email);
     else utenteCronologiaLabel.setText("Cronologia di " + email + "-" + ascolti.size() + "sessioni");
   }
+  @FXML
+  private void svuotaCronologia() {
+    Utente utente=UtenteAttivo.getUtente();
+    if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
+      Alert alert=new Alert(Alert.AlertType.ERROR);
+      alert.SetTitle("Errore");
+      alert.setHeaderText("Nessun utente attivo");
+      alert.setContentText("Impossibile svuotare la cronologia senza un utente attivo.");
+      alert.showAndWait();
+      return;
+    }
+    Alert conferma=new Alert(Alert.AlertType.CONFIRMATION);
+    conferma.SetTitle("Svuota cronologia");
+    conferma.setHeaderText("Vuoi eliminare la tua cronologia?");
+    conferma.setContentText("Questa operazio e eliminerà definitivamente " + "la cronologia ascolti del tuo account");
+    Optional <ButtonType> scelta=conferma.showAndWait();
+    if (scelta.isEmpty() || scelta.get()!=ButtonType.OK) return;
+    String email=utente.getEmail().trim();
+    boolean cancellata=CronologiaAscoltiStorage.svuota(email);
+    if (!cancellata) {
+      Alert errore=new Alert(Alert.AlertType.ERROR);
+      errore.SetTitle("Errore");
+      errore.setHeaderText("Cronologia non cancellata");
+      errore.setContentText("Non è stato possibile modificare il file della cronologia");
+      errore.showAndWait();
+      return;
+    }
+    aggiornaCronologia();
+    Alert completata=new Alert(Alert.AlertType.INFORMATION);
+      completata.SetTitle("Cronologia svuotata.");
+      completata.setHeaderText("Operazione completata.");
+      completata.setContentText("La cronologia ascolti del tuo account è stata svuotata.");
+      completata.showAndWait();
+  }
+}
