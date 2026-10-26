@@ -49,40 +49,28 @@ public class UtenteController {
     String secondario=scuro? "#bbbbbb" : "#111111";
     String sfondoCampo=scuro? "#242424" : "#ffffff";
     String bordoCampo=scuro? "#454545" : "#cccccc";
-    rootUtente.setStyle("-fx-background-color: " +sfondo+";");
-    //verifichiamo che il componente centrale del BorderPane è un'istanza di VBox
-    if (rootUtente.getCenter() instanceof VBox) {
-      VBox centro=(VBox) rootUtente.getCenter();
-      //applichiamo il colore di sfondo dinamico al VBox centrale tramite CSS
+    rootUtente.setStyle("-fx-background-color: " +sfondo+";"); //verifichiamo che il componente centrale del BorderPane è un'istanza di VBox
+    if (rootUtente.getCenter() instanceof VBox) { VBox centro=(VBox) rootUtente.getCenter(); //applichiamo il colore di sfondo dinamico al VBox centrale tramite CSS
       centro.setStyle("-fx-background-color: "+sfondo+";");
     }
-    if (rootUtente.getTop()!=null) rootUtente.getTop().setStyle("-fx-background-color: "+sfondo+";"); //applichiamo lo stesso colore di sfondo dinamico al componente superiore se quest'ultimo non è nullo
-    //aggiorniamo le etichette della schermata
-    aggiornaColoriEtichette(rootUtente,testo,secondario);
-    //aggiorniamo i campi anagrafici
+    if (rootUtente.getTop()!=null) rootUtente.getTop().setStyle("-fx-background-color: "+sfondo+";"); //applichiamo lo stesso colore di sfondo dinamico al componente superiore se quest'ultimo non è nullo //aggiorniamo le etichette della schermata
+    aggiornaColoriEtichette(rootUtente,testo,secondario); //aggiorniamo i campi anagrafici
     applicaStileCampo(nomeField,testo,secondario,sfondoCampo,bordoCampo);
     applicaStileCampo(cognomeField,testo,secondario,sfondoCampo,bordoCampo);
-    applicaStileCampo(emailField,testo,secondario,sfondoCampo,bordoCampo);
-    //successivamente aggiorniamo il DatePicker senza perdere il suo valore
-    if (dataNascitaPicker!=null) dataNascitaPicker.setStyle("-fx-background-color: "+sfondoCampo+";" + "-fx-control-inner-background: "+sfondoCampo+";" + "-fx-text-fill: "+testo+";" + "-fx-border-color: "+bordoCampo+";");
-    //dopo andiamo ad aggiornare i testi delle caselle dei generi
-    for (CheckBox checkBox:genereCheckBoxes) checkBox.setStyle("-fx-text-fill: "+testo+";");
-    //ripristiniamo colore e grassetto del messaggio di stato
-    if (messaggioLabel!=null) {
-      String messaggio=messaggioLabel.getText();
-      if(messaggio!=null&&!messaggio.isEmpty()) {
-        boolean errore=messaggio.contains("Errore")||messaggio.contains("non valida")||messaggio.contains("Dati mancanti")||messaggio.contains("Nessun utente");
+    applicaStileCampo(emailField,testo,secondario,sfondoCampo,bordoCampo); //successivamente aggiorniamo il DatePicker senza perdere il suo valore
+    if (dataNascitaPicker!=null) dataNascitaPicker.setStyle("-fx-background-color: "+sfondoCampo+";" + "-fx-control-inner-background: "+sfondoCampo+";" + "-fx-text-fill: "+testo+";" + "-fx-border-color: "+bordoCampo+";"); //dopo andiamo ad aggiornare i testi delle caselle dei generi
+    for (CheckBox checkBox:genereCheckBoxes) checkBox.setStyle("-fx-text-fill: "+testo+";"); //ripristiniamo colore e grassetto del messaggio di stato
+    if (messaggioLabel!=null) { String messaggio=messaggioLabel.getText();
+      if(messaggio!=null&&!messaggio.isEmpty()) { boolean errore=messaggio.contains("Errore")||messaggio.contains("non valida")||messaggio.contains("Dati mancanti")||messaggio.contains("Nessun utente");
         String colore=errore ?"#ff8585":(TemaVisivo.isScuro() ?"#ffffff":"#111111");
         messaggioLabel.setTextFill(Color.web(colore));
         messaggioLabel.setStyle("-fx-text-fill: " + colore + ";" + "-fx-font-weight:bold;");
       }
     }
   }
-  private void aggiornaColoriEtichette(Parent parent, String testo, String secondario) {
-    //iteriamo su tutti i nodi figli del parent in modalità di sola lettura per sicurezza
+  private void aggiornaColoriEtichette(Parent parent, String testo, String secondario) { //iteriamo su tutti i nodi figli del parent in modalità di sola lettura per sicurezza
     for (Node nodo:parent.getChildrenUnmodifiable()) {
-      if (nodo instanceof Label) {
-        Label label=(Label) nodo;
+      if (nodo instanceof Label) { Label label=(Label) nodo;
         String contenuto=label.getText();
         if (contenuto==null) continue;
         if (contenuto.equals("Gestisci i tuoi dati e le preferenze musicali")||contenuto.equals("Seleziona i generi che preferisci")) {
@@ -104,8 +92,7 @@ public class UtenteController {
     campo.setStyle("-fx-control-inner-background: "+sfondo+";" + "-fx-background-color: "+sfondo+";" + "-fx-text-fill: "+testo+";" + "-fx-prompt-text-fill: "+secondario+";" + "-fx-border-color: "+bordo+";");
   }
   @FXML
-  private void initialize() {
-    aggiornaTemaUtente();
+  private void initialize() { aggiornaTemaUtente();
     creaCheckboxGeneri();
     aggiornaElencoUtenti();
     Utente attivo=UtenteAttivo.getUtente();
@@ -113,8 +100,7 @@ public class UtenteController {
     else nuovoUtente();
     aggiornaTemaUtente();
   }
-  private void creaCheckboxGeneri() { //qui andiamo a creare le CheckBox per ogni genere musicale disponibile
-    preferenzeBox.getChildren().clear(); //dopo svuotiamo i contenitori precedenti per poi andare ad applicare lo stile visivo corrente del testo
+  private void creaCheckboxGeneri() {  preferenzeBox.getChildren().clear(); //dopo svuotiamo i contenitori precedenti per poi andare ad applicare lo stile visivo corrente del testo//qui andiamo a creare le CheckBox per ogni genere musicale disponibile
     genereCheckBoxes.clear();
     String testo=TemaVisivo.getColoreTesto(); //recuperiamo il colore dle testo corrente dal tema visivo impostato
     for (GenereMusicale genere:GenereMusicale.values()) {
@@ -126,10 +112,9 @@ public class UtenteController {
   }
   @FXML
   private void aggiornaElencoUtenti() {
-    try{
-      List<Utente> utenti=utenteService.findAllUtenti();
+    try{ List<Utente> utenti=utenteService.findAllUtenti();
       utenteComboBox.setItems(FXCollections.observableArrayList(utenti));
-      utenteComboBox.setConverter(new StringConverter<Utente>() {
+      utenteComboBox.setConverter(new StringConverter<>() {
         @Override
         public String toString(Utente utente) {
           if (utente==null) return "";
@@ -142,11 +127,9 @@ public class UtenteController {
     } catch (BusinessException e) {mostraErrore("Impossibile caricare gli utenti",e.getMessage()); }
   }
   @FXML
-  private void selezionaUtente() {
-    Utente selezionato=utenteComboBox.getValue();
+  private void selezionaUtente() { Utente selezionato=utenteComboBox.getValue();
     if(selezionato==null) return;
-    try{
-      utenteSelezionato=utenteService.findUtenteByEmail(selezionato.getEmail());
+    try{ utenteSelezionato=utenteService.findUtenteByEmail(selezionato.getEmail());
       Utente utentePrecedente=UtenteAttivo.getUtente();
       boolean cambioUtente=utentePrecedente!=null && !utentePrecedente.getEmail().equalsIgnoreCase(utenteSelezionato.getEmail());
       if (cambioUtente) PlayerStato.fermaRiproduzionePerCambioUtente();
@@ -160,8 +143,7 @@ public class UtenteController {
     } catch(BusinessException e) {mostraErrore("Impossibile selezionare l'utente", e.getMessage());}
   }
   @FXML
-  private void nuovoUtente() {
-    utenteSelezionato=null;
+  private void nuovoUtente() { utenteSelezionato=null;
     utenteComboBox.getSelectionModel().clearSelection();
     nomeField.clear();
     cognomeField.clear();
@@ -183,16 +165,14 @@ public class UtenteController {
   }
   @FXML
   private void modificaUtente() {
-    if (utenteSelezionato==null) {
-      mostraErrore("Nessun utente selezionato", "Seleziona un utente esistente prima di salvare le modifiche");
+    if (utenteSelezionato==null) { mostraErrore("Nessun utente selezionato", "Seleziona un utente esistente prima di salvare le modifiche");
       return;
     }
     try{
       if (!datiAnagraficiValidi()) return;
       String emailOriginale=utenteSelezionato.getEmail();
       String nuovaEmail=emailField.getText().trim();
-      if (!emailOriginale.equalsIgnoreCase(nuovaEmail)) {
-        mostraErrore("Modifica email non supportata", "Il servizio attuale identifica l'utente tramite email. "+"Per evitare di perdere l'utente, non cambiare l'email "+"da questa schermata");
+      if (!emailOriginale.equalsIgnoreCase(nuovaEmail)) { mostraErrore("Modifica email non supportata", "Il servizio attuale identifica l'utente tramite email. "+"Per evitare di perdere l'utente, non cambiare l'email "+"da questa schermata");
         emailField.setText(emailOriginale);
         return;
       }
@@ -207,16 +187,14 @@ public class UtenteController {
   }
   @FXML
   private void eliminaUtente() {
-    if (utenteSelezionato==null) {
-      mostraErrore("Nessun utente selezionato","Seleziona prima l'utente da eliminare");
+    if (utenteSelezionato==null) { mostraErrore("Nessun utente selezionato","Seleziona prima l'utente da eliminare");
       return;
     }
     Alert conferma=new Alert(Alert.AlertType.CONFIRMATION, "Vuoi eliminare l'utente "+utenteSelezionato.getEmail()+"?",ButtonType.YES, ButtonType.NO);
     conferma.setTitle("Conferma eliminazione");
     conferma.setHeaderText("Eliminazione utente");
     if (conferma.showAndWait().orElse(ButtonType.NO)!=ButtonType.YES) return;
-    try {
-      utenteService.eliminaUtente(utenteSelezionato);
+    try { utenteService.eliminaUtente(utenteSelezionato);
       nuovoUtente();
       aggiornaElencoUtenti();
       mostraMessaggio("Utente eliminato");
@@ -224,54 +202,45 @@ public class UtenteController {
   }
   @FXML
   private void salvaPreferenze() {
-    if (utenteSelezionato==null) {
-      mostraErrore("Nessun utente selezionato", "Crea o seleziona un utente prima di salvare le preferenze");
+    if (utenteSelezionato==null) { mostraErrore("Nessun utente selezionato", "Crea o seleziona un utente prima di salvare le preferenze");
       return;
     }
-    try{
-      Set<GenereMusicale> preferenze=generaPreferenzeSelezionate();
+    try{ Set<GenereMusicale> preferenze=generaPreferenzeSelezionate();
       utenteSelezionato.setPreferenzeMusicali(preferenze);
       utenteService.modificaUtente(utenteSelezionato);
       mostraMessaggio("Preferenze musicali salvate");
     } catch(BusinessException e) {mostraErrore("Errore durante il salvataggio",e.getMessage());}
   }
-  private void aggiornaCheckBoxPreferenze() {
-    Set<GenereMusicale> preferenze=utenteSelezionato.getPreferenzeMusicali();
+  private void aggiornaCheckBoxPreferenze() { Set<GenereMusicale> preferenze=utenteSelezionato.getPreferenzeMusicali();
     for (CheckBox checkBox:genereCheckBoxes) checkBox.setSelected(preferenze.contains(GenereMusicale.valueOf(checkBox.getText())));
   }
-  private Set<GenereMusicale> generaPreferenzeSelezionate() {
-    Set<GenereMusicale> preferenze=new HashSet<>();
+  private Set<GenereMusicale> generaPreferenzeSelezionate() { Set<GenereMusicale> preferenze=new HashSet<>();
     for (CheckBox checkBox:genereCheckBoxes) {
       if (checkBox.isSelected()) preferenze.add(GenereMusicale.valueOf(checkBox.getText()));
     }
     return preferenze;
   }
   private boolean datiAnagraficiValidi() {
-    if (nomeField.getText()==null||nomeField.getText().trim().isEmpty()||cognomeField.getText()==null||emailField.getText()==null||emailField.getText().trim().isEmpty()||dataNascitaPicker.getValue()==null) {
-      mostraErrore("Dati mancanti", "Compila nome,cognome,email e data di nascita");
+    if (nomeField.getText()==null||nomeField.getText().trim().isEmpty()||cognomeField.getText()==null||emailField.getText()==null||emailField.getText().trim().isEmpty()||dataNascitaPicker.getValue()==null) { mostraErrore("Dati mancanti", "Compila nome,cognome,email e data di nascita");
       return false;
     }
-    if (!emailField.getText().trim().matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
-      mostraErrore("Email non valida", "Inserisci un indirizzo email valido");
+    if (!emailField.getText().trim().matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) { mostraErrore("Email non valida", "Inserisci un indirizzo email valido");
       return false;
     }
-    if (dataNascitaPicker.getValue().isAfter(LocalDate.now())) {
-      mostraErrore("Data di nascita non valida", "La data di nascita non può essere nel futuro");
+    if (dataNascitaPicker.getValue().isAfter(LocalDate.now())) { mostraErrore("Data di nascita non valida", "La data di nascita non può essere nel futuro");
       return false;
     }
     return true;
   }
   private void selezionaUtenteNellElenco(String email) {
     for (Utente utente:utenteComboBox.getItems()) {
-      if (utente.getEmail()!=null&&utente.getEmail().equalsIgnoreCase(email)) {
-        utenteComboBox.getSelectionModel().select(utente);
+      if (utente.getEmail()!=null&&utente.getEmail().equalsIgnoreCase(email)) { utenteComboBox.getSelectionModel().select(utente);
         selezionaUtente();
         return;
       }
     }
   }
-  private void mostraMessaggio(String messaggio) {
-    messaggioLabel.setText(messaggio);
+  private void mostraMessaggio(String messaggio) { messaggioLabel.setText(messaggio);
     aggiornaStileMessaggio();
   }
   private void aggiornaStileMessaggio() {
@@ -280,8 +249,7 @@ public class UtenteController {
     messaggioLabel.setTextFill(Color.web(colore));
     messaggioLabel.setStyle("-fx-text-fill: " + colore + ";" + "-fx-font-weight:bold;");
   }
-  private void mostraErrore(String titolo, String messaggio) {
-    String testoErrore=titolo+": "+messaggio;
+  private void mostraErrore(String titolo, String messaggio) { String testoErrore=titolo+": "+messaggio;
     messaggioLabel.setText(testoErrore);
     messaggioLabel.setTextFill(Color.web("#ff8585"));
     messaggioLabel.setStyle("-fx-text-fill: #ff8585;"+"-fx-font-weight:bold;");
