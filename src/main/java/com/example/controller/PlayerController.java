@@ -9,11 +9,9 @@ import com.example.business.exception.BusinessException;
 import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FileAlbumServiceImpl;
 import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Region;
 import com.example.domain.Brano;
@@ -76,9 +74,7 @@ public class PlayerController{
   private double progressoCorrente;
   private List<Brano> ordineOriginale;
   private boolean trascinamentoBarra;
-  private Brano branoAscoltoRegistrato;
   private Brano branoMonitorato;
-  private int secondiAscoltoCorrente=0;
   private boolean riproduzioneIniziata=false;
   private boolean apertoDaPlaylist=false;
   private Stage finestraTesto;
@@ -108,7 +104,7 @@ public class PlayerController{
     barraAvanzamento.setValue(progressoCorrente / branoCorrente.getDurata());
     Platform.runLater(this::aggiornaStileBarraAvanzamento);
     barraAvanzamento.setDisable(false);
-    if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer(branoCorrente); }
+    if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer(); }
         else aggiornaTempiBrano(null);
         if (coda.getListaCodaBrani().isEmpty()) {
             try { FileAlbumServiceImpl albumService = new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
@@ -206,7 +202,7 @@ public class PlayerController{
                     artistaBrano.setText(ottieniNomeArtista(brano.getAlbumBrano().getArtista()));
                 else artistaBrano.setText("");
                 if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
-            avviaTimer(brano);
+            avviaTimer();
             aggiornaPulsantiRiproduzione();
             }
         } catch (BusinessException e) {
@@ -280,7 +276,7 @@ public class PlayerController{
                 } else { artistaBrano.setText(""); }
                 codaService.play(coda);
                 PlayerStato.avviaTimerRiproduzione();
-                avviaTimer(brano);
+                avviaTimer();
                 System.out.println("Brano successivo: " + brano.getTitolo());
             } else { titoloBrano.setText("Nessun brano in riproduzione");
                 artistaBrano.setText("");
@@ -314,7 +310,7 @@ public class PlayerController{
                     PlayerStato.iniziaNuovoAscolto();
                     codaService.play(coda);
                     PlayerStato.avviaTimerRiproduzione();
-                    avviaTimer(branoCorrente);
+                    avviaTimer();
                     System.out.println("Brano riavviato.");
                 }
                 return;
@@ -336,7 +332,7 @@ public class PlayerController{
                 barraAvanzamento.setDisable(false);
                 codaService.play(coda);
                 PlayerStato.avviaTimerRiproduzione();
-                avviaTimer(brano);
+                avviaTimer();
                 System.out.println("Brano precedente: " + brano.getTitolo());
             } else { titoloBrano.setText("Nessun brano in riproduzione");
                 artistaBrano.setText("");
@@ -397,7 +393,7 @@ public class PlayerController{
         tempoTrascorso.setText(formattaTempo(trascorsi));
         tempoRimanente.setText("-" + formattaTempo(rimanenti));
     }
-    private void avviaTimer(Brano brano) {
+    private void avviaTimer() {
         if (timeline != null) { timeline.stop();
             timeline = null;
         }
@@ -410,7 +406,6 @@ public class PlayerController{
               aggiornaCopertinaAlbum(branoCorrente);
               branoMonitorato=branoCorrente;
               secondiAscoltoCorrente=0;
-              branoAscoltoRegistrato=null;
             }                                                        
             double durata = branoCorrente.getDurata();
             double progresso = PlayerStato.getProgressoCorrente();
@@ -425,9 +420,7 @@ public class PlayerController{
         timeline.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer per ripetersi all'infinito
         timeline.play();
     }
-    private void azzeraConteggioAscolto() { secondiAscoltoCorrente = 0;
-        branoAscoltoRegistrato = null;
-    }
+    private void azzeraConteggioAscolto() { secondiAscoltoCorrente = 0; }
     private void registraAscolto(Brano brano) {
         try {
             if (brano == null || brano.getTitolo() == null) { return; }
@@ -435,7 +428,6 @@ public class PlayerController{
             List<Brano> braniSalvati = branoService.findAllBrani();
             for (Brano branoSalvato : braniSalvati) {
                 if (branoSalvato != null && branoSalvato.getTitolo() != null && branoSalvato.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) { branoService.aggiornaNumeroAscolti(branoSalvato);
-                    branoAscoltoRegistrato = brano;
                     System.out.println("Ascolto registrato: " + brano.getTitolo());
                     return;
                 }
@@ -464,7 +456,7 @@ public class PlayerController{
             progressoCorrente = barraAvanzamento.getValue()*durataSecondi;
             PlayerStato.setProgressoCorrente(progressoCorrente);
             aggiornaTempiBrano(brano);
-            if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer(brano);
+            if (coda.getStato() == StatoRiproduzione.IN_RIPRODUZIONE) avviaTimer();
             else barraAvanzamento.setValue(progressoCorrente / durataSecondi);
         } catch (BusinessException e) { System.out.println("Errore nello spostamento del brano: " + e.getMessage()); }
     }
