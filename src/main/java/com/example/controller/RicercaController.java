@@ -7,6 +7,8 @@ import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FileRicercaServiceImpl;
 import com.example.business.impl.file.FilePlaylistService;
 import com.example.domain.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,10 @@ public class RicercaController{
   private Label risultatoArtistiLabel;
   @FXML
   private ComboBox<GenereMusicale> filtroGenere;
+  @FXML
+  private TextField durataMassima;
+  @FXML
+  private TextField annoPubblicazione;
   @FXML
   private TableView<RisultatoRicerca> tabellaBrani;
   @FXML
@@ -162,6 +168,26 @@ public class RicercaController{
   }   
   @FXML
   private void cerca(){
+    String testoDurata=durataMassima.getText().trim();
+    String testoAnno=annoPubblicazione.getText().trim();
+    Integer durataMassima=null, annoPubblicazione=null;
+    try {
+      if (!testoDurata.isEmpty()) {
+        durataMassima=Integer.parseInt(testoDurata);
+        if (durataMassima<0) throw new NumberFormatException();
+      }
+      if (!testoAnno.isEmpty()) {
+        annoPubblicazione=Integer.parseInt(testoAnno);
+        if (annoPubblicazione<=0) throw new NumberFormatException();
+      }
+    } catch (NumberFormatException e) {
+      Alert alert=new Alert(Alert.AlertType.ERROR);
+      alert.setTitle("Filtri non validi");
+      alert.setHeaderText("Controlla i valori inseriti");
+      alert.setContentText("La durata deve essere un numero di secondi non negativo "+ "e l'anno deve essere un numero intero positivo.");
+      alert.showAndWait();
+      return;
+    }
     String testo=campoRicerca.getText();
     if(testo==null){
       testo="";
@@ -228,6 +254,13 @@ public class RicercaController{
         GenereMusicale genereSelezionato=filtroGenere.getValue();
         if(genereSelezionato!=null){
           brani.removeIf(brano->brano.getGenereBrano==null || !brano.getGenereBrano().contains(genereSelezionato));
+        }
+        final Integer durataMassimaFiltro=durataMassima;
+        if (durataMassima!=null) brani.removeIf(brano->brano.getDurata()>durataMassimaFiltro);
+        final Integer annoPubblicazioneFiltro=annoPubblicazione;
+        if (annoPubblicazione!=null) {
+          albumTrovati.removeIf(elemento->elemento.getAnnoPubblicazione()!=annoPubblicazioneFiltro);
+          brani.removeIf(brano->brano.getAlbumBrano()==null||brano.getAlbumBrano().getAnnoPubblicazione()!=annoPubblicazioneFiltro);
         }
         List<RisultatoRicerca>risultati=new ArrayList<>();
         for(Brano brano : brani){
