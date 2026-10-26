@@ -1,3 +1,2 @@
 package com.example.domain; 
-public interface Riproducibile {
-}
+public interface Riproducibile {}
