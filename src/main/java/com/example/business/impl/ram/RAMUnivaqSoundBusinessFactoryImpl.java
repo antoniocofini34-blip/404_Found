@@ -7,7 +7,6 @@ import com.example.business.CodaRiproduzioneService;
 import com.example.business.CronologiaAscoltiService;
 import com.example.business.PlaylistService;
 import com.example.business.RicercaService;
-import com.example.business.StatisticheService;
 import com.example.business.UtenteService;
 import com.example.business.UnivaqSoundBusinessFactory;
 public class RAMUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFactory {
@@ -19,7 +18,6 @@ public class RAMUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFac
   private RAMCronologiaAscoltiServiceImpl cronologiaAscoltiService;
   private RAMPlaylistServiceImpl playlistService;
   private RAMRicercaServiceImpl ricercaService;
-  private RAMStatisticheServiceImpl statisticheService;
   private RAMUtenteServiceImpl utenteService;
   public RAMUnivaqSoundBusinessFactoryImpl() {
     this.artistaService=new RAMArtistaServiceImpl();
@@ -31,7 +29,6 @@ public class RAMUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFac
     this.playlistService=new RAMPlaylistServiceImpl();
     this.utenteService=new RAMUtenteServiceImpl();
     this.ricercaService=new RAMRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
-    this.statisticheService=new RAMStatisticheServiceImpl(this.branoService, this.artistaService, this.cronologiaAscoltiService);
   }
   @Override
   public ArtistaService getArtistaService() { return this.artistaService; }
@@ -49,8 +46,6 @@ public class RAMUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFac
   public PlaylistService getPlaylistService() { return this.playlistService; }
   @Override
   public RicercaService getRicercaService() { return this.ricercaService; }
-  @Override
-  public StatisticheService getStatisticheService() { return this.statisticheService; }
   @Override
   public UtenteService getUtenteService() { return this.utenteService; }
 }
