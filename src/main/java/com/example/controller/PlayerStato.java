@@ -2,7 +2,6 @@ package com.example.controller;
 import com.example.business.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.*;
-import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
 import com.example.domain.Brano;
 import com.example.domain.CodaRiproduzione;
@@ -18,7 +17,6 @@ import java.util.Properties;
 import java.util.*;
 public class PlayerStato {
   private static final RAMCodaRiproduzioneServiceImpl codaService=new RAMCodaRiproduzioneServiceImpl();
-  private static final FileBranoServiceImpl branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
   private static final CodaRiproduzione coda=new CodaRiproduzione(new ArrayList<>(), false, ModalitaRepeat.NESSUNA, StatoRiproduzione.FERMO);
   private static Brano branoCorrente;
   private static double progressoCorrente=0;
