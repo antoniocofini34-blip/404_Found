@@ -13,7 +13,6 @@ public final class TemaVisivo {
   public enum Tema { CHIARO, SCURO }
   private static Tema temaCorrente=Tema.SCURO;
   private TemaVisivo() { }
-  public static Tema getTemaCorrente() { return temaCorrente; }
   public static boolean isScuro() { return temaCorrente==Tema.SCURO; }
   public static void impostaTema(Tema tema) { 
     if (tema!=null) temaCorrente=tema;
@@ -44,9 +43,9 @@ public final class TemaVisivo {
       picker.setStyle("-fx-background-color: " + sfondoCampo + ";" + "-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: " + bordoCampo + ";");
       picker.applyCss();
       Node editor=picker.lookup(".text-field");
-      if (editor instanceof TextField) ((TextField) editor).setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: transparent;");
+      editor.setStyle("-fx-control-inner-background: " + sfondoCampo + ";" + "-fx-background-color: " + sfondoCampo + ";" + "-fx-text-fill: " + testo + ";" + "-fx-prompt-text-fill: " + secondario + ";" + "-fx-border-color: transparent;");
       Node pulsanteCalendario=picker.lookup(".arrow-button");
-      if (pulsanteCalendario instanceof Region) ((Region) pulsanteCalendario).setStyle("-fx-background-color: " + sfondoCampo + ";");
+      pulsanteCalendario.setStyle("-fx-background-color: " + sfondoCampo + ";");
     }
     if (nodo instanceof TextArea) {
       TextArea area=(TextArea) nodo;
