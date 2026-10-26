@@ -128,7 +128,6 @@ public class PlayerController{
         Parent radice = titoloBrano.getScene().getRoot();
         TemaVisivo.applicaTema(radice);
         radice.setStyle("-fx-background-color: " + TemaVisivo.getColoreSfondo() + ";");
-        String coloreTesto = TemaVisivo.getColoreTesto();
         if (TemaVisivo.isScuro()) { copertinaAlbum.setEffect(null);
             // Tema scuro: copertina originale e overlay scuro.
             overlayCopertina.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
@@ -187,7 +186,6 @@ public class PlayerController{
             if (brano!=null) {
                 boolean nuovoBrano=branoPrima==null || !branoPrima.getTitolo().equalsIgnoreCase(brano.getTitolo());
                 if (!ripresa && (nuovoBrano || !riproduzioneIniziata)) {
-                    azzeraConteggioAscolto();
                     riproduzioneIniziata=true;
                 }
                 barraAvanzamento.setDisable(false);
@@ -231,7 +229,6 @@ public class PlayerController{
             progressoCorrente=0;
             barraAvanzamento.setValue(0);
             PlayerStato.setProgressoCorrente(0);
-            azzeraConteggioAscolto();
             riproduzioneIniziata=false;
             PlayerStato.setBranoCorrente(null);
             apertoDaPlaylist = false;
@@ -405,7 +402,6 @@ public class PlayerController{
             if (branoMonitorato==null || !branoMonitorato.getTitolo().equalsIgnoreCase(branoCorrente.getTitolo()) || !Objects.equals(branoMonitorato.getAlbumBrano()!=null ? branoMonitorato.getAlbumBrano().getTitolo() : null, branoCorrente.getAlbumBrano()!=null ? branoCorrente.getAlbumBrano().getTitolo() : null)) {
               aggiornaCopertinaAlbum(branoCorrente);
               branoMonitorato=branoCorrente;
-              secondiAscoltoCorrente=0;
             }                                                        
             double durata = branoCorrente.getDurata();
             double progresso = PlayerStato.getProgressoCorrente();
@@ -420,21 +416,7 @@ public class PlayerController{
         timeline.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer per ripetersi all'infinito
         timeline.play();
     }
-    private void azzeraConteggioAscolto() { secondiAscoltoCorrente = 0; }
-    private void registraAscolto(Brano brano) {
-        try {
-            if (brano == null || brano.getTitolo() == null) { return; }
-            // Rilegge il brano dal file per usare il contatore aggiornato.
-            List<Brano> braniSalvati = branoService.findAllBrani();
-            for (Brano branoSalvato : braniSalvati) {
-                if (branoSalvato != null && branoSalvato.getTitolo() != null && branoSalvato.getTitolo().equalsIgnoreCase(brano.getTitolo().trim())) { branoService.aggiornaNumeroAscolti(branoSalvato);
-                    System.out.println("Ascolto registrato: " + brano.getTitolo());
-                    return;
-                }
-            }
-            System.out.println("Brano non trovato nel file: " + brano.getTitolo());
-        } catch (BusinessException e) { System.out.println("Errore durante la registrazione dell'ascolto: " + e.getMessage()); }
-    }
+    
     private String ottieniNomeArtista(Artista artista) {
         if (artista instanceof ArtistaSolista) { ArtistaSolista solista = (ArtistaSolista) artista;
             return solista.getNomeArte();
