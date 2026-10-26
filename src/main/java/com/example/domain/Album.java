@@ -29,12 +29,6 @@ public class Album implements Ricercabile {
   }
   public void setArtista(Artista artista) { this.artista=artista; }
   public void setTitolo(String titolo) { this.titolo=titolo; }
-  public void setAnnoPubblicazione(int anno_pubblicazione) { this.anno_pubblicazione=anno_pubblicazione; }
-  public void setGenereMusicale(Set<GenereMusicale> genere) {
-    if (genere!=null) this.genere=new HashSet<>(genere); 
-    else this.genere=new HashSet<>();  
-  }
-  public void setCopertina(String copertina) { this.copertina=copertina; }
   @Override
   public boolean contieneTesto(String testo) { return false; }
 }
