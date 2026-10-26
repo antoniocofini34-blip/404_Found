@@ -14,6 +14,4 @@ public interface PlaylistService {
     void rimuoviBrano(Playlist playlist, Brano brano) throws BusinessException;
     void riordinaBrani(Playlist playlist, int indiceVecchio, int indiceNuovo) throws BusinessException;
     List<Brano> getBrani(Playlist playlist) throws BusinessException;
-    int calcolaDurataTotale(Playlist playlist) throws BusinessException;
-    void riproduciPlaylist(Playlist playlist) throws BusinessException;
 }
