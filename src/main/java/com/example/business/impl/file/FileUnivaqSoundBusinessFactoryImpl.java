@@ -2,36 +2,15 @@ package com.example.business.impl.file;
 import com.example.business.AlbumService;
 import com.example.business.ArtistaService;
 import com.example.business.BranoService;
-import com.example.business.CatalogoService;
-import com.example.business.CodaRiproduzioneService;
-import com.example.business.CronologiaAscoltiService;
-import com.example.business.PlaylistService;
-import com.example.business.RicercaService;
-import com.example.business.UtenteService;
 import com.example.business.UnivaqSoundBusinessFactory;
-import com.example.business.impl.ram.RAMCatalogoServiceImpl;
-import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
-import com.example.business.impl.ram.RAMCronologiaAscoltiServiceImpl;
 public class FileUnivaqSoundBusinessFactoryImpl implements UnivaqSoundBusinessFactory {
   private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
   private FileBranoServiceImpl branoService;
-  private RAMCatalogoServiceImpl catalogoService;
-  private RAMCodaRiproduzioneServiceImpl codaRiproduzioneService;
-  private RAMCronologiaAscoltiServiceImpl cronologiaAscoltiService;
-  private FilePlaylistServiceImpl playlistService;
-  private FileRicercaServiceImpl ricercaService;
-  private FileUtenteServiceImpl utenteService;
   public FileUnivaqSoundBusinessFactoryImpl() {
     this.artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     this.branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
     this.albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
-    this.playlistService=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
-    this.utenteService=new FileUtenteServiceImpl("src/main/resources/dati/utenti.txt");
-    this.catalogoService=new RAMCatalogoServiceImpl();
-    this.codaRiproduzioneService=new RAMCodaRiproduzioneServiceImpl();
-    this.cronologiaAscoltiService=new RAMCronologiaAscoltiServiceImpl();
-    this.ricercaService=new FileRicercaServiceImpl(this.branoService, this.albumService, this.artistaService);
   }
   @Override
   public ArtistaService getArtistaService() { return this.artistaService; }
