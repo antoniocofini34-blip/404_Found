@@ -29,13 +29,9 @@ public class PlaylistController {
   @FXML
   private TableColumn<Playlist, String> colonnaDurataTotalePlaylist;
   @FXML
-  private Button bottoneIndietro; 
-  @FXML
   private Button bottoneNuovaPlaylist;
   @FXML
   private Button bottoneModificaPlaylist;
-  @FXML
-  private Button bottoneEliminaPlaylist;
   @FXML
   private Button bottoneDettagliPlaylist;
   private FilePlaylistServiceImpl playlistService; 
