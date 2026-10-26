@@ -54,16 +54,6 @@ public class FileRicercaServiceImpl implements RicercaService { private FileBran
     }
     return risultati;
   }
-  @Override
-  public <T> List<T> filtra(List<T> elementi, CriterioFiltro<T> criterio) throws BusinessException {
-    if (elementi==null) throw new OperazioneNonValidaException("La lista degli elementi non può essere null");
-    if (criterio==null) throw new OperazioneNonValidaException("Il criterio di filtro non può essere null");
-    List<T> risultati= new ArrayList<>();
-    for (T elemento: elementi) {
-      if (elemento!=null && criterio.verifica(elemento)) risultati.add(elemento);
-    }
-    return risultati;
-  }
   private String ottieniNomeArtista(Artista artista) {
     if (artista instanceof ArtistaSolista) { ArtistaSolista solista=(ArtistaSolista) artista;
       return solista.getNomeArte();
