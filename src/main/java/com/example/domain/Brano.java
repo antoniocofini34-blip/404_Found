@@ -1,7 +1,6 @@
 package com.example.domain;
 import java.util.*; 
-public class Brano implements Ricercabile, Riproducibile {
-  private String titolo;
+public class Brano implements Ricercabile, Riproducibile { private String titolo;
   private int durata; 
   private String testo;
   private Set<GenereMusicale> genere_brano; 
@@ -25,9 +24,6 @@ public class Brano implements Ricercabile, Riproducibile {
   public void setTitolo(String titolo) { this.titolo=titolo; }
   public void setDurata(int durata) { this.durata=durata; }
   public void setTesto(String testo) { this.testo=testo; }
-  public void setGenereBrano(Set<GenereMusicale> genere_Brano) {
-    if (genere_brano!=null) this.genere_brano=new HashSet<>(genere_brano); 
-    else this.genere_brano=new HashSet<>();
   }
   public void setAlbumBrano(Album album_brano) { this.album_brano=album_brano; }
   public void setNumeroAscolti(int numero_ascolti) { this.numero_ascolti=numero_ascolti; }
