@@ -15,7 +15,7 @@ public class Utility {
     try (BufferedReader in=new BufferedReader(new FileReader(filename))) { List<String[]> righe= new ArrayList<>();
       long contatore=Long.parseLong(in.readLine());
       result.setContatore(contatore);
-      String linea=null;
+      String linea;
       while ((linea=in.readLine())!=null) { righe.add(trim(linea.split(SEPARATORE_COLONNA, -1))); }
       result.setRighe(righe);
     }
