@@ -58,10 +58,9 @@ public class RicercaController{
   private void initialize(){
     filtroGenere.getItems().setAll(GenereMusicale.values()); 
     istanza=this;
-    FileBranoServiceImpl branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
     FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
     FileArtistaServiceImpl artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artista.txt");
-    ricercaService=new FileRicercaServiceImpl(branoService, albumService, artistaService);
+    ricercaService=new FileRicercaServiceImpl(albumService, artistaService);
     colonnaTipo.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getTipo()));  //Colonne della tabella unica
     colonnaTitolo.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getTitolo()));
     colonnaDurata.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getDurata()));
