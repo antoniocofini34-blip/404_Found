@@ -56,55 +56,6 @@ public class RAMUtenteServiceImpl implements UtenteService{ private List<Utente>
     throw new UtenteNonTrovatoException("Utente non trovato: " + email);
   }
   @Override
-  public void aggiungiPlaylist(Utente utente, Playlist playlist) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
-    if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    List<Playlist> playlistUtente= utente.getPlaylistCreate();
-    if(playlistUtente.contains(playlist)) throw new DuplicatoException("La playlist è già presente nell'utente");
-    playlistUtente.add(playlist);
-    utente.setPlaylistCreate(playlistUtente);
-  }
-  @Override public void rimuoviPlaylist(Utente utente, Playlist playlist) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
-    if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    List<Playlist> playlistUtente=utente.getPlaylistCreate();
-    if(!playlistUtente.remove(playlist)) throw new OperazioneNonValidaException("La playlist non è presente nell'utente");
-    utente.setPlaylistCreate(playlistUtente);
-  }
-  @Override
-  public List<Playlist> getPlaylist(Utente utente) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    return new ArrayList<>(utente.getPlaylistCreate());
-  }
-  @Override
-  public void aggiungiPreferenza(Utente utente, GenereMusicale genere) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (genere==null) throw new OperazioneNonValidaException("Il genere musicale non può essere vuoto");
-    if(!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    Set<GenereMusicale> preferenze = utente.getPreferenzeMusicali();
-    if(preferenze.contains(genere)) throw new DuplicatoException("Il genere è già presente nelle preferenze");
-    preferenze.add(genere);
-    utente.setPreferenzeMusicali(preferenze);
-  }
-  @Override
-  public void rimuoviPreferenza(Utente utente, GenereMusicale genere) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (genere==null) throw new OperazioneNonValidaException("Il genere musicale non può essere vuoto");
-    if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-    Set<GenereMusicale> preferenze=utente.getPreferenzeMusicali();
-    if(!preferenze.remove(genere)) throw new OperazioneNonValidaException("Il genere non è presente nelle preferenze");
-    utente.setPreferenzeMusicali(preferenze);
-  }
-  @Override
-  public Set<GenereMusicale> getPreferenze(Utente utente) throws BusinessException {
-    if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-    if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato");
-      return new HashSet<>(utente.getPreferenzeMusicali());
-    }
-  @Override
   public CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException {
     if (utente==null) throw new OperazioneNonValidaException("L'utente non può essere vuoto"); 
     if (!this.utenti.contains(utente)) throw new UtenteNonTrovatoException("Utente non trovato"); 
