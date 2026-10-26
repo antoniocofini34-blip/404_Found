@@ -89,21 +89,4 @@ public class RAMPlaylistServiceImpl implements PlaylistService { private List<Pl
     if(!this.playlist.contains(playlist)) throw new OperazioneNonValidaException("Errore: playlist non trovata");
     return new ArrayList<>(playlist.getListaBrani());
   }
-  @Override
-  public int calcolaDurataTotale(Playlist playlist) throws BusinessException {
-    if(playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
-    if(!this.playlist.contains(playlist)) throw new OperazioneNonValidaException("Errore: playlist non trovata");
-    int durataTotale=0;
-    for(Brano brano : playlist.getListaBrani()) {
-      if(brano!=null) durataTotale+=brano.getDurata();
-    }
-    return durataTotale;
-  }
-  @Override
-  public void riproduciPlaylist(Playlist playlist) throws BusinessException {
-      if (playlist == null) throw new OperazioneNonValidaException("La playlist non può essere vuota");
-      if (!this.playlist.contains(playlist)) throw new OperazioneNonValidaException("Errore: playlist non trovata");
-      if (playlist.getListaBrani().isEmpty()) throw new PlaylistVuotaException("Errore: impossibile riprodurre una playlist vuota");
-      playlist.setIndiceCorrente(0);
-  }
 }
