@@ -123,23 +123,6 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
     return new ArrayList<>(playlistFile.getListaBrani()); 
   }
-  @Override 
-  public int calcolaDurataTotale(Playlist playlist) throws BusinessException {
-    if (playlist==null) { throw new OperazioneNonValidaException("La playlist non può essere vuota"); }
-    Playlist playlistFile=findPlaylistByNome(playlist.getNome()); 
-    int totale=0; 
-    for (Brano brano : playlistFile.getListaBrani()) {
-      totale += brano.getDurata(); 
-    }
-    return totale; 
-  }
-  @Override 
-  public void riproduciPlaylist(Playlist playlist) throws BusinessException {
-    if (playlist==null) throw new OperazioneNonValidaException("La playlist non può essere vuota"); 
-    List<Brano> brani=getBrani(playlist); 
-    if (brani.isEmpty()) throw new OperazioneNonValidaException("Errore: la playlist è vuota");
-    playlist.setIndiceCorrente(0); 
-  }
   private FileData leggiDati() throws IOException { File file=new File(this.filename); 
     if (!file.exists()) { FileData data=new FileData(); 
       data.setContatore(0); 
