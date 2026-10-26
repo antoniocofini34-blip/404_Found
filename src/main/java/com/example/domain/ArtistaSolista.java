@@ -7,5 +7,4 @@ public class ArtistaSolista extends Artista {
     this.nome_arte=nome_arte;
   }
   public String getNomeArte() { return nome_arte; }
-  public void setNomeArte(String nome_arte) { this.nome_arte=nome_arte; }
 }
