@@ -8,6 +8,5 @@ public interface UnivaqSoundBusinessFactory {
     CronologiaAscoltiService getCronologiaAscoltiService();
     PlaylistService getPlaylistService();
     RicercaService getRicercaService();
-    StatisticheService getStatisticheService();
     UtenteService getUtenteService();
 }
