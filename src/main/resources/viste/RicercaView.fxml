@@ -17,6 +17,8 @@
 </HBox>
 <HBox alignment="CENTER" spacing="10"> 
 <ComboBox fx:id="filtroGenere" promptText="Tutti i generi" prefWidth="180"/>
+<TextField fx:id="durataMassima" promptText="Durata massima (in secondi)" prefWidth="190.0"/>
+<TextField fx:id="annoPubblicazione" promptText="Anno di pubblicazione" prefWidth="170.0"/>
 </HBox>
 <HBox alignment="CENTER" spacing="35">
 <Label fx:id="risultatoBraniLabel" text="Brani: 0" style="-fx-font-size:16px; -fx-font-weight:bold;"/>
