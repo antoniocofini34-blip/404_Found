@@ -14,7 +14,6 @@ public class FileRicercaServiceImpl implements RicercaService {
   public FileRicercaServiceImpl(FileAlbumServiceImpl albumService, FileArtistaServiceImpl artistaService) {
     if (albumService==null) throw new IllegalArgumentException("Il servizio dei album non può essere null");
     if (artistaService==null) throw new IllegalArgumentException("Il servizio dei artisti non può essere null");
-    this.branoService=branoService;
     this.albumService=albumService;
     this.artistaService=artistaService;
   }
