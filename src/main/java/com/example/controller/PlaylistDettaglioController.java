@@ -16,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.application.Platform;
-import com.example.controller.Navigazione;
 import java.io.IOException;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -36,12 +35,6 @@ public class PlaylistDettaglioController{
   private Button bottoneIndietro;
   @FXML
   private Button bottoneAggiungiBrano;
-  @FXML
-  private Button bottoneRimuoviBrano;
-  @FXML
-  private Button bottoneSpostaSu;
-  @FXML
-  private Button bottoneSpostaGiu;
   private FilePlaylistServiceImpl playlistService;
   private Playlist playlistSelezionata;
   @FXML
