@@ -25,5 +25,4 @@ public record RisultatoRicerca(Brano brano, Album album, Artista artista) {
     if (brano!=null && brano.getAlbumBrano()!=null) return brano.getAlbumBrano().getAnnoPubblicazione();
     return album!=null ? album.getAnnoPubblicazione() : 0; 
   }
-  public int getNumeroAscolti() { return brano!=null ? brano.getNumeroAscolti() : 0; }
 }
