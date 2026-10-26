@@ -1,6 +1,8 @@
 package com.example.business.impl.file;
 import java.util.*;
-public class FileData {
+public class FileData { private long contatore;
+  public long getContatore() { return contatore; }
+  public void setContatore(long contatore) { this.contatore=contatore; }
   private List<String[]> righe;
   public List<String[]> getRighe() { return righe; }
   public void setRighe(List<String[]> righe) { this.righe=righe; }
