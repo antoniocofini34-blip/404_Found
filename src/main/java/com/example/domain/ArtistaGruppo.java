@@ -15,6 +15,4 @@ public class ArtistaGruppo extends Artista implements Ricercabile {
     if (lista_membri!=null) this.lista_membri=new ArrayList<>(lista_membri); 
     else this.lista_membri=new ArrayList<>(); 
   }
-  @Override
-  public boolean contieneTesto(String testo) { return false; }
 }
