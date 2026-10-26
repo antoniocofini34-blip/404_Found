@@ -220,7 +220,7 @@ public class StatisticheController {
     lista.setCellFactory(lv->new ListCell<String>() {
       @Override
       protected void updateItem(String elemento, boolean vuoto) {
-        super.updateItem(elemento, boolean vuoto);
+        super.updateItem(elemento, vuoto);
         if (vuoto||elemento==null) setText(null);
         else setText(elemento);
         setTextFill(Color.web(coloreTesto));
