@@ -147,7 +147,7 @@ public class FilePlaylistServiceImpl implements PlaylistService { private String
     LocalDate dataCreazione; 
     try { dataCreazione=LocalDate.parse(riga[2].trim()); }
     catch(Exception e) { throw new BusinessException("Errore: data di creazione non valida:" + riga[2]); } 
-    Playlist playlist=new Playlist(nome, descrizione, dataCreazione, -1, 0, 0, proprietarioEmail); 
+    Playlist playlist=new Playlist(nome, descrizione, dataCreazione, proprietarioEmail); 
     if (!riga[3].trim().isEmpty()) { String[] titoliBrani=riga[3].split("\\|"); 
       List<Brano> brani=new ArrayList<>(); 
       for (String titoloBrano : titoliBrani) {
