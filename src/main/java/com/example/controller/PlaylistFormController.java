@@ -3,7 +3,6 @@ import com.example.business.exception.BusinessException;
 import com.example.business.impl.file.FilePlaylistServiceImpl;
 import com.example.domain.Playlist;
 import com.example.domain.Utente;
-import com.example.controller.UtenteAttivo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
