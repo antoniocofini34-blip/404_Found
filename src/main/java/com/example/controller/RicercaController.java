@@ -5,6 +5,7 @@ import com.example.business.impl.file.FIleAlbumServiceImpl;
 import com.example.business.impl.file.FileArtistaServiceImpl;
 import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FileRicercaServiceImpl;
+import com.example.business.impl.file.FileCodaPersonaleStorage;
 import com.example.business.impl.file.FilePlaylistService;
 import com.example.domain.*;
 import javafx.scene.control.Alert;
@@ -17,10 +18,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.application.Platform;
-import javafx.scene.control.TextField;
 import java.io.IOException;
-import java.util.*; 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 public class RicercaController{
   @FXML
   private TextField campoRicerca;
@@ -29,7 +33,7 @@ public class RicercaController{
   @FXML
   private Label risultatoBraniLabel;
   @FXML
-  private Label risultatoBraniLabel;
+  private Label risultatoAlbumLabel;
   @FXML
   private Label risultatoArtistiLabel;
   @FXML
@@ -189,12 +193,9 @@ public class RicercaController{
       return;
     }
     String testo=campoRicerca.getText();
-    if(testo==null){
-      testo="";
-    }
+    if(testo==null){ testo=""; }
     testo=testo.trim();
-    try{
-      FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resource/dati/album.txt");
+    try{ FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resource/dati/album.txt");
       List<Album>tuttiAlbum=servizioAlbum.findAllAlbum();
       FileArtistaServiceImpl servizioArtista= new FileArtistaServiceImpl("src/main/resource/dati/artista.txt");
       List<Brano>brani=new ArrayList<>();
@@ -276,7 +277,7 @@ public class RicercaController{
         risultatoBraniLabel.setText("Brani:" + (brani.size()));
         risultatoAlbumLabel.setText("Album:" + (albumTrovati.size()));
         risultatoArtistiLabel.setText("Artisti:" + (artistiTrovati.size()));
-         risultatoLabel.setText(risultati.isEmpty() ? "Nessun risultato trovato con i criteri selezionati." : "Risultati trovati: " + risultati.size());
+        risultatoLabel.setText(risultati.isEmpty() ? "Nessun risultato trovato con i criteri selezionati." : "Risultati trovati: " + risultati.size());
         } catch (BusinessException e) {
             risultatoLabel.setText("Errore nella ricerca: " + e.getMessage());
         }
@@ -287,6 +288,24 @@ public class RicercaController{
       if (!risultati.contains(brano)) risultati.add(brano);
     }
     return risultati;
+  }
+  private void aggiungiAllaCoda(Brano brano){
+   if(Utente utente=null || utente.getEmail()=null || utente.getEmail().trim().isEmpty()){
+     risultatoLabel.setText("Seleziona un utente per usare la coda personale");
+     return;
+   } try{
+     FileCodaPersonaleStorage storage=new FileCodaPersonaleStorage();
+     List<String>titoliPrima=storage.leggiTitoli(utente.getEmail());
+     boolean giaPresente=titoliPrima.stream().anyMatch(titoli->titolo.equalsIgnoreCase(brano.getTitolo()));
+     if(giaPresente){
+       risultatoLabel.setText("\"" + brano.getTitolo() + "\" è gia presentenella tua coda");
+       return;
+     }
+     storage.aggiungiTitolo(utente.getEmail(), brano.getTitolo());
+     risultatoLabel.setText("\"" + brano.getTitolo() + "\" aggiunto alla tua coda");
+   } catch{
+     risultatoLable.setText("Errore durante l'aggiunta alla coda:" + e.getMessaggio());
+   }
   }
   private void aggiungiAllaPlaylist(Brano brano) {
     try { FilePlaylistServiceImpl servizioPlaylist=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
@@ -334,7 +353,7 @@ public class RicercaController{
     String testo=scuro ? "#ffffff" : "#111111";
     String bordo=scuro ? "#454545" : "#cccccc";
     cronologiaListView.setStyle("-fx-control-inner-background: " + sfondo + ";" + "-fx-border-color:" + bordo + ";" + "-fx-text-fill: " + testo + ";");  //Applica i colori di sfondo, bordo e testo alla struttura principale della ListaView
-    cronologiaListView.setCellFactory(lista -> new ListCell<String>() {  //Configura lo stile delle singole celle per fare in modo che abbiano i colori corretti
+    cronologiaListView.setCellFactory(lista -> new ListCell<>() {  //Configura lo stile delle singole celle per fare in modo che abbiano i colori corretti
       @Override
       protected void updateItem(String elemento, boolean vuoto) {
         super.updateItem(elemento, vuoto);
@@ -354,6 +373,11 @@ public class RicercaController{
       }
     });
   }
+    private void aggioranTemaCronologiaVisibile(){
+      Platform.runLater(()->{
+        if(istanza!=null) istanza.applicaTemaCronologiaScuro();
+        });                  
+    }
   private void aggiornaCronologia() {
     Utente utente=UtenteAttivo.getUtente();
     if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
