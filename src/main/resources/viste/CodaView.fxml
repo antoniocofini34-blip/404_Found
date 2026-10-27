@@ -16,7 +16,7 @@
 <content>
 <VBox spacing="15" style="-fx-padding: 10 25 25 25;">
 <Label fx:id="etichettaCodaVuota" text="La tua coda è vuota. Aggiungi i brani che vuoi ascoltare." wrapText="true" visible="false" managed="false"/>
-<FlowPane fx:id="contenitoreBrani" hgap="15" vgap"15" prefWrapLength="750"/>
+<FlowPane fx:id="contenitoreBrani" hgap="15" vgap="15" prefWrapLength="750"/>
 </VBox>
 </content>
 </ScrollPane>
