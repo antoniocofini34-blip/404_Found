@@ -3,7 +3,6 @@ import com.example.business.exception.BusinessException;
 import com.example.business.impl.file.FileAlbumServiceImpl;
 import com.example.business.impl.file.FileArtistaServiceImpl;
 import com.example.business.impl.file.FileBranoServiceImpl;
-import com.example.business.impl.file.FileStatisticheServiceImpl;
 import com.example.domain.Album;
 import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
@@ -57,7 +56,6 @@ public class StatisticheController {
   private FileArtistaServiceImpl artistaService;
   private FileAlbumServiceImpl albumService;
   private FileBranoServiceImpl branoService;
-  private FileStatisticheServiceImpl statisticheService;
   private Timeline timerStatistiche;
   @FXML
   private void initialize() {
