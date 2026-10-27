@@ -412,11 +412,11 @@ public class PlayerController{
             if (branoCorrente.getAlbumBrano() != null) { albumBrano.setText(branoCorrente.getAlbumBrano().getTitolo());
             } else { albumBrano.setText(""); }
             if (branoCorrente.getAlbumBrano() != null && branoCorrente.getAlbumBrano().getArtista() != null) { artistaBrano.setText(ottieniNomeArtista(branoCorrente.getAlbumBrano().getArtista())); } else { artistaBrano.setText(""); }
+            aggiornaPulsanteAvanti();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);  //Imposta il timer per ripetersi all'infinito
         timeline.play();
     }
-    
     private String ottieniNomeArtista(Artista artista) {
         if (artista instanceof ArtistaSolista) { ArtistaSolista solista = (ArtistaSolista) artista;
             return solista.getNomeArte();
