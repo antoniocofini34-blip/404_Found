@@ -23,10 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.io.InputStream;  //Serve a includere la classe astratta InputStream che rappresenta il flusso di dati in ingresso sotto forma di byte
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*; 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
