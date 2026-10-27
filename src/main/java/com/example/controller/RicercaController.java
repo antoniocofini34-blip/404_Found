@@ -381,7 +381,7 @@ public class RicercaController{
       }
     });
   }
-    private void aggioranTemaCronologiaVisibile(){
+    public static void aggiornaTemaCronologiaVisibile(){
       Platform.runLater(()->{
         if(istanza!=null) istanza.applicaTemaCronologiaScuro();
         });                  
