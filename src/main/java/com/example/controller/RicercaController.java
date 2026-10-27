@@ -69,7 +69,7 @@ public class RicercaController{
     filtroGenere.getItems().setAll(GenereMusicale.values()); 
     istanza=this;
     FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
-    FileArtistaServiceImpl artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artista.txt");
+    FileArtistaServiceImpl artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt");
     ricercaService=new FileRicercaServiceImpl(albumService, artistaService);
     colonnaTipo.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getTipo()));  //Colonne della tabella unica
     colonnaTitolo.setCellValueFactory(cella -> new SimpleStringProperty(cella.getValue().getTitolo()));
@@ -79,7 +79,7 @@ public class RicercaController{
       private final Button bottone=new Button("Riproduci");
       private final Button bottonePlaylist=new Button("+ Playlist");
       private final Button bottoneCoda=new Button("+ Coda");
-      private final HBox contenitore=new HBox(5, bottone, bottonePlaylist); //Mette i due buttoni vicini
+      private final HBox contenitore=new HBox(5, bottone, bottonePlaylist, bottoneCoda); //Mette i due buttoni vicini
         { 
           bottone.setOnAction(event -> {  //Azione del tasto "Riproduci": fa partire il brano selezionato
             RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
@@ -201,9 +201,9 @@ public class RicercaController{
     String testo=campoRicerca.getText();
     if(testo==null){ testo=""; }
     testo=testo.trim();
-    try{ FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resource/dati/album.txt");
+    try{ FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
       List<Album>tuttiAlbum=servizioAlbum.findAllAlbum();
-      FileArtistaServiceImpl servizioArtista= new FileArtistaServiceImpl("src/main/resource/dati/artista.txt");
+      FileArtistaServiceImpl servizioArtista= new FileArtistaServiceImpl("src/main/resource/dati/artisti.txt");
       List<Brano>brani=new ArrayList<>();
       List<Album>albumTrovati=new ArrayList<>();
       List<Artista>artistiTrovati=new ArrayList<>(); 
