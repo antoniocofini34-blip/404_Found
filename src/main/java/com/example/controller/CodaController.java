@@ -63,7 +63,7 @@ public class CodaController {
         }
       }
     }
-    etichettaNumeroBrani.setText(braniCoda.size() + (braniCoda.size()==1 ? " brano" : "brani"));  //Aggiorna il contatore testuale dei brani gestendo il singolare e il plurale
+    etichettaNumeroBrani.setText(braniCoda.size() + (braniCoda.size()==1 ? " brano" : " brani"));  //Aggiorna il contatore testuale dei brani gestendo il singolare e il plurale
     boolean vuota=braniCoda.isEmpty();  //Gestisce la visibilità dell'interfaccia nel caso in cui la coda sia vuota
     etichettaCodaVuota.setVisible(vuota);
     etichettaCodaVuota.setManaged(vuota);  //Rilascia lo spazio nel layout se non è visibile
