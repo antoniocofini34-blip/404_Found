@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.control.ScrollPane?>
 <BorderPane fx:id="rootPrincipale" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.MainController">
 <!-- MENU LATERALE --> 
 <left>
