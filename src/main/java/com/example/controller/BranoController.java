@@ -136,7 +136,7 @@ public class BranoController {
       } catch (BusinessException e) { mostraErrore(e.getMessage()); }
     }
   }
-  private Brano costrusciBrano() {
+  private Brano costruisciBrano() {
     String titolo=campoTitolo.getText()==null ? "": campoTitolo.getText().trim();
     if (titolo.isEmpty()) throw new IllegalArgumentException("Inserisci il titolo del brano");
     int durata;
