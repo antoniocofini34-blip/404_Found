@@ -48,7 +48,7 @@ public class CodaController {
     for (String titolo : titoli) {
       for (Brano brano : braniCatalogo) {
         if (brano.getTitolo()!=null && brano.getTitolo().equalsIgnoreCase(titolo)) {  //Cerca la corrispondenza del titolo nel catalogo
-          for(com.example.domain.Album album : albumDisponibili) {  //Associa l'album corretto al brano trovato scorrendo gli album disponibili
+          for(Album album : albumDisponibili) {  //Associa l'album corretto al brano trovato scorrendo gli album disponibili
             if (album==null || album.getListaBrani()==null) continue;
             for (Brano branoAlbum : album.getListaBrani()) {  //Verifica se il brano corrente fa parte della lista dei brani di questo album
               if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
@@ -77,10 +77,10 @@ public class CodaController {
     }
   }
   private StackPane creaScheda(Brano brano, List<Brano> braniCoda, int indice) {
-    VBox contenuto=new VBox(0);  //Configurazione del contenitore verticale (VBox) per i testi e i pulsanti
+    VBox contenuto=new VBox(8);  //Configurazione del contenitore verticale (VBox) per i testi e i pulsanti
     contenuto.setAlignment(javafx.geometry.Pos.TOP_LEFT);
     contenuto.setPrefSize(190, 180);
-    contenuto.setStyle("-fx-background-color: rgba(0, 0, 0, 0.50);" + "-fx-padding: 12;");
+    contenuto.setStyle("-fx-background-color: rgba(0, 0, 0, 0.58);" + "-fx-padding: 12;");
     Label nota=new Label("♫");
     nota.setStyle("-fx-font-size: 28px; -fx-text-fill: #1ed760;");
     Label titolo=new Label(brano.getTitolo());  //Configurazione dell'etichetta del titolo (con gestione del testo a capo se troppo lungo)
