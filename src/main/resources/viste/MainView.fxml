@@ -20,6 +20,7 @@
 <Button text="Libreria" maxWidth="Infinity" onAction="#apriLibreria" style="-fx-font-size: 15px;"/>
 <Button text="Ricerca" maxWidth="Infinity" onAction="#apriRicerca" style="-fx-font-size: 15px;"/>
 <Button text="Playlist" maxWidth="Infinity" onAction="#apriPlaylist" style="-fx-font-size: 15px;"/>
+<Button text="Coda" maxWidth="Infinity" onAction="#apriCoda" style="-fx-font-size: 15px;"/>
 <Button text="Player" maxWidth="Infinity" onAction="#apriPlayer" style="-fx-font-size: 15px;"/>
 <Button text="Artisti" maxWidth="Infinity" onAction="#apriArtisti" style="-fx-font-size: 15px;"/>
 <Button text="Album" maxWidth="Infinity" onAction="#apriAlbum" style="-fx-font-size: 15px;"/>
