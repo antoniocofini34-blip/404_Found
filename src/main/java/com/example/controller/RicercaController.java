@@ -1,12 +1,12 @@
 package com.example.controller;
 import com.example.business.exception.BusinessException;
 import com.example.business.RicercaService;
-import com.example.business.impl.file.FIleAlbumServiceImpl;
+import com.example.business.impl.file.FileAlbumServiceImpl;
 import com.example.business.impl.file.FileArtistaServiceImpl;
 import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FileRicercaServiceImpl;
 import com.example.business.impl.file.FileCodaPersonaleStorage;
-import com.example.business.impl.file.FilePlaylistService;
+import com.example.business.impl.file.FilePlaylistServiceImpl;
 import com.example.domain.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -78,9 +78,10 @@ public class RicercaController{
     colonnaRiproduci.setCellFactory(colonna -> new TableCell<>() {
       private final Button bottone=new Button("Riproduci");
       private final Button bottonePlaylist=new Button("+ Playlist");
+      private final Button bottoneCoda=new Button("+ Coda");
       private final HBox contenitore=new HBox(5, bottone, bottonePlaylist); //Mette i due buttoni vicini
         { 
-          bottone.SetOnAction(event -> {  //Azione del tasto "Riproduci": fa partire il brano selezionato
+          bottone.setOnAction(event -> {  //Azione del tasto "Riproduci": fa partire il brano selezionato
             RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
             Brano brano= risultato.brano();
             if (brano!=null) riproduciBrano(brano);
@@ -89,7 +90,12 @@ public class RicercaController{
             RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
             Brano brano=risultato.brano();
             if (brano!=null) aggiungiAllaPlaylist(brano);
-            }  
+          }  
+          });
+          bottoneCoda.setOnAction(event->{
+            RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
+            Brano brano=risultato.brano();
+            if (brano!=null) aggiungiAllaCoda(brano);
           });
         }
       @Override 
@@ -120,7 +126,7 @@ public class RicercaController{
                    List<Brano> tuttiBrani=servizioBrani.findAllBrani();
                    List<Album> tuttiAlbum=servizioAlbum.findAllAlbum();
                    String nomeArtista=null;
-                   if (artista instanceof ArtistaSolita) nomeArtista=((ArtistaSolista) artista).getNomeArte();
+                   if (artista instanceof ArtistaSolista) nomeArtista=((ArtistaSolista) artista).getNomeArte();
                    else if (artista instanceof ArtistaGruppo) nomeArtista=((ArtistaGruppo) artista).getNomeGruppo();
                    if (nomeArtista!=null) {
                      for (Brano branoCatalogo : tuttiBrani) {  //Gira su tutti i brani del catalogo per calcolare la somma totale degli ascolti dell'artista
@@ -131,7 +137,7 @@ public class RicercaController{
                          if (album==null || album.getArtista()==null || album.getListaBrani()==null) continue;
                          Artista artistaAlbum=album.getArtista();
                          String nomeAlbumArtista=null;
-                          if (artistaAlbum instanceof ArtistaSolita) nomeAlbumArtista=((ArtistaSolista) artistaAlbum).getNomeArte();
+                          if (artistaAlbum instanceof ArtistaSolista) nomeAlbumArtista=((ArtistaSolista) artistaAlbum).getNomeArte();
                           else if (artistaAlbum instanceof ArtistaGruppo) nomeAlbumArtista=((ArtistaGruppo) artistaAlbum).getNomeGruppo();
                        if (nomeAlbumArtista==null || !nomeAlbumArtista.trim().equalsIgnoreCase(nomeArtista.trim())) continue;
                        boolean branoAppartieneAdAlbum=album.getListaBrani().stream().anyMatch(b -> b!=null && b.getTitolo()!=null && b.getTitolo().equalsIgnoreCase(branoCatalogo.getTitolo()));  //Se il brano fa parte dell'album dell'artista, aggiunge i suoi ascolti al totale
@@ -163,7 +169,7 @@ public class RicercaController{
         risultatoLabel.setText("Nessun brano selezionato");
         return;
       }
-      PlayerStato.avvioBranoDaRicerca((brano);
+      PlayerStato.avviaBranoDaRicerca(brano);
       aggiornaCronologia();
       risultatoLabel.setText("In riproduzione:" + brano.getTitolo());
     } catch(Exception e){
@@ -202,10 +208,10 @@ public class RicercaController{
       List<Album>albumTrovati=new ArrayList<>();
       List<Artista>artistiTrovati=new ArrayList<>(); 
       if(testo.isEmpty()){  //Se il testo cercato è vuoto, carica tutto il catalogo
-        artistiTrovati.addAll(serviziArtista.findAll(servizioArtista.findAll());
+        artistiTrovati.addAll(servizioArtista.findAllArtisti());
         albumTrovati.addAll(tuttiAlbum);
         for(Album album : tuttiAlbum){  //Estrae tutti i brani da ciascun album e imposta il legame bidirezionale brano-album
-          for(Brano brano : album.getBrani()){
+          for(Brano brano : album.getListaBrani()){
             brano.setAlbumBrano(album);
             brani.add(brano);
           }
@@ -220,11 +226,12 @@ public class RicercaController{
           if(nomeCercato==null) continue;
           for(Album album : tuttiAlbum){
             Artista artistaAlbum=album.getArtista();
-            if(nomeArtistaAlbum!=null && nome.ArtistaAlbum.equalsIgnoreCase(nomeCercato)){  //Se l'album appartiene all'artista cercato, lo aggiunge ai risultati insieme ai suoi brani
-              if(!albumTrovati.contains(album)){
-                if(!albumTrovati.add(album)){ albumTrovati.add(album) }
+            if (artistaAlbum==null) continue;
+            String nomeArtistaAlbum=ottieniNomeArtistaRicerca(artistaAlbum);
+            if(nomeArtistaAlbum!=null && nomeArtistaAlbum.equalsIgnoreCase(nomeCercato)){  //Se l'album appartiene all'artista cercato, lo aggiunge ai risultati insieme ai suoi brani
+              if(!albumTrovati.contains(album)) albumTrovati.add(album);
                 for(Brano brano : album.getListaBrani()){
-                  brani.setAlbumBrano(album);
+                  brano.setAlbumBrano(album);
                   if(!brani.contains(brano)){
                     brani.add(brano);
                   }  
@@ -238,7 +245,7 @@ public class RicercaController{
         if(genereScelto!=null){
           List<Brano>braniFiltrati=new ArrayList<>();
           for(Brano brano : brani){
-            if(brano.getGenereBrano().contains(genereScelto) braniFiltrati.add(brano);
+            if(brano.getGenereBrano().contains(genereScelto)) braniFiltrati.add(brano);
           }
           brani=braniFiltrati;
           List<Album> albumFiltrati=new ArrayList<>();
@@ -250,11 +257,11 @@ public class RicercaController{
           albumTrovati=albumFiltrati;
         }
         if(genereScelto!=null){
-          artistiTrovati.removeIf(artista->!genereScelto.equals(artista.getGenerePrincipale()) && !artista.getGenereSecondario().contains(genereScelto));
+          artistiTrovati.removeIf(artista->!genereScelto.equals(artista.getGenerePrincipale()) && !artista.getGeneriSecondari().contains(genereScelto));
         }
         GenereMusicale genereSelezionato=filtroGenere.getValue();
         if(genereSelezionato!=null){
-          brani.removeIf(brano->brano.getGenereBrano==null || !brano.getGenereBrano().contains(genereSelezionato));
+          brani.removeIf(brano->brano.getGenereBrano()==null || !brano.getGenereBrano().contains(genereSelezionato));
         }
         final Integer durataMassimaFiltro=durataMassima;
         if (durataMassima!=null) brani.removeIf(brano->brano.getDurata()>durataMassimaFiltro);
@@ -290,28 +297,29 @@ public class RicercaController{
     return risultati;
   }
   private void aggiungiAllaCoda(Brano brano){
-   if(Utente utente=null || utente.getEmail()=null || utente.getEmail().trim().isEmpty()){
+    Utente utente=UtenteAttivo.getUtente();
+   if(utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()){
      risultatoLabel.setText("Seleziona un utente per usare la coda personale");
      return;
    } try{
      FileCodaPersonaleStorage storage=new FileCodaPersonaleStorage();
      List<String>titoliPrima=storage.leggiTitoli(utente.getEmail());
-     boolean giaPresente=titoliPrima.stream().anyMatch(titoli->titolo.equalsIgnoreCase(brano.getTitolo()));
+     boolean giaPresente=titoliPrima.stream().anyMatch(titolo->titolo.equalsIgnoreCase(brano.getTitolo()));
      if(giaPresente){
        risultatoLabel.setText("\"" + brano.getTitolo() + "\" è gia presentenella tua coda");
        return;
      }
      storage.aggiungiTitolo(utente.getEmail(), brano.getTitolo());
      risultatoLabel.setText("\"" + brano.getTitolo() + "\" aggiunto alla tua coda");
-   } catch{
-     risultatoLable.setText("Errore durante l'aggiunta alla coda:" + e.getMessaggio());
+   } catch(Exception e) {
+     risultatoLabel.setText("Errore durante l'aggiunta alla coda:" + e.getMessage());
    }
   }
   private void aggiungiAllaPlaylist(Brano brano) {
     try { FilePlaylistServiceImpl servizioPlaylist=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
           List<Playlist> playlistDisponibili=servizioPlaylist.findAllPlaylist();
           if(playlistDisponibili.isEmpty()) {
-            risultato.Label.setText("Non esistono playlist.");
+            risultatoLabel.setText("Non esistono playlist.");
             return;
           }
             List<String> nomiPlaylist=new ArrayList<>();  //Estrae i soli nomi testuali delle playlist per poterli inserire nel menù del popup
@@ -332,11 +340,11 @@ public class RicercaController{
               }
             }
             risultatoLabel.setText("Playlist non trovata.");
-          } catch(BusinessException e) { risultato.Label.setText("Errore durante l'aggiunta: " + e.getMessage()); }
+          } catch(BusinessException e) { risultatoLabel.setText("Errore durante l'aggiunta: " + e.getMessage()); }
   }
   @FXML
   private void tornaIndietro() throws IOException {
-    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml");
+    FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/MainView.fxml"));
     Parent root=loader.load();
     Stage stage=(Stage) campoRicerca.getScene().getWindow();  //Recupera la finestra attuale (Stage) partendo dal campo di ricerca presente nella UI
     stage.setScene(new Scene(root, 1000, 700));  //Sostituisce la scena corrente impostando la schermata principale con dimensioni 1000x700 pixel
@@ -396,14 +404,14 @@ public class RicercaController{
     Utente utente=UtenteAttivo.getUtente();
     if (utente==null || utente.getEmail()==null || utente.getEmail().trim().isEmpty()) {
       Alert alert=new Alert(Alert.AlertType.ERROR);
-      alert.SetTitle("Errore");
+      alert.setTitle("Errore");
       alert.setHeaderText("Nessun utente attivo");
       alert.setContentText("Impossibile svuotare la cronologia senza un utente attivo.");
       alert.showAndWait();
       return;
     }
     Alert conferma=new Alert(Alert.AlertType.CONFIRMATION);
-    conferma.SetTitle("Svuota cronologia");
+    conferma.setTitle("Svuota cronologia");
     conferma.setHeaderText("Vuoi eliminare la tua cronologia?");
     conferma.setContentText("Questa operazio e eliminerà definitivamente " + "la cronologia ascolti del tuo account");
     Optional <ButtonType> scelta=conferma.showAndWait();
@@ -412,7 +420,7 @@ public class RicercaController{
     boolean cancellata=CronologiaAscoltiStorage.svuota(email);
     if (!cancellata) {
       Alert errore=new Alert(Alert.AlertType.ERROR);
-      errore.SetTitle("Errore");
+      errore.setTitle("Errore");
       errore.setHeaderText("Cronologia non cancellata");
       errore.setContentText("Non è stato possibile modificare il file della cronologia");
       errore.showAndWait();
@@ -420,7 +428,7 @@ public class RicercaController{
     }
     aggiornaCronologia();
     Alert completata=new Alert(Alert.AlertType.INFORMATION);
-      completata.SetTitle("Cronologia svuotata.");
+      completata.setTitle("Cronologia svuotata.");
       completata.setHeaderText("Operazione completata.");
       completata.setContentText("La cronologia ascolti del tuo account è stata svuotata.");
       completata.showAndWait();
