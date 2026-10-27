@@ -32,16 +32,13 @@ import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
 import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.business.impl.file.FileAlbumServiceImpl;
+import javafx.scene.control.Alert;
 import java.util.*;
 import javafx.scene.Node;  //Superclasse di quasi tutti gli elementi visivi in JavaFX
 import javafx.scene.image.Image;  //Rappresenta il file dell'immagine 
 import javafx.scene.image.ImageView;  //Componente grafico che mostra l'oggetto Image sullo schermo
 import java.io.File;  //Rappresenta un file o cartella fisica presente sul disco rigido del computer e si usa per verificare se un file esiste, per leggerne il percorso ecc
-import javafx.scene.layout.StackPane;  //Contenitore di layout che sovrappone gli elementi l'uno sopra l'altro
-import javafx.scene.layout.BackgroundImage;  //Definisce l'immagine da usare come sfondo
-import javafx.scene.layout.BackgroundPosition;  //Determina la posizione iniziale dell'immagine di sfondo all'interno del pannello
-import javafx.scene.layout.BackgroundRepeat;  //Decide se l'immagine di sfondo deve ripetersi o rimanere singola se il pannello si ingrandisce
-import javafx.scene.layout.BackgroundSize;  //Controlla la dimensione dello sfondo
+import javafx.scene.layout.StackPane;  //Contenitore di layout che sovrappone gli elementi l'uno sopra l'altro//Controlla la dimensione dello sfondo
 import javafx.scene.control.ScrollPane;  //Pannello che racchiude un contenuto e mostra automaticamente le barrie di scorrimento (verticale od orizzontale) se il contenuto è troppo grande rispetto allo spazio disponibile nella finestra
 public class MainController {
   @FXML
@@ -84,6 +81,7 @@ public class MainController {
   private StatisticheController controllerStatisticheCorrente;
   private PlayerController controllerPlayerCorrente;
   private UtenteController controllerUtenteCorrente;
+  private CodaController cotrollerCodaCorrente;
   @FXML
   private void initialize() { titoloLabel.setText("UnivaqSound");
     selettoreTema.getItems().setAll("Tema chiaro", "Tema scuro");
@@ -196,8 +194,7 @@ public class MainController {
          List<Brano> consigliati=new ArrayList<>();
          for (Brano brano : brani) {
            if (brano==null) continue;
-           if (preferenze!=null && !preferenze.isEmpty()) {  //Se l'utente ha espresso delle preferenze, tiene solo i brani che corrispondono ai suoi generi
-             boolean corrisponde=false;
+           if (preferenze!=null && !preferenze.isEmpty()) { boolean corrisponde=false; //Se l'utente ha espresso delle preferenze, tiene solo i brani che corrispondono ai suoi generi            
              for (GenereMusicale genere : brano.getGenereBrano()) {
                if (preferenze.contains(genere)) { corrisponde=true;  
                  break;
@@ -247,8 +244,17 @@ public class MainController {
                if (!immagine.isError()) immagineCopertina=immagine;
              }
            }
-           if (immagineCopertina!=null) { BackgroundImage sfondoCopertina=new BackgroundImage(immagineCopertina, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, true, true, false, true)); //Imposta la copertina come sfondo, mantenendo le proporzioni e ritagliando l'eventuale parte in eccesso
-             scheda.setBackground(new Background(sfondoCopertina)); 
+           scheda.setStyle("-fx-background-radius: 12;");
+           if (immagineCopertina!=null) { ImageView vistaCopertina=new ImageView(immagineCopertina);
+             vistaCopertina.setFitWidth(220);
+             vistaCopertina.setFitHeight(270);
+             vistaCopertina.setFitPreserveRatio(false);
+             vistaCopertina.setFitSmooth(true);
+             javafx.scene.shape.Rectangle ritaglio=new javafx.scene.shape.Rectangle(220, 270);
+             ritaglio.setArcWidth(24);
+             ritaglio.setArcHeight(24);
+             vistaCopertina.setClip(ritaglio);
+             scheda.getChildren().add(vistaCopertina);
            } else scheda.setBackground(new Background(new BackgroundFill(Color.web("#242424"), new CornerRadii(12), Insets.EMPTY)));
            Region oscuramento=new Region();   //Oscura leggermente l'immagine per rendere leggibili i testi
            oscuramento.setMouseTransparent(true);
@@ -272,6 +278,29 @@ public class MainController {
            pulsantePlay.setMaxWidth(Double.MAX_VALUE);
            pulsantePlay.setStyle("-fx-background-color: #1ed760;" + "-fx-text-fill: black;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsantePlay.setOnAction(event -> avviaBranoConsigliato(brano));  //Avvia la riproduzione al clic
+           Region spazio=new Region();
+           Button pulsanteCoda=new Button("+ coda");
+           pulsanteCoda.setMaxWidth(Double, MAX_VALUE);
+           pulsante.setStyle("-fx-background-color: #333333;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
+           pulsanteCoda.setOnAction(event->{
+             Utente utenteAttivo=UtenteAttivo.getUtente();
+             if(utenteAttivo==null || utenteAttivo.getEmail()==null || utenteAttivo.getEmail().trim().isEmpty()){
+               mostraAvvisoCoda("accedi per aggiungere brani alla tua coda");
+               return;
+             } try{
+               FileCodaPersonaleStorage storage=new FileCodaPersonaleStorage();
+               List<String>titoliCoda=storage.leggiTitoli(utenteAttivo.getEmail());
+               boolean giaPresente=titoliCoda.stream().anyMatch(titolo->titolo.equalsIgnoreCase(brano.getTitolo()));
+               if(giaPresente){
+                 mostraAvvisoCoda("Il brano è già presente mella tua Coda");
+                 return;
+               }
+               storage.aggiungiTitoli(utenteAttivo.getEmail(), brano.getTitolo());
+               mostraAvvisoCoda("Brano aggiunto alla tua coda");
+             } catch (Exception e){
+               mostraAvvisoCoda("Errore durata l'aggiunta alla coda");
+             }
+           });
            Region spazio=new Region();
            VBox.setVgrow(spazio, Priority.ALWAYS);  //Spinge la durata e il pulsante verso il basso della scheda
            contenutoScheda.getChildren().addAll(icona, titoloBrano, genereBrano, spazio, durataBrano, pulsantePlay);  //Ordine dei livelli: sfondo, oscuramento, contenuto
@@ -313,6 +342,8 @@ public class MainController {
   private void apriLibreria() throws IOException { mostraVista("/viste/LibreriaView.fxml"); }
   @FXML
   private void apriPlaylist() throws IOException { mostraVista("/viste/PlaylistView.fxml"); }
+  @FXML
+  private void apriCoda() throws IOExcveption{ mostraVista("/viste/CodaView.fxml"); }
   @FXML
   private void apriArtisti() throws IOException { mostraVista("/viste/ArtistaForm.fxml"); }
   @FXML
@@ -439,10 +470,15 @@ public class MainController {
       if (miniTimeline!=null) { miniTimeline.stop();
         miniTimeline=null;
       }
-      PlayerStato.salvaSessioneCronologia();
       PlayerStato.getCodaService().indietro(PlayerStato.getCoda());
       Brano branoPrecedente=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
-      if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();
+      if (branoPrecedente!=null){
+        PLayerStato.fermaTimerRiproduzione();
+        PlayerStato.setBranoCorrente(branoPrecedente);
+        PlayerStato.setProgressoCorrente(0);
+        PlayerStato.iniziaNuovoAscolto();
+        PlayerStato.avviaTimerRiproduzione();
+      }
       miniPlayPausa.setText("⏸");
       avviaMiniTimer();
       aggiornaPulsanteMiniIndietro();
@@ -513,9 +549,6 @@ public class MainController {
     if (controllerPlayerCorrente!=null) controllerPlayerCorrente.aggiornaTemaPlayer();  //Allinea e aggiorna lo stile visivo dei singoli controller attivi (Player e Statistiche)
     if (controllerStatisticheCorrente!=null) controllerStatisticheCorrente.aggiornaTemaStatistiche();
   }
-  private void tornaAllaVistaPrecedente() { boolean tornatoIndietro=Navigazione.indietro();
-    if (!tornatoIndietro) apriHome();
-  }
   private String ottieniNomeArtistaMiniPlayer(Brano brano) {
     if (brano==null||brano.getAlbumBrano()==null) return "";
     Artista artista=brano.getAlbumBrano().getArtista();
@@ -579,5 +612,12 @@ public class MainController {
     contenitoreInformazioniMiniPlayer.setManaged(branoPresente);  //Adatta il testo e la copertina del brano rispetto allo spazio nella schermata
     contenitoreControlliMiniPlayer.setVisible(branoPresente);  //Mostra o nasconde i pulsanti di controllo
     contenitoreControlliMiniPlayer.setManaged(branoPresente);
+  }
+  private void mostraAvvisoCoda(String messaggio){
+    Alert avviso=new Alert(Alert.AlertType.INFORMATION);
+    avviso.setTitle("Coda personale");
+    avviso.setHeaderText(null);
+    avviso.setContentText(messaggio);
+    avviso.showAndWait();
   }
 }
