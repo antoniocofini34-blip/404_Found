@@ -248,8 +248,8 @@ public class MainController {
            if (immagineCopertina!=null) { ImageView vistaCopertina=new ImageView(immagineCopertina);
              vistaCopertina.setFitWidth(220);
              vistaCopertina.setFitHeight(270);
-             vistaCopertina.setFitPreserveRatio(false);
-             vistaCopertina.setFitSmooth(true);
+             vistaCopertina.setPreserveRatio(false);
+             vistaCopertina.setSmooth(true);
              javafx.scene.shape.Rectangle ritaglio=new javafx.scene.shape.Rectangle(220, 270);
              ritaglio.setArcWidth(24);
              ritaglio.setArcHeight(24);
@@ -278,10 +278,9 @@ public class MainController {
            pulsantePlay.setMaxWidth(Double.MAX_VALUE);
            pulsantePlay.setStyle("-fx-background-color: #1ed760;" + "-fx-text-fill: black;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsantePlay.setOnAction(event -> avviaBranoConsigliato(brano));  //Avvia la riproduzione al clic
-           Region spazio=new Region();
            Button pulsanteCoda=new Button("+ coda");
-           pulsanteCoda.setMaxWidth(Double, MAX_VALUE);
-           pulsante.setStyle("-fx-background-color: #333333;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
+           pulsanteCoda.setMaxWidth(Double.MAX_VALUE);
+           pulsanteCoda.setStyle("-fx-background-color: #333333;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsanteCoda.setOnAction(event->{
              Utente utenteAttivo=UtenteAttivo.getUtente();
              if(utenteAttivo==null || utenteAttivo.getEmail()==null || utenteAttivo.getEmail().trim().isEmpty()){
@@ -295,7 +294,7 @@ public class MainController {
                  mostraAvvisoCoda("Il brano è già presente mella tua Coda");
                  return;
                }
-               storage.aggiungiTitoli(utenteAttivo.getEmail(), brano.getTitolo());
+               storage.aggiungiTitolo(utenteAttivo.getEmail(), brano.getTitolo());
                mostraAvvisoCoda("Brano aggiunto alla tua coda");
              } catch (Exception e){
                mostraAvvisoCoda("Errore durata l'aggiunta alla coda");
@@ -343,7 +342,7 @@ public class MainController {
   @FXML
   private void apriPlaylist() throws IOException { mostraVista("/viste/PlaylistView.fxml"); }
   @FXML
-  private void apriCoda() throws IOExcveption{ mostraVista("/viste/CodaView.fxml"); }
+  private void apriCoda() throws IOException{ mostraVista("/viste/CodaView.fxml"); }
   @FXML
   private void apriArtisti() throws IOException { mostraVista("/viste/ArtistaForm.fxml"); }
   @FXML
@@ -473,7 +472,7 @@ public class MainController {
       PlayerStato.getCodaService().indietro(PlayerStato.getCoda());
       Brano branoPrecedente=PlayerStato.getCodaService().getBranoCorrente(PlayerStato.getCoda());
       if (branoPrecedente!=null){
-        PLayerStato.fermaTimerRiproduzione();
+        PlayerStato.fermaTimerRiproduzione();
         PlayerStato.setBranoCorrente(branoPrecedente);
         PlayerStato.setProgressoCorrente(0);
         PlayerStato.iniziaNuovoAscolto();
