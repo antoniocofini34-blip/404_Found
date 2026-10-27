@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.controller.CodaController" styleClass="vista-coda">
+<top>
+<VBox spacing="8" style="-fx-padding: 25 25 15 25;">
+<Label text="La mia Coda" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+<Label fx:id="etichettaNumeroBrani" text="0 brani" style="-fx-font-size: 14px;"/>
+</VBox>
+</top>
+<center>
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;">
+<content>
+<VBox spacing="15" style="-fx-padding: 10 25 25 25;">
+<Label fx:id="etichettaCodaVuota" text="La tua coda è vuota. Aggiungi i brani che vuoi ascoltare." wrapText="true" visible="false" managed="false"/>
+<FlowPane fx:id="contenitoreBrani" hgap="15" vgap"15" prefWrapLength="750"/>
+</VBox>
+</content>
+</ScrollPane>
+</center>
+</BorderPane>
