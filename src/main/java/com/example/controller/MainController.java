@@ -215,14 +215,14 @@ public class MainController {
            VBox contenutoScheda=new VBox(12);  //Contenitore per i testi e i pulsanti della scheda
            contenutoScheda.setPadding(new Insets(18));
            contenutoScheda.setPrefWidth(220);
-           contenutoScheda.setMinHeight(210);
+           contenutoScheda.setMinHeight(270);
            contenutoScheda.setMaxWidth(250);
            contenutoScheda.setStyle("-fx-background-color: transparent;");
            StackPane scheda= new StackPane();  //Pannello a livelli per sovrapporre testi all'immagine di copertina
            scheda.setPrefWidth(220);
            scheda.setMinWidth(220);
-           scheda.setMinHeight(210);
-           scheda.setPrefHeight(210);
+           scheda.setMinHeight(270);
+           scheda.setPrefHeight(270);
            scheda.setMaxWidth(250);
            Album albumBrano=brano.getAlbumBrano();  //Cerca l'album a cui appartiene il brano
            if (albumBrano==null) {
