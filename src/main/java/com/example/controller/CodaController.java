@@ -56,7 +56,7 @@ public class CodaController {
                 break;
               }
             }
-            if (brano.getAlbum()!=null) break;  //Se l'album è stato assegnato con successo, interrompe il ciclo degli album
+            if (brano.getAlbumBrano()!=null) break;  //Se l'album è stato assegnato con successo, interrompe il ciclo degli album
           }
           braniCoda.add(brano);  //Aggiunge il brano completo (ora con l'album associato) alla lista della coda
           break;
