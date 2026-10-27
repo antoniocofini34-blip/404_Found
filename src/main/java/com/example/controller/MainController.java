@@ -302,7 +302,7 @@ public class MainController {
            });
            Region spazio=new Region();
            VBox.setVgrow(spazio, Priority.ALWAYS);  //Spinge la durata e il pulsante verso il basso della scheda
-           contenutoScheda.getChildren().addAll(icona, titoloBrano, genereBrano, spazio, durataBrano, pulsantePlay);  //Ordine dei livelli: sfondo, oscuramento, contenuto
+           contenutoScheda.getChildren().addAll(icona, titoloBrano, genereBrano, spazio, durataBrano, pulsantePlay, pulsanteCoda);  //Ordine dei livelli: sfondo, oscuramento, contenuto
            scheda.getChildren().addAll(oscuramento, contenutoScheda);  
            grigliaBrani.getChildren().add(scheda);  //Aggiunge la scheda finita alla griglia generale
          }
