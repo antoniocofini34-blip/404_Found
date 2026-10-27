@@ -13,7 +13,7 @@ public class FileCodaPersonaleStorage{ private static final String CARTELLA="src
     } catch(IOException e){ throw new IllegalStateException("Impossibile leggere la Coda personale:", e); }
   }
   public void salvaTitoli(String emailUtente, List<String>titoli){ Path file=percorsoFile(emailUtente);  //Sovrascrive il file dell'utente salvando la lista completa dei titoli forniti
-    try{ Files.createDierectories(file.getParent());  //Crea automaticamente le cartelle di destinazione se non esistono ancora sul disco
+    try{ Files.createDirectories(file.getParent());  //Crea automaticamente le cartelle di destinazione se non esistono ancora sul disco
     Files.write(file, titoli, StandardCharsets.UTF_8);  //Scrive la lista di titoli nel file, sovrascrivendo l'eventuale contenuto precedente
     } catch (IOException e){ throw new IllegalStateException("Impossibile salvare la Coda personale:", e); }
   }
@@ -23,7 +23,7 @@ public class FileCodaPersonaleStorage{ private static final String CARTELLA="src
     for(String titoloEsistente : titoli){
       if(titoloEsistente.equalsIgnoreCase(titolo.trim())) return;
     }
-    titolo.add(titolo.trim());
+    titoli.add(titolo.trim());
     salvaTitoli(emailUtente, titoli);
   }
   public void rimuoviTitolo(String emailUtente, String titolo){ List<String>titoli=leggiTitoli(emailUtente);
