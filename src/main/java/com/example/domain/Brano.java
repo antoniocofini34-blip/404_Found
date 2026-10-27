@@ -24,7 +24,6 @@ public class Brano implements Ricercabile, Riproducibile { private String titolo
   public void setTitolo(String titolo) { this.titolo=titolo; }
   public void setDurata(int durata) { this.durata=durata; }
   public void setTesto(String testo) { this.testo=testo; }
-  }
   public void setAlbumBrano(Album album_brano) { this.album_brano=album_brano; }
   public void setNumeroAscolti(int numero_ascolti) { this.numero_ascolti=numero_ascolti; }
-}    
+}
