@@ -89,8 +89,7 @@ public class RicercaController{
           bottonePlaylist.setOnAction(event -> {  //Azione del tasto "+ playlist": aggiunge il brano alla playlist dell'utente
             RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
             Brano brano=risultato.brano();
-            if (brano!=null) aggiungiAllaPlaylist(brano);
-          }  
+            if (brano!=null) aggiungiAllaPlaylist(brano);  
           });
           bottoneCoda.setOnAction(event->{
             RisultatoRicerca risultato=getTableView().getItems().get(getIndex());
