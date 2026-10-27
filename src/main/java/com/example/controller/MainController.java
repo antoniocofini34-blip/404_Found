@@ -278,7 +278,7 @@ public class MainController {
            pulsantePlay.setMaxWidth(Double.MAX_VALUE);
            pulsantePlay.setStyle("-fx-background-color: #1ed760;" + "-fx-text-fill: black;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsantePlay.setOnAction(event -> avviaBranoConsigliato(brano));  //Avvia la riproduzione al clic
-           Button pulsanteCoda=new Button("+ coda");
+           Button pulsanteCoda=new Button("+ Coda");
            pulsanteCoda.setMaxWidth(Double.MAX_VALUE);
            pulsanteCoda.setStyle("-fx-background-color: #333333;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsanteCoda.setOnAction(event->{
