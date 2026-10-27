@@ -63,7 +63,7 @@ public class CronologiaAscoltiStorage{ private static final Path PERCORSO_FILE=P
             }
             try { String emailSalvata=decodifica(campi[0]);
                   if (!emailSalvata.equalsIgnoreCase(email.trim())) righeDaConservare.add(riga);  //Conserva tutti gli ascolti degli altri utenti
-                }  catch(IllegalArgumentExceptione e) { righedaConservare.add(riga); }  //Non elimina righe che non riesce a interpretare
+                }  catch(IllegalArgumentException e) { righeDaConservare.add(riga); }  //Non elimina righe che non riesce a interpretare
           }
          //Scrive una collezione di righe in un file, gestendo la codifica dei caratteri in UTF_8 e la modalità di apertura. CREATE: crea il file se non esiste già; TRUNCATE_EXISTING: se il file esiste già, azzera il suo contenuto; WRITE: apre il file in modalità di scrittura
          Files.write(PERCORSO_FILE, righeDaConservare, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
