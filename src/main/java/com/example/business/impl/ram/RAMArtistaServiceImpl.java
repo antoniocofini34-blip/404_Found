@@ -58,12 +58,6 @@ public class RAMArtistaServiceImpl implements ArtistaService { private List<Arti
     if (!this.artisti.remove(artista)) { throw new ArtistaNonTrovatoException("Artista da eliminare non trovato"); }
   }
   @Override 
-  public List<Album> findAlbumArtista(Artista artista) throws BusinessException {
-    if (artista==null) { throw new OperazioneNonValidaException("L'artista non può essere null"); }
-    if (!this.artisti.contains(artista)) { throw new ArtistaNonTrovatoException("Artista non trovato"); }
-    return new ArrayList<>(artista.getDiscografia()); 
-  }
-  @Override 
   public void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException {
     if (gruppo==null) { throw new OperazioneNonValidaException("Il gruppo non può essere null"); }
     if (componente==null) { throw new OperazioneNonValidaException("Il componente non può essere null"); }
