@@ -96,9 +96,10 @@ public class PlayerStato {
             servizioBrani.incrementaNumeroAscolti(branoCorrente.getTitolo());
             ascoltoGlobaleRegistrato=true;
             BranoController.aggiornaAscoltiInTabella(branoCorrente.getTitolo());
-          } catch(BusinessException e) { e.getMessage(); }
+          } catch(BusinessException ex) { ex.getMessage(); }
         }
         if (!ascoltoRegistrato) registraAscolto(branoCorrente);
+      }
       registraSecondoAscoltato(branoCorrente);  //Salva i secondi totali nel file delle impostazioni
       int durata=branoCorrente.getDurata();  //Fino a quando la canzone non è finita, sposta in avanti di 1 secondo la barra del tempo
       if (progressoCorrente < durata) progressoCorrente++;
