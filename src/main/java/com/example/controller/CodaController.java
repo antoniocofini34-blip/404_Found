@@ -149,5 +149,4 @@ public class CodaController {
     etichettaCodaVuota.setVisible(true);  //Rende visibile l'etichetta del messaggio di stato vuoto 
     etichettaCodaVuota.setManaged(true);  //Dice al layout di riservare lo spazio per questa etichetta all'interno della schermata
   }
-  public void aggiornaTemaCoda() { aggiornaCoda(); }
 }
