@@ -83,19 +83,6 @@ public class FileUtenteServiceImpl implements UtenteService{
     }
       throw new OperazioneNonValidaException("L'utente non è stato trovato:" + email);
     }
-    @Override
-    public CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-        Utente utenteFile = findUtenteByEmail(utente.getEmail());
-        return utenteFile.getCodaRiproduzione();
-    }
-    @Override
-    public void setCodaRiproduzione(Utente utente, CodaRiproduzione coda) throws BusinessException {
-        if (utente == null) throw new OperazioneNonValidaException("L'utente non può essere vuoto");
-        Utente utenteFile = findUtenteByEmail(utente.getEmail());
-        utenteFile.setCodaRiproduzione(coda);
-        modificaUtente(utenteFile);
-    }
     private FileData leggiDati() throws IOException { File file = new File(this.filename);
         if (!file.exists()) {
             FileData data = new FileData();
