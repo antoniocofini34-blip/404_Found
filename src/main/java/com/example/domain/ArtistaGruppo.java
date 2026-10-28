@@ -2,7 +2,7 @@ package com.example.domain;
 import java.util.*;
 public class ArtistaGruppo extends Artista implements Ricercabile {
   private String nome_gruppo;
-  private List<Artista> lista_membri;
+  private List<Componente> lista_membri;
   public ArtistaGruppo(String biografia, GenereMusicale genere_principale, Set<GenereMusicale> generi_secondari, List<Album> discografia, String nome_gruppo, List<Artista> lista_membri) {
     super (biografia, genere_principale, generi_secondari, discografia);
     this.nome_gruppo=nome_gruppo;
