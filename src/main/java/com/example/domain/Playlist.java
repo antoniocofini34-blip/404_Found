@@ -8,6 +8,7 @@ public class Playlist implements Riproducibile{
   private LocalDate data_creazione;
   private String proprietarioEmail; 
   public Playlist(String nome, String descrizione, LocalDate data_creazione, String proprietarioEmail){
+    this.lista_brani=new ArrayList<>();
     this.nome=nome;
     this.descrizione=descrizione;
     this.data_creazione=data_creazione;
