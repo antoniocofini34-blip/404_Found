@@ -26,23 +26,6 @@ public class RAMCodaRiproduzioneServiceImpl implements CodaRiproduzioneService {
     if (this.indiciCorrenti.get(coda)==1) this.indiciCorrenti.put(coda, 0);
   }
   @Override 
-  public void rimuoviBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException { verificaCoda(coda); 
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
-    List<Brano> brani=coda.getListaCodaBrani(); 
-    int indiceRimosso=brani.indexOf(brano); 
-    if (indiceRimosso==-1) throw new OperazioneNonValidaException("Il brano non è presente nella coda");
-    int indiceCorrente=this.indiciCorrenti.get(coda); 
-    brani.remove(indiceRimosso); 
-    coda.setListaCodaBrani(brani); 
-    if (brani.isEmpty()) { this.indiciCorrenti.put(coda, -1); 
-      coda.setStato(StatoRiproduzione.FERMO); 
-    }
-    else if (indiceRimosso<indiceCorrente) this.indiciCorrenti.put(coda, indiceCorrente-1); 
-    else if (indiceRimosso==indiceCorrente) {
-      if (indiceCorrente >= brani.size()) this.indiciCorrenti.put(coda, brani.size()-1); 
-    }
-  }
-  @Override 
   public void svuotaCoda(CodaRiproduzione coda) throws BusinessException { verificaCoda(coda); 
     coda.setListaCodaBrani(new ArrayList<>()); 
     this.indiciCorrenti.put(coda, -1); 
