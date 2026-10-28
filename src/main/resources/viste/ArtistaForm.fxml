@@ -37,11 +37,11 @@
 <Label text="Componenti della band" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 <TableView fx:id="tabellaComponenti" prefHeight="220" VBox.vgrow="ALWAYS">
 <columns>
-<TableColumn fx:id="colonnaNomeComponente" text="Nome" prefWidth"150"/>
-<TableColumn fx:id="colonnaCognomeComponente" text="Cognome" prefWidth"160"/>
-<TableColumn fx:id="colonnaRuoloComponente" text="Ruolo" prefWidth"180"/>
+<TableColumn fx:id="colonnaNomeComponente" text="Nome" prefWidth="150"/>
+<TableColumn fx:id="colonnaCognomeComponente" text="Cognome" prefWidth="160"/>
+<TableColumn fx:id="colonnaRuoloComponente" text="Ruolo" prefWidth="180"/>
 </columns>
-<TableView>
+</TableView>
 <HBox spacing="10">
 <Button fx:id="pulsanteAggiungiComponente" text="Aggiungi componente" onAction="#aggiungiComponente"/>
 <Button fx:id="pilsanteRimuoviComponente" text="Aggiungi componente" onAction="#rimuoviComponente"/>
