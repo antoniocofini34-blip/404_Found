@@ -4,8 +4,7 @@ import com.example.business.ArtistaService;
 import com.example.business.exception.BusinessException;
 import com.example.business.exception.ArtistaNonTrovatoException; 
 import com.example.business.exception.DuplicatoException; 
-import com.example.business.exception.OperazioneNonValidaException; 
-import com.example.domain.Album; 
+import com.example.business.exception.OperazioneNonValidaException;  
 import com.example.domain.Artista; 
 import com.example.domain.ArtistaGruppo; 
 import com.example.domain.ArtistaSolista;
@@ -13,7 +12,7 @@ import com.example.domain.Componente;
 public class RAMArtistaServiceImpl implements ArtistaService { private List<Artista> artisti; 
   public RAMArtistaServiceImpl() { this.artisti=new ArrayList<>(); }
   @Override 
-  public List<Artista> findAllArtisti() throws BusinessException { return new ArrayList<>(this.artisti); }
+  public List<Artista> findAllArtisti() { return new ArrayList<>(this.artisti); }
   @Override 
   public Artista findArtistaByNome(String nome) throws BusinessException {
   if (nome==null || nome.trim().isEmpty()) { throw new OperazioneNonValidaException("Il nome dell'artista non è valido"); }
