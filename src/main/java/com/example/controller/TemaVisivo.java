@@ -7,7 +7,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 public final class TemaVisivo {
   public enum Tema { CHIARO, SCURO }
