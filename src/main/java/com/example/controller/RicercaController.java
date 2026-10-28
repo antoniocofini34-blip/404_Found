@@ -328,8 +328,17 @@ public class RicercaController{
    }
   }
   private void aggiungiAllaPlaylist(Brano brano) {
-    try { FilePlaylistServiceImpl servizioPlaylist=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
-          List<Playlist> playlistDisponibili=servizioPlaylist.findAllPlaylist();
+    try { Utente utente=UtenteAttivo.getUtente();
+      if (utente==null||utente.getEmail()==null) {
+        risultatoLabel.setText("Devi accedere per aggiungere brani alle playlist");
+        return;
+      }
+      FilePlaylistServiceImpl servizioPlaylist=new FilePlaylistServiceImpl("src/main/resources/dati/playlist.txt");
+         List<Playlist> tutteLePlaylist=servizioPlaylist.findAllPlaylist();
+          List<Playlist> playlistDisponibili=new ArrayList<>();
+         for (Playlist playlist:tutteLePlaylist) {
+           if(playlist!=null&&playlist.getProprietarioEmail()!=null&&playlist.getProprietarioEmail().equalsIgnoreCase(utente.getEmail())) playlistDisponibili.add(playlist);
+         }
           if(playlistDisponibili.isEmpty()) {
             risultatoLabel.setText("Non esistono playlist.");
             return;
