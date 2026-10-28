@@ -168,6 +168,19 @@ public class RicercaController{
         risultatoLabel.setText("Nessun brano selezionato");
         return;
       }
+      //Recupera l'album a cui appartiene il brano
+      FileAlbumServiceImpl albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
+      List<Album> album=albumService.findAllAlbum();
+      brano.setAlbumBrano(null);
+      for (Album a : album) {
+        for (Brano branoAlbum : a.getListaBrani()) {
+          if (branoAlbum!=null && branoAlbum.getTitolo()!=null && brano.getTitolo()!=null && branoAlbum.getTitolo().trim().equalsIgnoreCase(brano.getTitolo().trim())) {
+            brano.setAlbumBrano(a);
+            break;
+          }
+        }
+        if (brano.getAlbumBrano()!=null) break;
+      }
       PlayerStato.avviaBranoDaRicerca(brano);
       aggiornaCronologia();
       risultatoLabel.setText("In riproduzione:" + brano.getTitolo());
@@ -305,7 +318,7 @@ public class RicercaController{
      List<String>titoliPrima=storage.leggiTitoli(utente.getEmail());
      boolean giaPresente=titoliPrima.stream().anyMatch(titolo->titolo.equalsIgnoreCase(brano.getTitolo()));
      if(giaPresente){
-       risultatoLabel.setText("\"" + brano.getTitolo() + "\" è gia presentenella tua coda");
+       risultatoLabel.setText("\"" + brano.getTitolo() + "\" è gia presente nella tua coda");
        return;
      }
      storage.aggiungiTitolo(utente.getEmail(), brano.getTitolo());
