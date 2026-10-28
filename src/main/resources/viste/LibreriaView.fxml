@@ -14,6 +14,7 @@
 <TableColumn fx:id="colonnaNome" text="Nome artista" prefWidth="300"/>
 <TableColumn fx:id="colonnaGenere" text="Genere principale" prefWidth="200"/>
 <TableColumn fx:id="colonnaTipo" text="Tipo" prefWidth="200"/>
+<TableColumn fx:id="colonnaComponenti" text="Componenti" prefWidth="400"/>
 </columns>
 </TableView>
 <Label text="ALBUM" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
