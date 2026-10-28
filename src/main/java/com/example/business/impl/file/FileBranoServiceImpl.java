@@ -71,12 +71,6 @@ public class FileBranoServiceImpl implements BranoService { private String filen
     if (!rimosso) throw new BranoNonTrovatoException("il brano da eliminare non è stato trovato");
     scriviBrani(brani);
   }
-  @Override
-  public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
-    brano.setNumeroAscolti(brano.getNumeroAscolti() +1);
-    modificaBrano(brano);
-  }
   private FileData leggiDati() throws IOException {
     File file = new File(this.filename);
     if (!file.exists()) { FileData data= new FileData();
