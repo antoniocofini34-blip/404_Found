@@ -49,11 +49,4 @@ public class RAMBranoServiceImpl implements BranoService { private List<Brano> b
     if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto");
     if (!this.brani.remove(brano)) throw new BranoNonTrovatoException("Brano da eliminare non trovato"); 
   }
-  @Override 
-  public void aggiornaNumeroAscolti(Brano brano) throws BusinessException {
-    if (brano==null) throw new OperazioneNonValidaException("Il brano non può essere vuoto"); 
-    if (!this.brani.contains(brano)) throw new BranoNonTrovatoException("Il brano non è stato trovato"); 
-    int numeroAscolti=brano.getNumeroAscolti(); 
-    brano.setNumeroAscolti(numeroAscolti+1); 
-  }
 }
