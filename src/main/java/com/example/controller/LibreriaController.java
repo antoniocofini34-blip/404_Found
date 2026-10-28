@@ -8,6 +8,7 @@ import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo; 
 import com.example.domain.ArtistaSolista;
 import com.example.domain.Brano;
+import com.example.domain.Componente;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML; 
 import javafx.fxml.FXMLLoader; 
@@ -31,6 +32,8 @@ public class LibreriaController {
   private TableColumn<Artista, String> colonnaGenere;
   @FXML
   private TableColumn<Artista, String> colonnaTipo;
+  @FXML
+  private TableColumn<Artista, String> colonnaComponenti;
   @FXML
   private TableView<Album> tabellaAlbum;
   @FXML
@@ -77,6 +80,7 @@ public class LibreriaController {
     colonnaNome.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniNomeArtista(cellData.getValue())));
     colonnaGenere.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniGenereArtista(cellData.getValue())));
     colonnaTipo.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniTipoArtista(cellData.getValue())));
+    colonnaComponenti.setCellValueFactory(cellData-> new javafx.beans.property.SimpleStringProperty(ottieniComponentiArtista(cellData.getValue())));
   }
   private void configuraTabellaAlbum() {
     //le lambda estraggono dall'album il titolo, l'anno convertito in testo e il nome del suo artista
@@ -135,6 +139,20 @@ public class LibreriaController {
     if (artista instanceof ArtistaSolista) return "SOLISTA";
     else if (artista instanceof ArtistaGruppo) return "GRUPPO";
     return "";
+  }
+  private String ottieniComponentiArtista(Artista artista) {
+    if (artista instanceof ArtistaSolista) return "-";
+    if (artista instanceof ArtistaGruppo) {
+      ArtistaGruppo gruppo=(ArtistaGruppo) artista;
+      List<Componente> componenti=gruppo.getListaMembri();
+      if (componenti==null||componenti.isEmpty()) return "-";
+      StringBuilder risultato=new StringBuilder();
+      for (Componente componente:componenti) {
+        if (risultato.length()>0) risultato.append(", ");
+      }
+        risultato.append(componente.getNome()).append(" ").append(componente.getCognome());
+    }
+    return "-";
   }
   private String ottieniTitoloAlbum(Album album) {
     if (album==null) return "";
