@@ -149,8 +149,9 @@ public class LibreriaController {
       StringBuilder risultato=new StringBuilder();
       for (Componente componente:componenti) {
         if (risultato.length()>0) risultato.append(", ");
-      }
         risultato.append(componente.getNome()).append(" ").append(componente.getCognome());
+      }
+      return risultato.toString();
     }
     return "-";
   }
