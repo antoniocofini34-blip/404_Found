@@ -9,6 +9,4 @@ public interface UtenteService {
   void eliminaUtente(Utente utente) throws BusinessException; 
   List<Utente> findAllUtenti() throws BusinessException; 
   Utente findUtenteByEmail(String email) throws BusinessException; 
-  CodaRiproduzione getCodaRiproduzione(Utente utente) throws BusinessException;
-  void setCodaRiproduzione(Utente utente, CodaRiproduzione coda) throws BusinessException; 
 }
