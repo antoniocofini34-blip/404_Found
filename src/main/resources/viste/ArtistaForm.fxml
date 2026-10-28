@@ -44,7 +44,7 @@
 </TableView>
 <HBox spacing="10">
 <Button fx:id="pulsanteAggiungiComponente" text="Aggiungi componente" onAction="#aggiungiComponente"/>
-<Button fx:id="pilsanteRimuoviComponente" text="Aggiungi componente" onAction="#rimuoviComponente"/>
+<Button fx:id="pilsanteRimuoviComponente" text="Rimuovi componente" onAction="#rimuoviComponente"/>
 </HBox>
 </VBox>
 <VBox spacing="5" HBox.hgrow="ALWAYS">  
