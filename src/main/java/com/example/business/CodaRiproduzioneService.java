@@ -6,7 +6,6 @@ import com.example.domain.CodaRiproduzione;
 import com.example.domain.ModalitaRepeat;
 public interface CodaRiproduzioneService{
  void aggiungiBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException;
- void rimuoviBranoCoda(CodaRiproduzione coda, Brano brano) throws BusinessException;
  void svuotaCoda(CodaRiproduzione coda) throws BusinessException;
  void play(CodaRiproduzione coda) throws BusinessException; 
  void pausa(CodaRiproduzione coda) throws BusinessException; 
