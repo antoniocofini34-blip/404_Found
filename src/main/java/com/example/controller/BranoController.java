@@ -35,8 +35,9 @@ public class BranoController {
   private FileAlbumServiceImpl albumService;
   private Brano branoSelezionato;
   private Album albumOriginale;
+  private static BranoController istanza;
   @FXML
-  private void initialize() { //inizializziamo i servizi indicando i file di testo da cui leggere e su cui salvare album e artisti
+  private void initialize() { istanza=this; //inizializziamo i servizi indicando i file di testo da cui leggere e su cui salvare album e artisti
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
     branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
     configuraTabella();
@@ -181,6 +182,20 @@ public class BranoController {
       }
     } catch (BusinessException e) { messaggio.setText("Impossibile verificare l'album del brano"); } 
     return null;
+  }
+  public static void aggiornaAscoltiInTabella(String titolo) {
+    if (istanza==null) return;
+    for (Brano brano:istanza.tabellaBrani.getItems()) {
+      if (brano.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(titolo)) {
+        try{
+          FileBranoServiceImpl servizio=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
+          Brano aggiornato=servizio.findBranoByTitolo(titolo);
+          brano.setNumeroAscolti(aggiornato.getNumeroAscolti());
+          istanza.tabellaBrani.refresh();
+        } catch(BusinessException e) { e.getMessage(); }
+        return;
+      }
+    }
   }
   @FXML
   private void pulisciCampi() {
