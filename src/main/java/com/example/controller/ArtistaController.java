@@ -64,7 +64,7 @@ public class ArtistaController {
   private Label messaggio;
   private FileArtistaServiceImpl artistaService; 
   private Artista artistaSelezionato;
-  private List<Componente> componentiTemporanei;=new ArrayList<>();
+  private List<Componente> componentiTemporanei=new ArrayList<>();
   @FXML
   private void initialize() {
     artistaService=new FileArtistaServiceImpl("src/main/resources/dati/artisti.txt"); 
