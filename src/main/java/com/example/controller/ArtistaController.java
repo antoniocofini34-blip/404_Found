@@ -58,10 +58,6 @@ public class ArtistaController {
   @FXML
   private TableColumn<Componente, String> colonnaRuoloComponente;
   @FXML
-  private Button pulsanteAggiungiComponente;
-  @FXML
-  private Button pulsanteRimuoviComponente;
-  @FXML
   private Label messaggio;
   private FileArtistaServiceImpl artistaService; 
   private Artista artistaSelezionato;
@@ -211,7 +207,7 @@ private void aggiornaVisibilitaCampi() {
     griglia.add(new Label("Cognome"), 0, 1);
     griglia.add(campoCognomeComponente, 1, 1);
     griglia.add(new Label("Ruolo"), 0, 2);
-    griglia.add(campoNomeComponente, 1, 2);
+    griglia.add(campoRuoloComponente, 1, 2);
     dialog.getDialogPane().setContent(griglia);
     Button bottoneAggiungi=(Button) dialog.getDialogPane().lookupButton(pulsanteConferma);
     bottoneAggiungi.addEventFilter(javafx.event.ActionEvent.ACTION, evento -> {
