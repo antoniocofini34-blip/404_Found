@@ -3,6 +3,7 @@ import com.example.business.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.*;
 import com.example.business.impl.ram.RAMCodaRiproduzioneServiceImpl;
+import com.example.business.impl.file.FileBranoServiceImpl;
 import com.example.domain.Brano;
 import com.example.domain.CodaRiproduzione;
 import com.example.domain.ModalitaRepeat;
@@ -29,6 +30,7 @@ public class PlayerStato {
   private static String titoloBranoConteggiato;
   private static int secondiAscoltoCorrente=0;
   private static boolean ascoltoRegistrato=false;
+  private static boolean ascoltoGlobaleRegistrato=false;
   private static final String FILE_TEMPI= "src/main/resources/dati/tempi_ascolto.properties";
   private static final Properties tempiAscolto=new Properties();
   static {  //Inizializza le variabili contrassegnate come static, eseguendo questo blocco una sola volta all'avvio della classe per caricare i dati in memoria 
@@ -58,6 +60,7 @@ public class PlayerStato {
   private static void azzeraConteggioAscolto() {
     secondiAscoltoCorrente=0;
     ascoltoRegistrato=false;
+    ascoltoGlobaleRegistrato=false;
   }
   private static void registraAscolto(Brano brano) { 
     if (brano==null || brano.getTitolo()==null) return;
@@ -85,10 +88,17 @@ public class PlayerStato {
         return;
       }
       secondiSessione++;
-      if (!ascoltoRegistrato) {  //Se l'ascolto non è stato ancora registrato, aumenta i secondi di ascolto continui e, raggiunti i 30 secondi, scatta il salvataggio automatico dell'ascolto personale
-        secondiAscoltoCorrente++;
-        if (secondiAscoltoCorrente >= 30) registraAscolto(branoCorrente);
-      }
+      if (secondiAscoltoCorrente<30) secondiAscoltoCorrente++;
+      if (secondiAscoltoCorrente>=30) {
+        if(!ascoltoGlobaleRegistrato) {
+          try{
+            FileBranoServiceImpl servizioBrani=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
+            servizioBrani.incrementaNumeroAscolti(branoCorrente.getTitolo());
+            ascoltoGlobaleRegistrato=true;
+            BranoController.aggiornaAscoltiInTabella(branoCorrente.getTitolo());
+          } catch(BusinessException e) { e.getMessage(); }
+        }
+        if (!ascoltoRegistrato) registraAscolto(branoCorrente);
       registraSecondoAscoltato(branoCorrente);  //Salva i secondi totali nel file delle impostazioni
       int durata=branoCorrente.getDurata();  //Fino a quando la canzone non è finita, sposta in avanti di 1 secondo la barra del tempo
       if (progressoCorrente < durata) progressoCorrente++;
@@ -193,6 +203,7 @@ public class PlayerStato {
   public static void iniziaNuovoAscolto() {
     secondiAscoltoCorrente=0;
     ascoltoRegistrato=false;
+    ascoltoGlobaleRegistrato=false;
     if (branoCorrente!=null) {
       titoloBranoConteggiato=branoCorrente.getTitolo();
       iniziaSessioneCronologia();
