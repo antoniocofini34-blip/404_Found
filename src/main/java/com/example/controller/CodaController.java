@@ -21,8 +21,6 @@ public class CodaController {
   @FXML
   private Label etichettaNumeroBrani;
   @FXML
-  private Label etichettaCodaVuota;
-  @FXML
   private FlowPane contenitoreBrani;
   private final FileCodaPersonaleStorage storage=new FileCodaPersonaleStorage();
   private final FileBranoServiceImpl branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
@@ -65,12 +63,6 @@ public class CodaController {
     }
     etichettaNumeroBrani.setText(braniCoda.size() + (braniCoda.size()==1 ? " brano" : " brani"));  //Aggiorna il contatore testuale dei brani gestendo il singolare e il plurale
     boolean vuota=braniCoda.isEmpty();  //Gestisce la visibilità dell'interfaccia nel caso in cui la coda sia vuota
-    etichettaCodaVuota.setVisible(vuota);
-    etichettaCodaVuota.setManaged(vuota);  //Rilascia lo spazio nel layout se non è visibile
-    if (vuota) {
-      etichettaCodaVuota.setText("La tua coda è vuota. Aggiungi i brani che vuoi ascoltare.");
-      return;
-    }
     for (int i=0; i < braniCoda.size(); i++) {  //Scorre la lista dei brani validati e aggiunge le schede grafiche al FlowPane
       Brano brano=braniCoda.get(i);
       contenitoreBrani.getChildren().add(creaScheda(brano, braniCoda, i));  //Crea la scheda visiva passando il brano attuale, l'intera coda e la posizione 
@@ -145,8 +137,5 @@ public class CodaController {
   private void mostraCodaVuota(String messaggio) {
     contenitoreBrani.getChildren().clear();
     etichettaNumeroBrani.setText("0 brani");  //Resetta il contatore testuale dei brani portandolo a 0
-    etichettaCodaVuota.setText(messaggio);  //Imposta il messaggio personalizzato passato in input
-    etichettaCodaVuota.setVisible(true);  //Rende visibile l'etichetta del messaggio di stato vuoto 
-    etichettaCodaVuota.setManaged(true);  //Dice al layout di riservare lo spazio per questa etichetta all'interno della schermata
   }
 }
