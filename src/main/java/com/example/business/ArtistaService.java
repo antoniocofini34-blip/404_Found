@@ -3,7 +3,7 @@ import java.util.*;
 import com.example.business.exception.BusinessException;
 import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
-import com.example.domain.Album;
+import com.example.domain.Componente;
 public interface ArtistaService {
     List<Artista> findAllArtisti() throws BusinessException;
     Artista findArtistaByNome(String nome) throws BusinessException;
