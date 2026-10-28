@@ -10,6 +10,6 @@ public interface ArtistaService {
     void creaArtista(Artista artista) throws BusinessException;
     void modificaArtista(Artista artista) throws BusinessException;
     void eliminaArtista(Artista artista) throws BusinessException;
-    void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException;
-    void rimuoviComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException;
+    void aggiungiComponente(ArtistaGruppo gruppo, Componente componente) throws BusinessException;
+    void rimuoviComponente(ArtistaGruppo gruppo, Componente componente) throws BusinessException;
     }
