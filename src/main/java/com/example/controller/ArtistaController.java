@@ -1,6 +1,7 @@
 package com.example.controller;
 import com.example.business.exception.BusinessException; 
 import com.example.business.impl.file.FileArtistaServiceImpl;
+import com.example.domain.Album;
 import com.example.domain.Artista;
 import com.example.domain.ArtistaGruppo;
 import com.example.domain.ArtistaSolista;
@@ -196,7 +197,7 @@ private void aggiornaVisibilitaCampi() {
     ButtonType pulsanteConferma=new ButtonType("Aggiungi", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(pulsanteConferma, ButtonType.CANCEL);
     TextField campoNomeComponente=new TextField();
-    TextField campoCognoomeComponente=new TextField();
+    TextField campoCognomeComponente=new TextField();
     TextField campoRuoloComponente=new TextField();
     campoNomeComponente.setPromptText("Nome");
     campoCognomeComponente.setPromptText("Cognome");
@@ -229,7 +230,7 @@ private void aggiornaVisibilitaCampi() {
     try { if (artistaSelezionato instanceof ArtistaGruppo) {
             ArtistaGruppo gruppo=(ArtistaGruppo) artistaService.findArtistaByNome(ottieniNome(artistaSelezionato));
             artistaService.aggiungiComponente(gruppo, componente);
-            aggiornaArtistaSelezionato(gruppo.getNomeGruppo);
+            aggiornaArtistaSelezionato(gruppo.getNomeGruppo());
     }  else {
          for (Componente esistente : componentiTemporanei) {
            if (esistente.getNome().equalsIgnoreCase(componente.getNome()) && esistente.getCognome().equalsIgnoreCase(componente.getCognome())) throw new IllegalArgumentException("Il componente è già presente nella band.");
@@ -256,7 +257,7 @@ private void aggiornaVisibilitaCampi() {
     }
     try {  ArtistaGruppo gruppo=(ArtistaGruppo) artistaService.findArtistaByNome(ottieniNome(artistaSelezionato));
            artistaService.rimuoviComponente(gruppo, componente);
-           aggiornaArtistaSelezionato(gruppo, getNomeGruppo());
+           aggiornaArtistaSelezionato(gruppo.getNomeGruppo());
            mostraMessaggio("Componente rimosso correttamente.");
         } catch(BusinessException e) { mostraErrore(e.getMessage()); }
   }
