@@ -11,7 +11,6 @@ public class Componente {
   public String getNome() { return nome; }
   public String getCognome() { return cognome; }
   public String getRuolo() { return ruolo; }
-  public void setNome(String nome) { this.nome=nome; }
   @Override
   public String toString() { return nome + " " + cognome; }
 }
