@@ -67,9 +67,7 @@ public class PlayerController{
   @FXML
   private ToggleButton bottoneRepeat;
   private RAMCodaRiproduzioneServiceImpl codaService;
-  private RAMCodaRiproduzioneServiceImpl CodaRiproduzione;
   private CodaRiproduzione coda;
-  private FileBranoServiceImpl branoService;
   private Timeline timeline;
   private double progressoCorrente;
   private List<Brano> ordineOriginale;
@@ -85,7 +83,6 @@ public class PlayerController{
   private String titoloTestoCaricato; 
   @FXML
   private void initialize() { codaService = PlayerStato.getCodaService();
-   branoService=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
    coda = PlayerStato.getCoda();
    copertinaAlbum.fitWidthProperty().bind(rootPlayer.widthProperty());
    copertinaAlbum.fitHeightProperty().bind(rootPlayer.heightProperty());
