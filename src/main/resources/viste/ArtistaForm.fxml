@@ -14,36 +14,54 @@
 <Insets top="20" right="25" bottom="20" left="25"/>
 </padding>
 <Label text="GESTIONE ARTISTI" style="-fx-font-size:28px; -fx-font-weight: bold;"/>
-<TableView fx:id="tabellaArtisti" prefHeight="220">
+<TableView fx:id="tabellaArtisti" prefHeight="180" maxWidth="540">
 <columns> 
-<TableColumn fx:id="colonnaNome" text="Nome" prefWidth="220"/>
-<TableColumn fx:id="colonnaTipo" text="Tipologia" prefWidth="120"/>
-<TableColumn fx:id="colonnaGenere" text="Genere principale" prefWidth="200"/>
+<TableColumn fx:id="colonnaNome" text="Nome" prefWidth="180" minWidth="100"/>
+<TableColumn fx:id="colonnaTipo" text="Tipologia" prefWidth="180" minWidth="100"/>
+<TableColumn fx:id="colonnaGenere" text="Genere principale" prefWidth="180" minWidth="100"/>
 </columns>
 </TableView>
 <Label text="Dati dell'artista" style="-fx-font-size:18px; fx-font-weight: bold;"/>
-<HBox spacing="10">
-<VBox spacing="5" HBox.hgrow="ALWAYS">
+<HBox spacing="10" alignment="BOTTOM_LEFT">
+<VBox spacing="5" prefWidth="180">
 <Label text="Tipologia"/>
-<ComboBox fx:id="campoTipo" promptText="Scegli tipologia" maxWidth="Infinity"/>
+<ComboBox fx:id="campoTipo" promptText="Scegli tipologia" prefWidth="180" maxWidth="180"/>
 </VBox>
-<VBox spacing="5" HBox.hgrow="ALWAYS">  
-<Label text="Nome d'arte / nome gruppo"/>
-<TextField fx:id="campoNome" promptText="Nome artista"/>
+<VBox fx:id="contenitoreNome" spacing="5" HBox.hgrow="ALWAYS" visible="false" managed="false">
+<Label fx:id="etichettaNome" text="Nome d'arte"/>
+<TextField fx:id="campoNome" promptText="Inserisci il nome" maxWidth="200"/>
 </VBox>
 </HBox>
-<VBox spacing="5">
-<Label text="Biografia"/>
-<TextArea fx:id="campoBiografia" promptText="Inserisci la biografia" prefRowCount="3" wrapText="true"/>
+<HBox spacing="15" alignment="TOP_LEFT">
+<VBox fx:id="areaComponenti" spacing="8" visible="false" managed="false" prefWidth="490">
+<Label text="Componenti della band" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+<TableView fx:id="tabellaComponenti" prefHeight="220" VBox.vgrow="ALWAYS">
+<columns>
+<TableColumn fx:id="colonnaNomeComponente" text="Nome" prefWidth"150"/>
+<TableColumn fx:id="colonnaCognomeComponente" text="Cognome" prefWidth"160"/>
+<TableColumn fx:id="colonnaRuoloComponente" text="Ruolo" prefWidth"180"/>
+</columns>
+<TableView>
+<HBox spacing="10">
+<Button fx:id="pulsanteAggiungiComponente" text="Aggiungi componente" onAction="#aggiungiComponente"/>
+<Button fx:id="pilsanteRimuoviComponente" text="Aggiungi componente" onAction="#rimuoviComponente"/>
+</HBox>
 </VBox>
-<VBox spacing="5">
+<VBox spacing="5" HBox.hgrow="ALWAYS">  
+<Label text="Biografia"/>
+<TextArea fx:id="campoBiografia" promptText="Inserisci la biografia" prefRowCount="6" wrapText="true" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS"/>
+</VBox>
+</HBox>
+<HBox spacing="15" alignment="TOP_LEFT">
+<VBox spacing="5" prefWidth="230">
 <Label text="Genere principale"/>
 <ComboBox fx:id="campoGenerePrincipale" promptText="Scegli il genere" maxWidth="Infinity"/>
 </VBox>
-<VBox spacing="5">
+<VBox spacing="5" HBox.hgrow="ALWAYS">
 <Label text="Generi secondari (separati da virgola)"/>
 <TextField fx:id="campoGeneriSecondari" promptText="Esempio: POP, ROCK"/>
 </VBox>
+</HBox>
 <HBox spacing="10">
 <Button text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
 <Button text="Crea artista" onAction="#creaArtista"/>
