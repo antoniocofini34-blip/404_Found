@@ -170,7 +170,7 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
         String[] datiComponenti=riga[5].split("\\|");
         for (String dati : datiComponenti) {
           String[] campi=dati.split("~", -1);
-          if (campi.legth==3) componenti.add(new Componente(campi[0], campi[1], campi[2]));
+          if (campi.length==3) componenti.add(new Componente(campi[0], campi[1], campi[2]));
         }
       }
       gruppo.setListaMembri(componenti);
@@ -210,7 +210,7 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
     StringBuilder generiSecondari=new StringBuilder();
     for (GenereMusicale genere:artista.getGeneriSecondari()) {
       if(generiSecondari.length() > 0) generiSecondari.append("|");
-      generiSecondari.append(genere, name());
+      generiSecondari.append(genere.name());
     }
     StringBuilder riga=new StringBuilder();
     riga.append(tipo);
