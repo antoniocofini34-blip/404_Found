@@ -82,7 +82,6 @@ public class MainController {
   private StatisticheController controllerStatisticheCorrente;
   private PlayerController controllerPlayerCorrente;
   private UtenteController controllerUtenteCorrente;
-  private CodaController cotrollerCodaCorrente;
   @FXML
   private void initialize() { titoloLabel.setText("UnivaqSound");
     selettoreTema.getItems().setAll("Tema chiaro", "Tema scuro");
