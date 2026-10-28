@@ -10,6 +10,9 @@ import com.example.business.exception.DuplicatoException;
 import com.example.business.exception.OperazioneNonValidaException;
 import com.example.domain.Brano;
 import com.example.domain.GenereMusicale;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 public class FileBranoServiceImpl implements BranoService { private String filename;
   public FileBranoServiceImpl(String filename) { this.filename=filename;}
   @Override
@@ -172,5 +175,24 @@ public class FileBranoServiceImpl implements BranoService { private String filen
     riga.append(",");
     if (brano.getAlbumBrano()!=null) riga.append(brano.getAlbumBrano().getTitolo());
     return riga.toString();
+  }
+  public void incrementaNumeroAscolti(String titolo) throws BusinessException {
+    Brano brano=findBranoByTitolo(titolo);
+    int nuoviAscolti=brano.getNumeroAscolti()+1;
+    brano.setNumeroAscolti(nuoviAscolti);
+    try{
+      Path percorso=Paths.get(filename);
+      List<String> righe=Files.readAllLines(percorso);
+      for (int i=1;i<righe.size();i++) {
+        String[] campi=righe.get(i).split(",", -1);
+        if(campi.length>=5&&campi[0].trim().equalsIgnoreCase(titolo.trim())) {
+          campi[4]=String.valueOf(brano.getNumeroAscolti());
+          righe.set(i,String.join(",", campi));
+          Files.write(percorso, righe);
+          return;
+        }
+      }
+      throw new BusinessException("Impossibile trovare il brano nel file: "+titolo);
+    } catch(IOException e) { throw new BusinessException("Errore durante l'aggiornamento degli ascolti", e); }
   }
 }
