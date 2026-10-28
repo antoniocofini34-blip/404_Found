@@ -8,5 +8,4 @@ public interface BranoService{
   void creaBrano (Brano brano) throws BusinessException;
   void modificaBrano(Brano brano) throws BusinessException;
   void eliminaBrano(Brano brano) throws BusinessException;
-  void aggiornaNumeroAscolti(Brano brano) throws BusinessException;
 }
