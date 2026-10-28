@@ -79,14 +79,6 @@ public class FileArtistaServiceImpl implements ArtistaService{ private String fi
     scriviArtisti(artisti);
   }
   @Override
-  public List<Album> findAlbumArtista(Artista artista) throws BusinessException{
-    if (artista==null) throw new OperazioneNonValidaException("L'artista non può essere vuoto");
-    String nome=ottieniNome(artista);
-    if (nome==null || nome.trim().isEmpty()) throw new OperazioneNonValidaException("Il nome dell'artista non è valido");
-    Artista artistaFile=findArtistaByNome(nome);
-    return new ArrayList<>(artistaFile.getDiscografia());
-  }
-  @Override
   public void aggiungiComponente(ArtistaGruppo gruppo, Artista componente) throws BusinessException {
     if (gruppo==null) throw new OperazioneNonValidaException("Il gruppo non può essere vuoto");
     if (componente==null) throw new OperazioneNonValidaException("Il componente non può essere vuoto");
