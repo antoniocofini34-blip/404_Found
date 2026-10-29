@@ -13,8 +13,8 @@
 <TableColumn fx:id="colonnaDurataBrano" text="Durata" prefWidth="150"/>
 </columns>
 </TableView>
-<Button text="▶️ Riproduci playlist da qui" onAction="#riproduciPlaylistDaSelezionato"/>
-<Button text="▶️ Avvia playlist" onAction="#avviaPlaylist"/>
+<Button text="▶Riproduci playlist da qui" onAction="#riproduciPlaylistDaSelezionato"/>
+<Button text="▶Avvia playlist" onAction="#avviaPlaylist"/>
 <Button fx:id="bottoneAggiungiBrano" text="Aggiungi brano" onAction="#aggiungiBrano"/>
 <Button fx:id="bottoneRimuoviBrano" text="Rimuovi brano" onAction="#rimuoviBrano"/>
 <Button fx:id="bottoneSpostaSu" text="↑ Sposta su" onAction="#spostaSu"/>
