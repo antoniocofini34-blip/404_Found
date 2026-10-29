@@ -47,10 +47,10 @@
 <TextArea fx:id="campoTesto" promptText="Inserisci il testo del brano" prefRowCount="3" wrapText="true"/>
 </VBox>
 <HBox spacing="10">
-<Button text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
-<Button text="Crea brano" onAction="#creaBrano"/>
-<Button text="Modifica brano" onAction="#modificaBrano"/>
-<Button text="Elimina brano" onAction="#eliminaBrano"/>
+<Button fx:id="pulsantePulisci" text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
+<Button fx:id="pulsanteCrea" text="Crea brano" onAction="#creaBrano"/>
+<Button fx:id="pulsanteModifica" text="Modifica brano" onAction="#modificaBrano"/>
+<Button fx:id="pulsanteElimina" text="Elimina brano" onAction="#eliminaBrano"/>
 </HBox>
 <Label fx:id="messaggio" wrapText="true"/>
 </VBox>
