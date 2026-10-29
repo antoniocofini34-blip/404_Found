@@ -25,14 +25,14 @@
 <Label fx:id="risultatoArtistiLabel" text="Artisti: 0" style="-fx-font-size:16; -fx-font-weight:bold"/>
 </HBox>
 <Label fx:id="risultatoLabel" text="Inserisci qualcosa da cercare"/>
-<TableView fx:id="tabellaBrani" prefHeight="180.0" minHeight="100.0" prefWidth="700.0">
+<TableView fx:id="tabellaBrani" prefHeight="180.0" minHeight="100.0" maxWidth="920.0">
 <columns>
 <TableColumn fx:id="colonnaTipo" text="Tipo" prefWidth="90.0"/>
-<TableColumn fx:id="colonnaTitolo" text="Titolo" prefWidth="220.0"/>
+<TableColumn fx:id="colonnaTitolo" text="Titolo" prefWidth="180.0"/>
 <TableColumn fx:id="colonnaDurata" text="Durata (secondi)" prefWidth="110.0"/>
 <TableColumn fx:id="colonnaGenere" text="Genere" prefWidth="200.0"/>
 <TableColumn fx:id="colonnaRiproduci" text="Azione" prefWidth="160.0"/>
-<TableColumn fx:id="colonnaDataPubblicazione" text="Data di pubblicazione" sortable="true"/>
+<TableColumn fx:id="colonnaDataPubblicazione" text="Data di pubblicazione" sortable="true" prefWidth="40"/>
 <TableColumn fx:id="colonnaNumeroAscolti" text="Numero di ascolti" prefWidth="140.0" sortable="true"/>
 </columns>
 </TableView>
