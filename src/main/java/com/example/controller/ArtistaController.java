@@ -58,6 +58,18 @@ public class ArtistaController {
   @FXML
   private TableColumn<Componente, String> colonnaRuoloComponente;
   @FXML
+  private Button pulsantePulisci;
+  @FXML
+  private Button pulsanteCrea;
+  @FXML
+  private Button pulsanteModifica;
+  @FXML
+  private Button pulsanteElimina;
+  @FXML
+  private Button pulsanteAggiungiComponente;
+  @FXML
+  private Button pulsanteRimuoviComponente;  
+  @FXML
   private Label messaggio;
   private FileArtistaServiceImpl artistaService; 
   private Artista artistaSelezionato;
@@ -75,6 +87,21 @@ public class ArtistaController {
     tabellaArtisti.getSelectionModel().selectedItemProperty().addListener((osservabile, precedente, selezionato) -> { //Listener lambda per aggiornare i dettagli dell'artista selezionato in tempo reale
       if (selezionato!=null) mostraDatiArtista(selezionato);
     });
+    aggiornaPermessi();
+  }
+  public void aggiornaPermessi() {
+    boolean amministratore=UtenteAttivo.isAmministratore();
+    pulsantePulisci.setDisable(!amministratore);
+    pulsanteCrea.setDisable(!amministratore);
+    pulsanteModifica.setDisable(!amministratore);
+    pulsanteElimina.setDisable(!amministratore);
+    pulsanteAggiungiComponente.setDisable(!amministratore);
+    pulsanteRimuoviComponente.setDisable(!amministratore);
+    campoTipo.setDisable(!amministratore);
+    campoNome.setEditable(amministratore);
+    campoBiografia.setEditable(amministratore);
+    campoGenerePrincipale.setDisable(!amministratore);
+    campoGeneriSecondari.setEditable(amministratore);
   }
   private void configuraTabella() {
     colonnaNome.setCellValueFactory(cella -> new SimpleStringProperty(ottieniNome(cella.getValue()))); //Estrae il nome dell'artista
@@ -137,8 +164,13 @@ private void aggiornaVisibilitaCampi() {
     } else tabellaComponenti.getItems().clear();
     messaggio.setText("Artista selezionato: " + ottieniNome(artista));
   }
+  private boolean verificaPermessiAmministratore() {
+    if (UtenteAttivo.isAmministratore()) return true;
+    mostraErrore("Operazione consentita solo all'amministratore.");
+    return false;
+  }    
   @FXML
-  private void creaArtista() {
+  private void creaArtista() {  if (!verificaPermessiAmministratore()) return;
     try { Artista artista=costruisciArtista();
          artistaService.creaArtista(artista);  //Invia l'oggetto al livello di business per validarlo e salvarlo nel database
          caricaArtisti();  //Aggiorna l'elenco visibile nella tabella
@@ -148,7 +180,7 @@ private void aggiornaVisibilitaCampi() {
               }
         }
   @FXML
-  private void modificaArtista() {
+  private void modificaArtista() {  if (!verificaPermessiAmministratore()) return;
     if (artistaSelezionato==null) {
       mostraErrore("Seleziona un artista dalla tabella.");
       return;
@@ -162,7 +194,7 @@ private void aggiornaVisibilitaCampi() {
               }
         }
   @FXML
-  private void eliminaArtista() {
+  private void eliminaArtista() {  if (!verificaPermessiAmministratore()) return;
     if (artistaSelezionato==null) {
       mostraErrore("Seleziona un artista dalla tabella.");
       return;
@@ -182,7 +214,7 @@ private void aggiornaVisibilitaCampi() {
           }
       }
   @FXML
-  private void aggiungiComponente() {
+  private void aggiungiComponente() {  if (!verificaPermessiAmministratore()) return;
     if(!"GRUPPO".equals(campoTipo.getValue())) {
       mostraErrore("Seleziona la tipologia GRUPPO prima di aggiungere componenti.");
       return;
