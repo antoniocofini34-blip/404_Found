@@ -96,11 +96,11 @@ public class MainController {
       if (PlayerStato.getCoda().getStato()==StatoRiproduzione.IN_RIPRODUZIONE) { miniPlayPausa.setText("⏸️");
         if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();  //Avvia il timer per far scorrere il tempo del brano in background
         avviaMiniTimer();
-      } else miniPlayPausa.setText("▶️");
+      } else miniPlayPausa.setText("▶");
     } else { titoloMiniPlayer.setText("Nessun brano in riproduzione");
             barraMiniPlayer.setValue(0);
             barraMiniPlayer.setDisable(true);  //Blocca la barra per impedire modifiche
-            miniPlayPausa.setText("▶️"); 
+            miniPlayPausa.setText("▶"); 
            }
     barraMiniPlayer.valueProperty().addListener((obs, vecchioValore, nuovoValore) -> { aggiornaStileBarraMini(); });  //Quando la barra del mini player si muove, aggiorna visivamente il colore e stile dello slider
     avviaSincronizzazioneMiniPlayer();
@@ -274,7 +274,7 @@ public class MainController {
            String durataFormattata=String.format("%02d:%02d", durata / 60, durata % 60);  //Formatta i secondi della durata nel formato mm:ss
            Label durataBrano=new Label(durataFormattata);
            durataBrano.setStyle("-fx-font-size: 12px;" + "-fx-text-fill: #1ed760;");
-           Button pulsantePlay=new Button("▶️Riproduci");
+           Button pulsantePlay=new Button("▶Riproduci");
            pulsantePlay.setMaxWidth(Double.MAX_VALUE);
            pulsantePlay.setStyle("-fx-background-color: #1ed760;" + "-fx-text-fill: black;" + "-fx-font-weight: bold;" + "-fx-background-radius: 20;" + "-fx-cursor: hand;");
            pulsantePlay.setOnAction(event -> avviaBranoConsigliato(brano));  //Avvia la riproduzione al clic
@@ -391,11 +391,11 @@ public class MainController {
            if (miniTimeline!=null) { miniTimeline.stop();  //Arresta e distrugge il timer grafico per fermare l'avanzamento della barra            
              miniTimeline=null;
            }
-           miniPlayPausa.setText("▶️");  //Cambia l'icona mostrando il simbolo del Play
+           miniPlayPausa.setText("▶");  //Cambia l'icona mostrando il simbolo del Play
          } else {  //Se la musica è in pausa o ferma, allora si avvia la riproduzione 
            PlayerStato.getCodaService().play(PlayerStato.getCoda());
            if (!PlayerStato.isTimerRiproduzioneAttivo()) PlayerStato.avviaTimerRiproduzione();  //Riattiva i timer di sistema e quelli grafici per far muovere nuovamente la barra
-           miniPlayPausa.setText("⏸️");  //Cambia l'icona mostrando il simbolo della Pausa
+           miniPlayPausa.setText("⏸");  //Cambia l'icona mostrando il simbolo della Pausa
            avviaMiniTimer();  //Fa ripartire l'aggiornamento grafico al secondo
          }
         } catch(BusinessException e) { e.getMessage(); }
