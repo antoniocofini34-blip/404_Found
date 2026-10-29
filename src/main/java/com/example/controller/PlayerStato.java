@@ -71,6 +71,7 @@ public class PlayerStato {
     tempiAscolto.setProperty(chiave, String.valueOf(ascolti + 1));  //Aumenta di 1 il numero di ascolti e ggiorna il valore in memoria
     salvaTempiAscolto();
     ascoltoRegistrato=true;
+    RicercaController.aggiornaAscoltiVisibili();
     System.out.println("Ascolto personale registrato per " + utente.getEmail() + ": " + brano.getTitolo());
   }
   public static void avviaTimerRiproduzione() {
@@ -96,6 +97,7 @@ public class PlayerStato {
             servizioBrani.incrementaNumeroAscolti(branoCorrente.getTitolo());
             ascoltoGlobaleRegistrato=true;
             BranoController.aggiornaAscoltiInTabella(branoCorrente.getTitolo());
+            RicercaController.aggiornaAscoltiVisibili();
           } catch(BusinessException ex) { ex.getMessage(); }
         }
         if (!ascoltoRegistrato) registraAscolto(branoCorrente);
