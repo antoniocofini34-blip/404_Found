@@ -527,6 +527,18 @@ public class MainController {
     miniPlayerContenitore.setManaged(mostraMiniPlayer);
     FXMLLoader loader=new FXMLLoader(getClass().getResource(percorso));  //Inizializza il caricatore FXML puntando al percorso della risorsa passata come parametro
     Parent vista=loader.load();  //Carica l'interfaccia grafica
+    if (percorso.equals("/viste/ArtistaForm.fxml")) {
+      ArtistaController controller=loader.getController();
+      controller.aggiornaPermessi();
+    }
+    if (percorso.equals("/viste/AlbumForm.fxml")) {
+      AlbumController controller=loader.getController();
+      controller.aggiornaPermessi();
+    }
+    if (percorso.equals("/viste/BranoForm.fxml")) {
+      BranoController controller=loader.getController();
+      controller.aggiornaPermessi();
+    }
     if (percorso.equals("/viste/StatisticheView.fxml")) controllerStatisticheCorrente=loader.getController();  //Associa il controller corretto in base alla schermata aperta e azzera gli altri per liberare memoria
     else controllerStatisticheCorrente=null;
     if (percorso.equals("/viste/PlayerView.fxml")) controllerPlayerCorrente=loader.getController();
