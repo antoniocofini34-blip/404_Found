@@ -26,7 +26,7 @@
 </columns>
 </TableView>
 <Label text="BRANI" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-<TableView fx:id="tabellaBrani" maxWidth="700" prefHeight="200">
+<TableView fx:id="tabellaBrani" maxWidth="680" prefHeight="200">
 <columns>
 <TableColumn fx:id="colonnaTitoloBrano" text="Titolo" prefWidth="300"/>
 <TableColumn fx:id="colonnaDurataBrano" text="Durata (secondi)" prefWidth="180"/>
