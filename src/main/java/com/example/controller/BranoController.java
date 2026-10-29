@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -31,11 +32,32 @@ public class BranoController {
   @FXML private ComboBox<Album> campoAlbum;
   @FXML private TextArea campoTesto;
   @FXML private Label messaggio;
+  @FXML private Button pulsantePulisci;
+  @FXML private Button pulsanteCrea;
+  @FXML private Button pulsanteModifica;
+  @FXML private Button pulsanteElimina;
   private FileBranoServiceImpl branoService;
   private FileAlbumServiceImpl albumService;
   private Brano branoSelezionato;
   private Album albumOriginale;
   private static BranoController istanza;
+  public void aggiornaPermessi() {
+    boolean amministratore=UtenteAttivo.isAmministratore();
+    pulsantePulisci.setDisable(!amministratore);
+    pulsanteCrea.setDisable(!amministratore);
+    pulsanteModifica.setDisable(!amministratore);
+    pulsanteElimina.setDisable(!amministratore);
+    campoTitolo.setEditable(amministratore);
+    campoDurata.setEditable(amministratore);
+    campoGeneri.setEditable(amministratore);
+    campoAlbum.setDisable(!amministratore);
+    campoTesto.setEditable(amministratore);
+  }
+  private boolean verificaPermessiAmministratore() {
+    if (UtenteAttivo.isAmministratore()) return true;
+    mostraErrore("Operazione consentita solo all'amministratore.");
+    return false;
+  }    
   @FXML
   private void initialize() { istanza=this; //inizializziamo i servizi indicando i file di testo da cui leggere e su cui salvare album e artisti
     albumService=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
@@ -84,7 +106,7 @@ public class BranoController {
     messaggio.setText("Brano selezionato: " + brano.getTitolo());
   }
   @FXML
-  private void creaBrano() {
+  private void creaBrano() {  if (!verificaPermessiAmministratore()) return;
     try {
       Brano brano=costruisciBrano();
       //prima salviamo il brano nel file dei brani
@@ -98,7 +120,7 @@ public class BranoController {
     } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }
   }
   @FXML
-  private void modificaBrano() {
+  private void modificaBrano() {  if (!verificaPermessiAmministratore()) return;
     if (branoSelezionato==null) {
       mostraErrore("Seleziona prima un brano dalla tabella");
       return;
@@ -116,7 +138,7 @@ public class BranoController {
     } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }
   }
   @FXML
-  private void eliminaBrano() {
+  private void eliminaBrano() {  if (!verificaPermessiAmministratore()) return;
     if (branoSelezionato==null) {
       mostraErrore("Seleziona prima un brano dalla tabella");
       return;
