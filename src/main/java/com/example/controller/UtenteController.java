@@ -6,7 +6,9 @@ import com.example.business.exception.BusinessException;
 import com.example.domain.GenereMusicale;
 import com.example.domain.Utente;
 import javafx.collections.FXCollections;
+import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -19,6 +21,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 public class UtenteController {
@@ -130,10 +135,14 @@ public class UtenteController {
   private void selezionaUtente() { Utente selezionato=utenteComboBox.getValue();
     if(selezionato==null) return;
     try{ utenteSelezionato=utenteService.findUtenteByEmail(selezionato.getEmail());
+        if (utenteSelezionato==null) {
+          mostraErrore("Impossibile selezionare l'utente", "L'utente selezionato non è stato trovato");
+          return;
+        }
       Utente utentePrecedente=UtenteAttivo.getUtente();
-      boolean cambioUtente=utentePrecedente!=null && !utentePrecedente.getEmail().equalsIgnoreCase(utenteSelezionato.getEmail());
-      if (cambioUtente) PlayerStato.fermaRiproduzionePerCambioUtente();
-      UtenteAttivo.setUtente(utenteSelezionato);      
+      boolean cambioUtente=UtenteAttivo.isAmministratore() || utentePrecedente==null || !utentePrecedente.getEmail().equalsIgnoreCase(utenteSelezionato.getEmail());
+      UtenteAttivo.accediComeUtente(utenteSelezionato);
+      if (cambioUtente) PlayerStato.fermaRiproduzionePerCambioUtente();      
       nomeField.setText(utenteSelezionato.getNome());
       cognomeField.setText(utenteSelezionato.getCognome());
       emailField.setText(utenteSelezionato.getEmail());
@@ -258,5 +267,25 @@ public class UtenteController {
     alert.setHeaderText(titolo);
     alert.setContentText(messaggio);
     alert.showAndWait();
+  }
+  @FXML
+  private void apriAccessoAmministratore() {
+    try { FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/LoginView.fxml"));
+          Parent vista=loader.load();
+         Stage finestra=new Stage();
+         finestra.setTitle("Accesso amministratore");
+         finestra.initModality(Modality.APPLICATION_MODAL);  //Blocca le altre finestre dell'app finché questa non viene chiusa
+         finestra.setScene(new Scene(vista));
+         finestra.setResizable(false);  //Disabilita il ridimensionamento
+         finestra.showAndWait();
+         //Controlla se l'utente ha effettuato l'accesso come amministratore e, se sì, resetta il menu a tendina (ComboBox) degli utenti
+         if (UtenteAttivo.isAmministratore()) utenteComboBox.setValue(null);
+        }  catch(IOException e) { 
+      Alert alert=new Alert(Alert.AlertType.ERROR);
+      alert.setTitle("Errore");
+      alert.setHeaderText("Impossibile aprire l'accesso amministratore.");
+      alert.setContentText(e.getMessage());
+      alert.showAndWait();
+    }
   }
 }
