@@ -51,10 +51,10 @@
 <VBox fx:id="contenitoreControlliMiniPlayer" alignment="CENTER" spacing="8" HBox.hgrow="ALWAYS">
 <Slider fx:id="barraMiniPlayer" min="0" max="1" value="0" prefWidth="700" maxWidth="700" disable="true" onMousePressed="#miniInizioTrascinamento" onMouseReleased="#miniFineTrascinamento"/>
 <HBox spacing="15" alignment="CENTER">
-<Button fx:id="miniIndietro" text="⏮️" onAction="#miniIndietro" style="-fx-font-size: 18px;"/>
-<Button fx:id="miniPlayPausa" text="▶️" onAction="#miniPlayPausa" style="-fx-font-size: 18px;"/>
-<Button fx:id="miniStop" text="⏹️" onAction="#miniStop" style="-fx-font-size: 18px;"/>
-<Button fx:id="miniAvanti" text="⏭️" onAction="#miniAvanti" style="-fx-font-size: 18px;"/>
+<Button fx:id="miniIndietro" text="◀◀" onAction="#miniIndietro" style="-fx-font-size: 18px;"/>
+<Button fx:id="miniPlayPausa" text="▶" onAction="#miniPlayPausa" style="-fx-font-size: 18px;"/>
+<Button fx:id="miniStop" text="⏹" onAction="#miniStop" style="-fx-font-size: 18px;"/>
+<Button fx:id="miniAvanti" text="⏭" onAction="#miniAvanti" style="-fx-font-size: 18px;"/>
 </HBox>
 </VBox>
 <Region prefWidth="300" minWidth="300"/>
