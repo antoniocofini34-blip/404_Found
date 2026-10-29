@@ -13,7 +13,7 @@
 <Insets top="20" right="25" bottom="20" left="25"/>
 </padding>
 <Label text="GESTIONE ALBUM" style="-fx-font-size:28px; -fx-font-weight: bold;"/>
-<TableView fx:id="tabellaAlbum" prefHeight="220">
+<TableView fx:id="tabellaAlbum" prefHeight="220" maxWidth="530">
 <columns>
 <TableColumn fx:id="colonnaTitolo" text="Titolo" prefWidth="230"/>
 <TableColumn fx:id="colonnaAnno" text="Anno" prefWidth="100"/>
