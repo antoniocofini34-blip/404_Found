@@ -162,7 +162,12 @@ public class RicercaController{
    }
    });
  }
-  private void riproduciBrano(Brano brano){
+ public static void aggiornaAscoltiVisibili() {
+   Platform.runLater(()->{
+     if (istanza!=null&&istanza.tabellaBrani!=null) istanza.tabellaBrani.refresh();
+   });
+ }
+ private void riproduciBrano(Brano brano){
     try{
       if(brano==null){
         risultatoLabel.setText("Nessun brano selezionato");
