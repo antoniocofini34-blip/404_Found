@@ -29,15 +29,15 @@
 <Label fx:id="tempoRimanente" text="-00:00" style="-fx-font-size:12px;"/>
 </HBox>
 <HBox spacing="10" alignment="CENTER"> 
-<Button fx:id="bottoneIndietro" text="⏮️ Indietro" onAction="#indietro"/> 
-<Button fx:id="bottonePlay" text="▶️ Play" onAction="#play"/> 
-<Button fx:id="bottonePausa" text="⏸️ Pausa" onAction="#pausa"/>
-<Button fx:id="bottoneStop" text="⏹️ Stop" onAction="#stop"/>
-<Button fx:id="bottoneAvanti" text="Avanti ⏭️" onAction="#avanti"/>
+<Button fx:id="bottoneIndietro" text="◀◀Indietro" onAction="#indietro"/> 
+<Button fx:id="bottonePlay" text="▶Play" onAction="#play"/> 
+<Button fx:id="bottonePausa" text="⏸Pausa" onAction="#pausa"/>
+<Button fx:id="bottoneStop" text="⏹Stop" onAction="#stop"/>
+<Button fx:id="bottoneAvanti" text="Avanti⏭" onAction="#avanti"/>
 </HBox>
 <HBox spacing="10" alignment="CENTER">
-<ToggleButton fx:id="bottoneShuffle" text="🔀 Shuffle" onAction="#shuffle"/>
-<ToggleButton fx:id="bottoneRepeat" text="🔁 Repeat" onAction="#repeat"/>
+<ToggleButton fx:id="bottoneShuffle" text="🔀Shuffle" onAction="#shuffle"/>
+<ToggleButton fx:id="bottoneRepeat" text="🔁Repeat" onAction="#repeat"/>
 <Button text="♫ Testo" onAction="#apriTesto" style="-fx-font-size:14px;"/>
 <Button text="Esc" onAction="#tornaHome" style="-fx-font-size:14px;"/>
 </HBox>
