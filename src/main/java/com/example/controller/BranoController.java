@@ -100,7 +100,7 @@ public class BranoController {
     campoTitolo.setText(brano.getTitolo());
     campoTitolo.setEditable(false);
     campoDurata.setText(String.valueOf(brano.getDurata()));
-    campoDurata.setText(brano.getTesto()==null? "": brano.getTesto());
+    campoTesto.setText(brano.getTesto()==null? "": brano.getTesto());
     campoGeneri.setText(formattaGeneri(brano.getGenereBrano()));
     campoAlbum.setValue(albumOriginale);
     messaggio.setText("Brano selezionato: " + brano.getTitolo());
