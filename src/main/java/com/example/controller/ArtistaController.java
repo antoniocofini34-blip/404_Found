@@ -191,7 +191,7 @@ private void aggiornaVisibilitaCampi() {
     dialog.setTitle("Aggiungi componente");
     dialog.setHeaderText("Inserisci i dati del componente");
     ButtonType pulsanteConferma=new ButtonType("Aggiungi", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(pulsanteConferma, ButtonType.CANCEL);
+    dialog.getDialogPane().getButtonTypes().addAll(pulsanteConferma, ButtonType.CANCEL); //qui aggiungiamo i pulsanti di conferma e annulla alla finestra di dialogo
     TextField campoNomeComponente=new TextField();
     TextField campoCognomeComponente=new TextField();
     TextField campoRuoloComponente=new TextField();
@@ -209,17 +209,17 @@ private void aggiornaVisibilitaCampi() {
     griglia.add(new Label("Ruolo"), 0, 2);
     griglia.add(campoRuoloComponente, 1, 2);
     dialog.getDialogPane().setContent(griglia);
-    Button bottoneAggiungi=(Button) dialog.getDialogPane().lookupButton(pulsanteConferma);
+    Button bottoneAggiungi=(Button) dialog.getDialogPane().lookupButton(pulsanteConferma); //recuperiamo l'oggetto Button effettivo associato al tipo di pulsante per poterne modificare le proprietà 
     bottoneAggiungi.addEventFilter(javafx.event.ActionEvent.ACTION, evento -> {
       if (campoNomeComponente.getText().trim().isEmpty() || campoCognomeComponente.getText().trim().isEmpty() || campoRuoloComponente.getText().trim().isEmpty()) {
         mostraErrore("Inserisci nome, cognome e ruolo del componente.");
-        evento.consume();
+        evento.consume(); //impediamo che la finestra di dialogo si chiuda automaticamente
       }
     });
     dialog.setResultConverter(pulsante -> {
       if (pulsante==pulsanteConferma) return new Componente(campoNomeComponente.getText().trim(), campoCognomeComponente.getText().trim(), campoRuoloComponente.getText().trim());
       return null;
-    });
+    }); //convertiamo il clic sul pulsante di conferma nella creazione e nel ritorno di un oggetto Componente
     Optional<Componente> risultato=dialog.showAndWait();
     if (!risultato.isPresent()) return;
     Componente componente=risultato.get();
@@ -262,7 +262,8 @@ private void aggiornaVisibilitaCampi() {
     Artista aggiornato=artistaService.findArtistaByNome(nomeGruppo);
     caricaArtisti();
     artistaSelezionato=aggiornato;
-    tabellaArtisti.getSelectionModel().select(tabellaArtisti.getItems().stream().filter(a -> ottieniNome(a).equalsIgnoreCase(nomeGruppo)).findFirst().orElse(null));
+    //scansioniamo tutta la lista degli artisti presenti nella tabella e cerchiamo il primo artista il cui nome corrisponde a nomeGruppo senza considerare maiuscole o minuscole e infine seleziona quell'artista nella tabella
+    tabellaArtisti.getSelectionModel().select(tabellaArtisti.getItems().stream().filter(a -> ottieniNome(a).equalsIgnoreCase(nomeGruppo)).findFirst().orElse(null)); //nel caso in cui non trova nessuna corrispondenza, non viene selezionato nulla
     mostraDatiArtista(aggiornato);
   }
   private void aggiornaListaComponenti() { tabellaComponenti.setItems(FXCollections.observableArrayList(componentiTemporanei)); }                                                              
