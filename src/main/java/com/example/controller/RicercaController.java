@@ -114,43 +114,45 @@ public class RicercaController{
       RisultatoRicerca risultato=cellData.getValue();
       Utente utente=UtenteAttivo.getUtente();
       int numeroAscolti=0;
-      if (utente!=null && utente.getEmail()!=null) {  //Calcola gli ascolti solo se l'utente è attualmente loggato nel sistema
-        String email=utente.getEmail();
-        Brano brano=risultato.brano();
-        if (brano!=null) numeroAscolti=PlayerStato.getNumeroAscoltiUtente(email, brano.getTitolo());  //Se la riga è un brano singolo, prende direttamente il suo numero di ascolti
-        else { Artista artista=risultato.artista();  //Se la riga è un artista, somma gli ascolti di tutti i suoi brani
-          if (artista!=null) {
-            try {  FileBranoServiceImpl servizioBrani=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
-                   FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
-                   List<Brano> tuttiBrani=servizioBrani.findAllBrani();
-                   List<Album> tuttiAlbum=servizioAlbum.findAllAlbum();
-                   String nomeArtista=null;
-                   if (artista instanceof ArtistaSolista) nomeArtista=((ArtistaSolista) artista).getNomeArte();
-                   else if (artista instanceof ArtistaGruppo) nomeArtista=((ArtistaGruppo) artista).getNomeGruppo();
-                   if (nomeArtista!=null) {
-                     for (Brano branoCatalogo : tuttiBrani) {  //Gira su tutti i brani del catalogo per calcolare la somma totale degli ascolti dell'artista
-                       if (branoCatalogo==null || branoCatalogo.getTitolo()==null) continue;
-                       int ascolti=PlayerStato.getNumeroAscoltiUtente(email, branoCatalogo.getTitolo());
-                       if (ascolti <= 0) continue;  //Salta i brani mai ascoltati
-                       for (Album album : tuttiAlbum) {  //Verifica se il brano in analisi appartiene a un album di questo specifico artista
-                         if (album==null || album.getArtista()==null || album.getListaBrani()==null) continue;
-                         Artista artistaAlbum=album.getArtista();
-                         String nomeAlbumArtista=null;
-                          if (artistaAlbum instanceof ArtistaSolista) nomeAlbumArtista=((ArtistaSolista) artistaAlbum).getNomeArte();
-                          else if (artistaAlbum instanceof ArtistaGruppo) nomeAlbumArtista=((ArtistaGruppo) artistaAlbum).getNomeGruppo();
-                       if (nomeAlbumArtista==null || !nomeAlbumArtista.trim().equalsIgnoreCase(nomeArtista.trim())) continue;
-                       boolean branoAppartieneAdAlbum=album.getListaBrani().stream().anyMatch(b -> b!=null && b.getTitolo()!=null && b.getTitolo().equalsIgnoreCase(branoCatalogo.getTitolo()));  //Se il brano fa parte dell'album dell'artista, aggiunge i suoi ascolti al totale
-                       if (branoAppartieneAdAlbum) {
-                         numeroAscolti += ascolti;
-                         break;
-                       }
-                     }
-                   }
-                }
-          } catch(BusinessException e) { e.getMessage(); }
+      Brano brano=risultato.brano();
+      if (brano!=null) {
+        try{
+          FileBranoServiceImpl servizioBrani=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
+          Brano branoAggiornato=servizioBrani.findBranoByTitolo(brano.getTitolo());
+          if (branoAggiornato!=null) numeroAscolti=branoAggiornato.getNumeroAscolti();
+        } catch (BusinessException e) { e.printStackTrace(); }
+      } else {
+        Artista artista=risultato.artista();
+        if (artista!=null) {
+          try {  FileBranoServiceImpl servizioBrani=new FileBranoServiceImpl("src/main/resources/dati/brani.txt");
+                 FileAlbumServiceImpl servizioAlbum=new FileAlbumServiceImpl("src/main/resources/dati/album.txt");
+                  List<Brano> tuttiBrani=servizioBrani.findAllBrani();
+                  List<Album> tuttiAlbum=servizioAlbum.findAllAlbum();
+                  String nomeArtista=null;
+                  if (artista instanceof ArtistaSolista) nomeArtista=((ArtistaSolista) artista).getNomeArte();
+                  else if (artista instanceof ArtistaGruppo) nomeArtista=((ArtistaGruppo) artista).getNomeGruppo();
+                  if (nomeArtista!=null) {
+                    for (Brano branoCatalogo : tuttiBrani) {  //Gira su tutti i brani del catalogo per calcolare la somma totale degli ascolti dell'artista
+                      if (branoCatalogo==null || branoCatalogo.getTitolo()==null) continue;
+                      for (Album album : tuttiAlbum) {  //Verifica se il brano in analisi appartiene a un album di questo specifico artista
+                        if (album==null || album.getArtista()==null || album.getListaBrani()==null) continue;
+                        Artista artistaAlbum=album.getArtista();
+                        String nomeArtistaAlbum=null;
+                        if (artistaAlbum instanceof ArtistaSolista) nomeArtistaAlbum=((ArtistaSolista) artistaAlbum).getNomeArte();
+                        else if (artistaAlbum instanceof ArtistaGruppo) nomeArtistaAlbum=((ArtistaGruppo) artistaAlbum).getNomeGruppo();
+                      if (nomeArtistaAlbum==null || !nomeArtistaAlbum.trim().equalsIgnoreCase(nomeArtista.trim())) continue;
+                      boolean branoAppartieneAdAlbum=album.getListaBrani().stream().anyMatch(b -> b!=null && b.getTitolo()!=null && b.getTitolo().equalsIgnoreCase(branoCatalogo.getTitolo()));  //Se il brano fa parte dell'album dell'artista, aggiunge i suoi ascolti al totale
+                      if (branoAppartieneAdAlbum) {
+                        numeroAscolti += branoCatalogo.getNumeroAscolti();
+                        break;
+                      }
+                      }
+                    }
+                  }
+              } catch(BusinessException e) { e.printStackTrace(); }
+        }
       }
     }
-  }
     return new javafx.beans.property.SimpleIntegerProperty(numeroAscolti).asObject();
   });
   aggiornaCronologia();  //Aggiorna la cronologia delle ricerche effettuate e applica il tema scuro
