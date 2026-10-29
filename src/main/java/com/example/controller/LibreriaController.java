@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.util.*; 
 public class LibreriaController {
   @FXML
-  private TextField campoFiltro; 
-  @FXML
   private TableView<Artista> tabellaArtisti; 
   @FXML
   private TableColumn<Artista, String> colonnaNome; 
@@ -73,7 +71,6 @@ public class LibreriaController {
     caricaBrani();
     configuraSelezioneArtista();
     configuraSelezioneAlbum();
-    configuraFiltro();
   }  
   private void configuraTabellaArtisti() {
     //qui andiamo a usare delle lambda che trasformano ogni artista in un valore testuale così da poterlo visualizzare nella rispettiva colonna 
@@ -201,79 +198,6 @@ public class LibreriaController {
       tabellaAlbum.setItems(FXCollections.observableArrayList(albumArtista));
       tabellaBrani.getItems().clear();
     } catch (BusinessException e) {System.out.println("Errore nel caricamento degli album dell'artista: " + e.getMessage());}
-  }
-  private void configuraFiltro() {
-    //il listener intercetta ogni modifica del testo digitato e applica immediatamente il filtro alle tabelle
-    campoFiltro.textProperty().addListener((observable, vecchioTesto, nuovoTesto)->{applicaFiltro(nuovoTesto);});
-  }
-  private void applicaFiltro(String testo) {
-    if (testo==null) return;
-    String filtro=testo.trim().toLowerCase();
-    List<Artista> artistiFiltrati=new ArrayList<>();
-    List<Album> albumFiltrati=new ArrayList<>();
-    List<Brano> braniFiltrati=new ArrayList<>();
-    if (filtro.isEmpty()) {
-      tabellaArtisti.setItems(FXCollections.observableArrayList(tuttiGliArtisti));
-      tabellaAlbum.setItems(FXCollections.observableArrayList(tuttiGliAlbum));
-      tabellaBrani.setItems(FXCollections.observableArrayList(tuttiIBrani));
-      return;
-    }
-    for (Artista artista:tuttiGliArtisti) {
-      String nome=ottieniNomeArtista(artista);
-      if(nome!=null&&nome.toLowerCase().contains(filtro)) {
-        artistiFiltrati.add(artista);
-        for (Album album:tuttiGliAlbum) {
-          if (album.getArtista()!=null&&ottieniNomeArtista(album.getArtista()).equalsIgnoreCase(nome)) {
-            albumFiltrati.add(album);
-            //andiamo a cercare tra tutti i brani quelli presenti nell'elenco dell'album, evitando di inserire due volte lo stesso elemento 
-            for(Brano brano:tuttiIBrani) {
-              for (Brano branoAlbum: album.getListaBrani()) {
-                if (brano.getTitolo()!=null&&branoAlbum.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(branoAlbum.getTitolo())) {
-                  if (!braniFiltrati.contains(brano)) braniFiltrati.add(brano);
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    for (Album album:tuttiGliAlbum) {
-      String titolo=album.getTitolo();
-      if(titolo!=null&&titolo.toLowerCase().contains(filtro)) {
-        if(!albumFiltrati.contains(album)) albumFiltrati.add(album);
-        if (album.getArtista()!=null&&!artistiFiltrati.contains(album.getArtista())) artistiFiltrati.add(album.getArtista());
-        for (Brano branoAlbum: album.getListaBrani()) {
-          //individuiamo i brani dell0album nella lista generale e li si aggiunge senza duplicati
-          for (Brano brano:tuttiIBrani) {
-            if (brano.getTitolo()!=null&&branoAlbum.getTitolo()!=null&&brano.getTitolo().equalsIgnoreCase(branoAlbum.getTitolo())) {
-              if (!braniFiltrati.contains(brano)) braniFiltrati.add(brano);
-              break;
-            }
-          }
-        }
-      }
-    }
-    for (Brano brano:tuttiIBrani) {
-      String titolo=brano.getTitolo();
-      if (titolo!=null&&titolo.toLowerCase().contains(filtro)) {
-        if (!braniFiltrati.contains(brano)) braniFiltrati.add(brano);
-        for (Album album:tuttiGliAlbum) {
-          for (Brano branoAlbum: album.getListaBrani()) {
-            if (branoAlbum.getTitolo()!=null&&titolo.equalsIgnoreCase(branoAlbum.getTitolo())) {
-              //se l'album contiene il brano cercato, aggiungiamo anche l'album e il suo artista se non sono già presenti
-              if (!albumFiltrati.contains(album)) albumFiltrati.add(album);
-              if (album.getArtista()!=null&&!artistiFiltrati.contains(album.getArtista())) artistiFiltrati.add(album.getArtista());
-              break;
-            }
-          }
-        }
-      }
-    }
-    //alla fine di tutto, le tre tabelle le aggiorniamo con i rispettivi risultati filtrati
-    tabellaArtisti.setItems(FXCollections.observableArrayList(artistiFiltrati));
-    tabellaAlbum.setItems(FXCollections.observableArrayList(albumFiltrati));
-    tabellaBrani.setItems(FXCollections.observableArrayList(braniFiltrati));
   }
   @FXML
   private void tornaIndietro() throws IOException { //qui carichiamo il file FXML della schermata principale per poter tornare alla vista iniziale dell'applicazione
