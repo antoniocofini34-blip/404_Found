@@ -20,6 +20,7 @@
 </padding>
 <Label text="PROFILO UTENTE" style="-fx-font-size:24px; -fx-font-weight:bold; -fx-text-fill:white;"/>
 <Label text="Gestisci i tuoi dati e le preferenze musicali" wrapText="true" style="-fx-font-size:18px; -fx-text-fill: #bbbbbb;"/>
+<Button text="Accesso amministratore" onAction="#apriAccessoAmministratore" maxWidth="250.0"/>
 </VBox>
 </top>
 <center> 
