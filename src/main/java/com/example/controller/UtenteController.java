@@ -272,14 +272,14 @@ public class UtenteController {
   private void apriAccessoAmministratore() {
     try { FXMLLoader loader=new FXMLLoader(getClass().getResource("/viste/LoginView.fxml"));
           Parent vista=loader.load();
-         Stage finestra=new Stage();
-         finestra.setTitle("Accesso amministratore");
-         finestra.initModality(Modality.APPLICATION_MODAL);  //Blocca le altre finestre dell'app finché questa non viene chiusa
-         finestra.setScene(new Scene(vista));
-         finestra.setResizable(false);  //Disabilita il ridimensionamento
-         finestra.showAndWait();
+          Stage finestra=new Stage();
+          finestra.setTitle("Accesso amministratore");
+          finestra.initModality(Modality.APPLICATION_MODAL);  //Blocca le altre finestre dell'app finché questa non viene chiusa
+          finestra.setScene(new Scene(vista));
+          finestra.setResizable(false);  //Disabilita il ridimensionamento
+          finestra.showAndWait();
          //Controlla se l'utente ha effettuato l'accesso come amministratore e, se sì, resetta il menu a tendina (ComboBox) degli utenti
-         if (UtenteAttivo.isAmministratore()) utenteComboBox.setValue(null);
+          if (UtenteAttivo.isAmministratore()) utenteComboBox.setValue(null);
         }  catch(IOException e) { 
       Alert alert=new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Errore");
