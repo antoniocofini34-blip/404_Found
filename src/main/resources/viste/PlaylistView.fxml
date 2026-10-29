@@ -10,7 +10,7 @@
 <Button fx:id="bottoneModificaPlaylist" text="Modifica playlist" onAction="#modificaPlaylist"/>
 <Button fx:id="bottoneEliminaPlaylist" text="Elimina playlist" onAction="#eliminaPlaylist"/>
 <Button fx:id="bottoneDettagliPlaylist" text="Visualizza brani" onAction="#visualizzaBrani"/>
-<TableView fx:id="tabellaPlaylist" prefWidth="700" prefHeight="400">
+<TableView fx:id="tabellaPlaylist" maxWidth="900" prefHeight="400">
 <columns>
 <TableColumn fx:id="colonnaNomePlaylist" text="Nome" prefWidth="250"/>
 <TableColumn fx:id="colonnaDescrizionePlaylist" text="Descrizione" prefWidth="300"/>
