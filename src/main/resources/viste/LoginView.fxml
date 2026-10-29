@@ -5,7 +5,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller:"com.example.controller.LoginController" alignment="CENTER" spacing="12" prefWidth="380" prefHeight="300">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController" alignment="CENTER" spacing="12" prefWidth="380" prefHeight="300">
 <padding>
 <Insets top="25" right="30" bottom="25" left="30"/>
 </padding>
