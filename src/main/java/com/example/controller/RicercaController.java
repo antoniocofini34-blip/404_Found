@@ -152,7 +152,6 @@ public class RicercaController{
               } catch(BusinessException e) { e.printStackTrace(); }
         }
       }
-    }
     return new javafx.beans.property.SimpleIntegerProperty(numeroAscolti).asObject();
   });
   aggiornaCronologia();  //Aggiorna la cronologia delle ricerche effettuate e applica il tema scuro
