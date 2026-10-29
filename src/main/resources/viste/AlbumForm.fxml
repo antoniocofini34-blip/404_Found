@@ -44,10 +44,10 @@
 <TextField fx:id="campoCopertina" promptText="Es. copertina.jpg"/>
 </VBox>
 <HBox spacing="10">
-<Button text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
-<Button text="Crea album" onAction="#creaAlbum"/>
-<Button text="Modifica album" onAction="#modificaAlbum"/>
-<Button text="Elimina album" onAction="#eliminaAlbum"/>
+<Button fx:id="pulsantePulisci" text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
+<Button fx:id="pulsanteCrea" text="Crea album" onAction="#creaAlbum"/>
+<Button fx:id="pulsanteModifica" text="Modifica album" onAction="#modificaAlbum"/>
+<Button fx:id="pulsanteElimina" text="Elimina album" onAction="#eliminaAlbum"/>
 </HBox>
 <Label fx:id="messaggio" wrapText="true" style="-fx-font-size:14px;"/>
 </VBox>
