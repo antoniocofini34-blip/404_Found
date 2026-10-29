@@ -63,10 +63,10 @@
 </VBox>
 </HBox>
 <HBox spacing="10">
-<Button text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
-<Button text="Crea artista" onAction="#creaArtista"/>
-<Button text="Modifica artista" onAction="#modificaArtista"/>
-<Button text="Elimina artista" onAction="#eliminaArtista"/>
+<Button fx:id="pulsantePulisci" text="Nuovo / Pulisci" onAction="#pulisciCampi"/>
+<Button fx:id="pulsanteCrea" text="Crea artista" onAction="#creaArtista"/>
+<Button fx:id="pulsanteModifica" text="Modifica artista" onAction="#modificaArtista"/>
+<Button fx:id="pulsanteElimina" text="Elimina artista" onAction="#eliminaArtista"/>
 </HBox>
 <Label fx:id="messaggio" wrapText="true" style="-fx-font-size: 14px;"/>
 </VBox>
