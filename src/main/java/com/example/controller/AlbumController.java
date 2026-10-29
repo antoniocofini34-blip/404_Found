@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty; //uso la classe SimpleStringP
 import javafx.collections.FXCollections;//fornisce i metodi per creare intere liste di elementi che aggiornano tabelle o liste a scorrimento
 import javafx.fxml.FXML; //collego l'interfaccia grafica con il codice Java
 import javafx.scene.control.Alert; //serve per mostrare finestre di avviso o messaggi di errore a schermo
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType; //serve per definire i tipi di pulsanti all'interno degli avvisi 
 import javafx.scene.control.ComboBox; //serve per creare menu a tendina con una lista di opzioni selezionabili
 import javafx.scene.control.Label; //serve per visualizzare un semplice testo fisso o un'etichetta deescrittiva sulla User Interface 
@@ -31,9 +32,30 @@ public class AlbumController {
   @FXML private TextField campoGeneri;
   @FXML private TextField campoCopertina;
   @FXML private Label messaggio;
+  @FXML private Button pulsantePulisci;
+  @FXML private Button pulsanteCrea;
+  @FXML private Button pulsanteModifica;
+  @FXML private Button pulsanteElimina;
   private FileAlbumServiceImpl albumService;
   private FileArtistaServiceImpl artistaService;
   private Album albumSelezionato;
+  public void aggiornaPermessi() {
+    boolean amministratore=UtenteAttivo.isAmministratore();
+    pulsantePulisci.setDisable(!amministratore);
+    pulsanteCrea.setDisable(!amministratore);
+    pulsanteModifica.setDisable(!amministratore);
+    pulsanteElimina.setDisable(!amministratore);
+    campoTitolo.setEditable(amministratore && albumSelezionato==null);
+    campoAnno.setEditable(amministratore);
+    campoArtista.setDisable(!amministratore);
+    campoGeneri.setEditable(amministratore);
+    campoCopertina.setEditable(amministratore);
+  }
+  private boolean verificaPermessiAmministratore() {
+    if (UtenteAttivo.isAmministratore()) return true;
+    mostraErrore("Operazione consentita solo all'amministratore.");
+    return false;
+  }
   @FXML
   private void initialize() {
     //inizializziamo i servizi indicando i file di testo da cui leggere e su cui salvare album e artisti
@@ -43,6 +65,7 @@ public class AlbumController {
     configuraComboArtisti();
     caricaArtisti();
     caricaAlbum();
+    aggiornaPermessi();
   }
   private void configuraTabella() {
     //colleghiamo ogni colonna al valore dell'album corrispondente, convertendolo in una proprietà testuale visualizzabile
@@ -106,7 +129,7 @@ public class AlbumController {
     messaggio.setText("Album selezionato: " + album.getTitolo());
   }
   @FXML
-  private void creaAlbum() {
+  private void creaAlbum() {  if (!verificaPermessiAmministratore()) return;
     try {
       //qui raccogliamo i dati inseriti nel'interfaccia per poi convertirli in un oggetto Album dopo esserci assicurati la sua validità
       Album album=costruisciAlbum();
@@ -117,7 +140,7 @@ public class AlbumController {
     } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }  //gestiamo sia errori di servizio sia dati errati forniti dall'utente
   }
   @FXML
-  private void modificaAlbum() {
+  private void modificaAlbum() {  if (!verificaPermessiAmministratore()) return;
     if (albumSelezionato==null) {
       mostraErrore("Seleziona prima un album dalla tabella");
       return;
@@ -132,7 +155,7 @@ public class AlbumController {
     } catch (BusinessException | IllegalArgumentException e) { mostraErrore(e.getMessage()); }
   }
   @FXML
-  private void eliminaAlbum() {
+  private void eliminaAlbum() {  if (!verificaPermessiAmministratore()) return;
     if (albumSelezionato==null) {
       mostraErrore("Seleziona prima un album dalla tabella");
       return;
